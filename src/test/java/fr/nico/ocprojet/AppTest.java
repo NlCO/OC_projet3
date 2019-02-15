@@ -1,4 +1,4 @@
-package nico.oc.projet3;
+package fr.nico.ocprojet;
 
 import static org.junit.Assert.assertTrue;
 

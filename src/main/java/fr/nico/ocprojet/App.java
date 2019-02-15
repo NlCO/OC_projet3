@@ -1,4 +1,4 @@
-package nico.oc.projet3;
+package fr.nico.ocprojet;
 
 /**
  * Hello world!
