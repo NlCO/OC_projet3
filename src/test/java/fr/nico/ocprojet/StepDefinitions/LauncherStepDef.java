@@ -3,7 +3,7 @@ package fr.nico.ocprojet.StepDefinitions;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import fr.nico.ocprojet.Launcher;
+import fr.nico.ocprojet.*;
 import org.junit.Assert;
 
 
@@ -12,7 +12,9 @@ import java.util.List;
 public class LauncherStepDef {
     private Launcher lanceur;
     private List<String> listeJeuxDispos;
-    private List<Launcher.GameMode> modesGame;
+    private List<GameMode> modesGame;
+    private Player player;
+    private Player adversaire;
 
     @Given("les jeux {string}, {string} et {string} sont disponibles")
     public void lesJeuxEtSontDisponibles(String jeu1, String jeu2, String jeu3) {
@@ -40,10 +42,9 @@ public class LauncherStepDef {
          lanceur = new Launcher();
     }
 
-    @Then("j'obtiens une liste vide de {int} jeu")
-    public void jObtiensUneListeVideDeJeu(int nombreJeu) {
+    @Then("La liste contient {int} jeu")
+    public void laListeContientJeu(int nombreJeu) {
         Assert.assertEquals(nombreJeu, listeJeuxDispos.size());
-
     }
 
     @Given("un fois le jeu choisi")
@@ -59,25 +60,31 @@ public class LauncherStepDef {
     @Then("les modes {word}, {word} et {word} doivent être proposés")
     public void lesModesEtDoiventÊtreProposés(String mode1, String mode2, String mode3) {
         //TODO : prise en charge des enum dans cucumber
-        Launcher.GameMode mode1Convert = Launcher.GameMode.valueOf(mode1);
-        Launcher.GameMode mode2Convert = Launcher.GameMode.valueOf(mode2);
-        Launcher.GameMode mode3Convert = Launcher.GameMode.valueOf(mode3);
+        GameMode mode1Convert = GameMode.valueOf(mode1);
+        GameMode mode2Convert = GameMode.valueOf(mode2);
+        GameMode mode3Convert = GameMode.valueOf(mode3);
         Assert.assertTrue(modesGame.contains(mode1Convert));
         Assert.assertTrue(modesGame.contains(mode2Convert));
         Assert.assertTrue(modesGame.contains(mode3Convert));
     }
 
-    @Given("pour un joueur")
+    @Given("pour un joueur et son adversaire")
     public void pourUnJoueur() {
-        //player = new Player();
+        player = new Human();
+        adversaire = new Bot();
     }
 
-    @When("je choisi le {}")
-    public void jeChoisiLeGameMode(Launcher.GameMode role) {
-        //player.setRoles(role);
+    @When("le joueur choisi le mode {word}")
+    public void ilChoisiLeGameMode(String gamemode) {
+        GameMode mode = GameMode.valueOf(gamemode);
+        //player.setRoles(mode);
     }
 
-    @Then("le statuts des roles est {} et {}")
-    public void leStatutsDesRolesEstAttaquantEtDéfenseur() {
+    @Then("le statut de ses roles est {word}, {word} et celui de son adversaire {word}, {word}")
+    public void leStatutDeSesRolesEstEtCeluiDeSonAdversaire(String playerdecodeur, String playercodeur, String advdecodeur, String advcodeur) {
+        //Assert.assertEquals(playerdecodeur, player.isDecodeur());
+        //Assert.assertEquals(playercodeur, player.isCodeur());
+        //Assert.assertEquals(advdecodeur, adversaire.isDecodeur());
+        //Assert.assertEquals(advcodeur, adversaire.isCodeur());
     }
 }
