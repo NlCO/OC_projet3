@@ -25,4 +25,13 @@ public abstract class Player {
     public boolean isCodeur() {
         return codeur;
     }
+
+
+    public Game choixDuJeu(){
+        return null;
+    }
+
+    public GameMode choixDuMode(){
+        return null;
+    }
 }

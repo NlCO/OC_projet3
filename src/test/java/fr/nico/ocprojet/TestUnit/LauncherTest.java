@@ -1,6 +1,8 @@
 package fr.nico.ocprojet.TestUnit;
 
+import fr.nico.ocprojet.Game;
 import fr.nico.ocprojet.Launcher;
+import fr.nico.ocprojet.Player;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -9,34 +11,13 @@ import java.util.List;
 public class LauncherTest {
 
     @Test
-    public void AjouterUnJeuAListeVide() {
+    public void initialisationPlayers(){
         //arrange
         Launcher lanceur = new Launcher();
-
         //act
-        lanceur.ajouterJeu("Recherche +/-");
-        List<String> listeJeuxDisponibles = lanceur.jeuxDispos();
-
-        //Assert
-        Assert.assertEquals("Recherche +/-", listeJeuxDisponibles.get(0));
+        List<Player> players = lanceur.getPlayers();
+        //assert
+        Assert.assertEquals(2, players.size());
     }
-
-
-    @Test
-    public void AjouterUnJeuAListeExistanteNonVide() {
-        //arrange
-        Launcher lanceur = new Launcher();
-        lanceur.ajouterJeu("Recherche +/-");
-
-
-        //act
-        lanceur.ajouterJeu("Mastermind");
-        List<String> listeJeuxDisponibles = lanceur.jeuxDispos();
-
-        //Assert
-        Assert.assertEquals("Recherche +/-", listeJeuxDisponibles.get(0));
-        Assert.assertEquals("Mastermind",listeJeuxDisponibles.get(listeJeuxDisponibles.size()-1));
-    }
-
 }
 

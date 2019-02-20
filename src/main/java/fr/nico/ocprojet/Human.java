@@ -1,21 +1,26 @@
 package fr.nico.ocprojet;
 
-import java.util.Scanner;
+
+
 
 /**
- * Human étend la classe Player et représente un joueur humain
+ * Human étend la classe @see Player et représente un joueur humain
  */
 public class Human extends Player {
+    private Interaction ihm;
 
-    /**
-     * Method pour récupéré les saisies clavier du joueur
-     *
-     * @return la saisie clavier sous forme texte
-     */
-    public String reponse() {
-        Scanner sc = new Scanner(System.in);
-        String saisie = sc.nextLine();
-        return saisie;
+    public Human() {
+        ihm = new Interaction();
+    }
+
+    public Game choixDuJeu() {
+        Game gameChoisi = ihm.selectionJeu();
+        return gameChoisi;
+    }
+
+    public GameMode choixDuMode() {
+        GameMode modeChoisi = ihm.selectionMode();
+        return modeChoisi;
     }
 
 }
