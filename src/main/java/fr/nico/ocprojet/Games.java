@@ -5,7 +5,7 @@ package fr.nico.ocprojet;
  * Liste des jeux disponibles : Recherche +/- et Mastermind
  *
  */
-public enum Game {
+public enum Games {
 
     R("Recherche +/-", "R"),
     M("Mastermind", "M");
@@ -13,7 +13,7 @@ public enum Game {
     private final String gameName;
     private final String abbreviation;
 
-    Game(String gameName, String abbreviation) {
+    Games(String gameName, String abbreviation) {
         this.gameName = gameName;
         this.abbreviation = abbreviation;
     }

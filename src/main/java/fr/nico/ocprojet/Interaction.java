@@ -7,7 +7,6 @@ import java.util.Scanner;
  * Cette class a pour objectif de gérer les interactions en entre le joueur humain et la machine
  */
 public class Interaction {
-    //private Player joueur;
     private Display screen = new Display();
 
     public Interaction() {
@@ -30,11 +29,11 @@ public class Interaction {
      *
      * @return le jeu choisi
      */
-    public Game selectionJeu() {
-        Game choix;
+    public Games selectionJeu() {
+        Games choix;
          do {
                 screen.demandeChoixJeu();
-                choix = Game.valueOf(saisieClavier().toUpperCase());
+                choix = Games.valueOf(saisieClavier().toUpperCase());
                 if (choix == null) {
                     screen.erreurSaisie();
                 }
@@ -57,5 +56,10 @@ public class Interaction {
             }
         } while (choix == null);
         return choix;
+    }
+
+    public String genereCombinaison() {
+        screen.inviteGenerationCombinaison();
+        return saisieClavier().toUpperCase();
     }
 }

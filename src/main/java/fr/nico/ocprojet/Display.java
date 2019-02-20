@@ -8,8 +8,8 @@ public class Display {
 
 
     public void afficheGameList() {
-        for (Game game: Game.values()) {
-            System.out.println(game.getAbbreviation() + " -> " + game.toString());
+        for (Games games : Games.values()) {
+            System.out.println(games.getAbbreviation() + " -> " + games.toString());
         }
     }
 
@@ -31,6 +31,10 @@ public class Display {
     public void demandeChoixMode(){
         afficheModeList();
         System.out.println("Veuillez choisir un mode (C, D ou VS) : ");
+    }
+
+    public void inviteGenerationCombinaison() {
+        System.out.println("Veuillez saisir un combinaison de 4 chiffres");
     }
 
 }

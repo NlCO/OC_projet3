@@ -1,8 +1,5 @@
 package fr.nico.ocprojet;
 
-
-import com.sun.istack.internal.NotNull;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,11 +16,7 @@ public enum GameMode {
     private final String code;
     protected final boolean decodeur;
     protected final boolean codeur;
-
-
-
     private final String roleadversaire;
-
 
     GameMode(String label, String code, boolean decodeur, boolean codeur, String roleadversaire){
         this.label = label;
@@ -33,7 +26,15 @@ public enum GameMode {
         this.roleadversaire = roleadversaire;
     }
 
-    public static GameMode modeFromCode(@NotNull String code) {
+    /**
+     * Recupération de l'enum à partir de sa valeur code
+     * La methode est static pour pouvoir etre appelée en utilisant la class enum :
+     *  "non-static method modeFromCode(java.lang.String) cannot be referenced from a static context"
+     *
+     * @param code valeur du paramètre code à rechercher
+     * @return l'enum corespondant à la valeur passée en paramètre (null si absente)
+     */
+    public static GameMode modeFromCode(String code) {
         Map<String, GameMode> map = new HashMap<>();
         for (GameMode mode: GameMode.values()) {
             map.put(mode.getCode(), mode);
@@ -41,8 +42,8 @@ public enum GameMode {
         return map.get(code);
     }
 
-    public String getRoleadversaire() {
-        return roleadversaire;
+    public GameMode getRoleadversaire() {
+        return GameMode.valueOf(roleadversaire);
     }
 
     public String getCode(){

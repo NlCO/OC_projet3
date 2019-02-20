@@ -8,19 +8,25 @@ package fr.nico.ocprojet;
  */
 public class Human extends Player {
     private Interaction ihm;
+    private Display screen = new Display();
 
     public Human() {
         ihm = new Interaction();
+        screen = new Display();
     }
 
-    public Game choixDuJeu() {
-        Game gameChoisi = ihm.selectionJeu();
-        return gameChoisi;
+    @Override
+    public Games choixDuJeu() {
+        return ihm.selectionJeu();
     }
 
+    @Override
     public GameMode choixDuMode() {
-        GameMode modeChoisi = ihm.selectionMode();
-        return modeChoisi;
+        return ihm.selectionMode();
     }
 
+    @Override
+    public String genereUneCombinaison() {
+        return ihm.genereCombinaison();
+    }
 }

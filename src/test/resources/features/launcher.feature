@@ -15,7 +15,7 @@ Feature: Launcher
     Then les modes CHALLENGER, DEFENSEUR et DUEL doivent être proposés
 
  Scenario Outline: Détermination des roles des joueurs
-    Given pour une liste de joueurs
+    Given pour un joueur et son adaversaire
     When le joueur choisi le mode <gameMode>
     Then le statut de ses roles est <joueurDecodeur>, <joueurCodeur> et celui de son adversaire <adversaieDecodeur>, <adversaireCodeur>
 

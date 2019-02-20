@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class Launcher {
     private List<Player> players = new ArrayList<>();
-    private Game game;
+    private Games games;
     private GameMode mode;
 
 
@@ -41,13 +41,14 @@ public class Launcher {
     public void lanceLeJeu(){
         definirJeuALancer();
         definirModeJeu();
+        attributionDesRoles(mode);
     }
 
     /**
      * Configure le jeu à lancer
      */
     private void definirJeuALancer(){
-        this.setGame(players.get(0).choixDuJeu());
+        this.setGames(players.get(0).choixDuJeu());
     }
 
     /**
@@ -63,17 +64,17 @@ public class Launcher {
      * @param players liste des joueurs
      * @param mode mode de jeu
      */
-    private void attributionDesRoles(List<Player> players, GameMode mode) {
+    public void attributionDesRoles(GameMode mode) {
         players.get(0).setRoles(mode);
-        players.get(1).setRoles(mode.valueOf(mode.getRoleadversaire()));
+        players.get(1).setRoles(mode.getRoleadversaire());
     }
     /**
      * Retourne la liste des jeux
      *
      * @return Liste de jeux
      */
-    public List<Game> jeuxDispos() {
-        return Arrays.asList(Game.values());
+    public List<Games> jeuxDispos() {
+        return Arrays.asList(Games.values());
     }
 
     /**
@@ -93,16 +94,16 @@ public class Launcher {
         return mode;
     }
 
-    public void setMode(GameMode mode) {
+    private void setMode(GameMode mode) {
         this.mode = mode;
     }
 
-    public Game getGame() {
-        return game;
+    public Games getGames() {
+        return games;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    private void setGames(Games games) {
+        this.games = games;
     }
 
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class LauncherStepDef {
     private Launcher lanceur;
-    private List<Game> listeJeuxDispos;
+    private List<Games> listeJeuxDispos;
     private List<GameMode> modesGame;
     private Player player;
     private Player adversaire;
@@ -51,23 +51,25 @@ public class LauncherStepDef {
         Assert.assertTrue(modesGame.contains(GameMode.valueOf(mode3)));
     }
 
-    @Given("pour une liste de joueurs")
-    public void pourUneListeDeJoueurs() {
+    @Given("pour un joueur et son adaversaire")
+    public void pourUnJoueurEtSonAdaversaire() {
         lanceur = new Launcher();
+        player = lanceur.getPlayers().get(0);
+        adversaire = lanceur.getPlayers().get(1);
     }
 
     @When("le joueur choisi le mode {word}")
     public void leJoueurChoisiLeGameMode(String gamemode) {
-        GameMode mode = GameMode.valueOf(gamemode);
-        //player.setRoles(mode);
+        lanceur.attributionDesRoles(GameMode.valueOf(gamemode));
     }
 
     @Then("le statut de ses roles est {word}, {word} et celui de son adversaire {word}, {word}")
     public void leStatutDeSesRolesEstEtCeluiDeSonAdversaire(String playerdecodeur, String playercodeur, String advdecodeur, String advcodeur) {
-        //Assert.assertEquals(playerdecodeur, player.isDecodeur());
-        //Assert.assertEquals(playercodeur, player.isCodeur());
-        //Assert.assertEquals(advdecodeur, adversaire.isDecodeur());
-        //Assert.assertEquals(advcodeur, adversaire.isCodeur());
+        Assert.assertEquals(Boolean.valueOf(playerdecodeur), player.isDecodeur());
+        Assert.assertEquals(Boolean.valueOf(playercodeur), player.isCodeur());
+        Assert.assertEquals(Boolean.valueOf(advdecodeur), adversaire.isDecodeur());
+        Assert.assertEquals(Boolean.valueOf(advcodeur), adversaire.isCodeur());
     }
+
 
 }

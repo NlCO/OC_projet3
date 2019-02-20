@@ -5,18 +5,29 @@ package fr.nico.ocprojet;
  *
  * un joueur est caractrisé par 2 statuts (vrai ou faux):
  * <ul>
- *     <li>"decodeur"</li>
- *     <li>"codeur"</li>
+ *     <li>"codeur" : joueur générant le code à découvrir</li>
+ *     <li>"décodeur" : joueur charchan a découvrir le code</li>
  * </ul>
  */
 public abstract class Player {
     private boolean decodeur = false;
     private boolean codeur = false;
 
+    /**
+     * Permet d'affecter les statut codeur/décodeur en fonction du mode de jeu
+     *
+     * @param mode mode de jeu @see GameMode
+     */
     public void setRoles(GameMode mode) {
         decodeur = mode.decodeur;
         codeur = mode.codeur;
     }
+
+    public abstract Games choixDuJeu();
+
+    public abstract GameMode choixDuMode();
+
+    public abstract String genereUneCombinaison();
 
     public boolean isDecodeur() {
         return decodeur;
@@ -27,11 +38,4 @@ public abstract class Player {
     }
 
 
-    public Game choixDuJeu(){
-        return null;
-    }
-
-    public GameMode choixDuMode(){
-        return null;
-    }
 }
