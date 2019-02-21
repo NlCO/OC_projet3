@@ -15,6 +15,7 @@ public abstract class GamePlay {
     protected Map<Player, String> combinaisons;
     protected Map<Player, List<String>> playersPropostions;
 
+
     /**
      * Permet d'initiliaser la Partie
      */
@@ -28,8 +29,8 @@ public abstract class GamePlay {
             }
             if (joueur.isDecodeur()) {
 
-                List<String> tourResultats = new ArrayList<>();
-                playersPropostions.put(joueur, tourResultats);
+                List<String> propositions = new ArrayList<>();
+                playersPropostions.put(joueur, propositions);
             }
         }
     }
@@ -41,13 +42,13 @@ public abstract class GamePlay {
         Boolean trouve = false;
         int tour = 0;
         do {
-            tour++;
+            ++tour;
             for (Player joueur: players) {
                 if (joueur.isDecodeur()){
                     faireUneTentative(joueur);
                 }
             }
-        } while (!trouve && tour <= nombreEssai);
+        } while (!trouve && tour < nombreEssai);
     }
 
 
@@ -88,18 +89,19 @@ public abstract class GamePlay {
     }
 
     /**
-     * Permet la demande d'une tentative de décodage et d'annalyser sont resulats
+     * Permet la demande d'une tentative de décodage et d'annalyser son resulats
      *
      * @param joueur joueur dont c'est le tour de jeu
      */
     private void faireUneTentative(Player joueur){
         List<String> propositions = playersPropostions.get(joueur);
         String proposition = demandeDeCombinaison(joueur);
+        System.out.println(playersPropostions.get(joueur));
         String resultat = evaluerProposition(joueur, proposition);
         System.out.println(resultat);
         propositions.add(proposition);
         playersPropostions.put(joueur, propositions);
-        System.out.println(playersPropostions.get(joueur));
+
     }
 
     /**
