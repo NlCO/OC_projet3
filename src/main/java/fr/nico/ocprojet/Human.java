@@ -7,10 +7,12 @@ package fr.nico.ocprojet;
  * Human étend la classe @see Player et représente un joueur humain
  */
 public class Human extends Player {
+    private String name;
     private Interaction ihm;
-    private Display screen = new Display();
+    private Display screen;
 
     public Human() {
+        name = "Humain";
         ihm = new Interaction();
         screen = new Display();
     }
@@ -26,7 +28,12 @@ public class Human extends Player {
     }
 
     @Override
-    public String genereUneCombinaison() {
-        return ihm.genereCombinaison();
+    public String genereUneCombinaison(int tailleCombinaison) {
+        return ihm.proposeCombinaison(tailleCombinaison);
     }
+
+    public String getName() {
+        return name;
+    }
+
 }

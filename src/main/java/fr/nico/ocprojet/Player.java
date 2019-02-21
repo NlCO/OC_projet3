@@ -27,7 +27,7 @@ public abstract class Player {
 
     public abstract GameMode choixDuMode();
 
-    public abstract String genereUneCombinaison();
+    public abstract String genereUneCombinaison(int tailleCombinaison);
 
     public boolean isDecodeur() {
         return decodeur;
@@ -37,5 +37,6 @@ public abstract class Player {
         return codeur;
     }
 
+    public abstract String getName();
 
 }

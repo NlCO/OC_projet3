@@ -33,8 +33,8 @@ public class Display {
         System.out.println("Veuillez choisir un mode (C, D ou VS) : ");
     }
 
-    public void inviteGenerationCombinaison() {
-        System.out.println("Veuillez saisir un combinaison de 4 chiffres");
+    public void invitePropositionCombinaison(int tailleCominaison) {
+        System.out.println("Veuillez saisir un combinaison de " + tailleCominaison + " chiffres");
     }
 
 }

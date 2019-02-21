@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class Launcher {
     private List<Player> players = new ArrayList<>();
-    private Games games;
+    private Games game;
     private GameMode mode;
 
 
@@ -40,8 +40,17 @@ public class Launcher {
      */
     public void lanceLeJeu(){
         definirJeuALancer();
+        if (game == Games.M) {
+            System.out.println("Mastermind en projet");
+            System.exit(0);
+        }
         definirModeJeu();
         attributionDesRoles(mode);
+        if (game == Games.R) {
+            new Recherche(players, game);
+        } else {
+            //new Mastermind(players, game);
+        }
     }
 
     /**
@@ -61,7 +70,6 @@ public class Launcher {
     /**
      * Attribue aux joueurs leurs roles respectifs en fonction du mode de jeu
      *
-     * @param players liste des joueurs
      * @param mode mode de jeu
      */
     public void attributionDesRoles(GameMode mode) {
@@ -99,11 +107,11 @@ public class Launcher {
     }
 
     public Games getGames() {
-        return games;
+        return game;
     }
 
-    private void setGames(Games games) {
-        this.games = games;
+    private void setGames(Games game) {
+        this.game = game;
     }
 
 }

@@ -1,6 +1,5 @@
 package fr.nico.ocprojet;
 
-
 import java.util.Scanner;
 
 /**
@@ -58,8 +57,14 @@ public class Interaction {
         return choix;
     }
 
-    public String genereCombinaison() {
-        screen.inviteGenerationCombinaison();
+    /**
+     * Methode pour récupérer la combinaison saisie au clavier
+     *
+     * @param tailleCombinaison taille de la combinaison attendues
+     * @return la combinaison saisie
+     */
+    public String proposeCombinaison(int tailleCombinaison) {
+            screen.invitePropositionCombinaison(tailleCombinaison);
         return saisieClavier().toUpperCase();
     }
 }
