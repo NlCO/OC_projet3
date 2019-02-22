@@ -47,7 +47,8 @@ public class Launcher {
         definirModeJeu();
         attributionDesRoles(mode);
         if (game == Games.R) {
-            new Recherche(players, game);
+            GamePlay partie = new Recherche(players, game);
+            partie.go();
         } else {
             //new Mastermind(players, game);
         }

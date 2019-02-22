@@ -11,8 +11,14 @@ public class Recherche extends GamePlay {
     public Recherche(List<Player> players, Games game) {
         super.players = players;
         super.game = game;
+        //initialiserLaPartie();
+        //jouerLaPartie();
+    }
+
+    public void go() {
         initialiserLaPartie();
         jouerLaPartie();
+
     }
 
     @Override
@@ -36,5 +42,9 @@ public class Recherche extends GamePlay {
         return resultat.toString();
     }
 
-
+    @Override
+    protected void CombinaisonTrouvee(Player joueur) {
+        String dernierResultat = playersPropostions.get(joueur).get(playersPropostions.get(joueur).size()-1)[1];
+        joueur.setWinner(dernierResultat.matches("=+"));
+    }
 }

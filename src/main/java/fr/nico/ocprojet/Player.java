@@ -12,6 +12,7 @@ package fr.nico.ocprojet;
 public abstract class Player {
     private boolean decodeur = false;
     private boolean codeur = false;
+    private boolean winner = false;
 
     /**
      * Permet d'affecter les statut codeur/décodeur en fonction du mode de jeu
@@ -35,6 +36,14 @@ public abstract class Player {
 
     public boolean isCodeur() {
         return codeur;
+    }
+
+    public boolean isWinner() {
+        return winner;
+    }
+
+    public void setWinner(boolean winner) {
+        this.winner = winner;
     }
 
     public abstract String getName();

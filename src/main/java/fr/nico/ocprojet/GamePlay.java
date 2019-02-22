@@ -10,11 +10,18 @@ import java.util.*;
 public abstract class GamePlay {
     protected List<Player> players;
     protected Games game;
-    protected int tailleCombinaison = 4;
+    protected int tailleCombinaison = 5;
     protected int nombreEssai = 10;
     protected Map<Player, String> combinaisons;
-    protected Map<Player, List<String>> playersPropostions;
+    protected Map<Player, List<String[]>> playersPropostions;
+    protected String[] tourResultat;
 
+
+    /**
+     * Lancement
+     *
+     */
+    public abstract void go();
 
     /**
      * Permet d'initiliaser la Partie
@@ -25,11 +32,11 @@ public abstract class GamePlay {
         for (Player joueur: players) {
             if (joueur.isCodeur()) {
                 combinaisons.put(getAdversaire(joueur),demandeDeCombinaison(joueur));
+                //todo sortir le display
                 System.out.println("(" + joueur.getName() + " a choisi la combinaison " + combinaisons.get(getAdversaire(joueur)) + ")");
             }
             if (joueur.isDecodeur()) {
-
-                List<String> propositions = new ArrayList<>();
+                List<String[]> propositions = new ArrayList<>();
                 playersPropostions.put(joueur, propositions);
             }
         }
@@ -39,16 +46,16 @@ public abstract class GamePlay {
      * Contient le déroulement du jeu
      */
     protected void jouerLaPartie(){
-        Boolean trouve = false;
         int tour = 0;
         do {
             ++tour;
             for (Player joueur: players) {
                 if (joueur.isDecodeur()){
                     faireUneTentative(joueur);
+                    CombinaisonTrouvee(joueur);
                 }
             }
-        } while (!trouve && tour < nombreEssai);
+        } while (!(players.get(0).isWinner() || players.get(1).isWinner()) && tour < nombreEssai);
     }
 
 
@@ -63,6 +70,7 @@ public abstract class GamePlay {
         do{
             proposition = joueur.genereUneCombinaison(tailleCombinaison);
             if (!combinaisonIsConforme(proposition)) {
+                //todo sortir le display
                 System.out.println("saisie non conforme");
             }
         } while (!combinaisonIsConforme(proposition));
@@ -94,23 +102,35 @@ public abstract class GamePlay {
      * @param joueur joueur dont c'est le tour de jeu
      */
     private void faireUneTentative(Player joueur){
-        List<String> propositions = playersPropostions.get(joueur);
+        List<String[]> propositions = playersPropostions.get(joueur);
         String proposition = demandeDeCombinaison(joueur);
-        System.out.println(playersPropostions.get(joueur));
         String resultat = evaluerProposition(joueur, proposition);
         System.out.println(resultat);
-        propositions.add(proposition);
+        String[] resultatTour = {proposition,resultat};
+        propositions.add(resultatTour);
         playersPropostions.put(joueur, propositions);
+
+        for (String[] tr: playersPropostions.get(joueur)) {
+            System.out.println("proposition : " + tr[0] + "  -> resultat : " + tr[1]);
+
+        }
+        //System.out.println(playersPropostions.get(joueur));
 
     }
 
     /**
      * Methode pour l'evaluation de la proposition
      *
-     * @param joueur
-     * @param proposition
-     * @return
+     * @param joueur joueur qui soumets la proposition
+     * @param proposition proposition à évaluer
+     * @return retourne son evaluation
      */
     protected abstract String evaluerProposition(Player joueur, String proposition);
 
+    /**
+     * Test si la dernière proposition du joueur est gagante pour mettre à jour le parametre winner de player
+     *
+     * @param joueur joueur qui vient de joueur
+     */
+    protected abstract void CombinaisonTrouvee(Player joueur);
 }
