@@ -1,6 +1,8 @@
 package fr.nico.ocprojet;
 
 
+import java.util.List;
+
 /**
  * Display prend en charge l'affichage
  */
@@ -37,4 +39,12 @@ public class Display {
         System.out.println("Veuillez saisir un combinaison de " + tailleCominaison + " chiffres");
     }
 
+    public void displayHistoriqueTour(List<String[]> historique) {
+        System.out.println("Ci-dessous L'historique de vos propositions avec leur résultat : ");
+        int essai = 0;
+        for (String[] resultat: historique) {
+            System.out.println("proposition " + essai + " : " + resultat[0] + "  -> resultat : " + resultat[1]);
+            essai++;
+        }
+    }
 }

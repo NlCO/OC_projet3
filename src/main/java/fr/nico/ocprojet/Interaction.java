@@ -1,5 +1,6 @@
 package fr.nico.ocprojet;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -66,5 +67,9 @@ public class Interaction {
     public String proposeCombinaison(int tailleCombinaison) {
             screen.invitePropositionCombinaison(tailleCombinaison);
         return saisieClavier().toUpperCase();
+    }
+
+    public void afficheHistoriqueTour(List<String[]> historique) {
+        screen.displayHistoriqueTour(historique);
     }
 }

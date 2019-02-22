@@ -1,7 +1,7 @@
 package fr.nico.ocprojet;
 
 
-
+import java.util.List;
 
 /**
  * Human étend la classe @see Player et représente un joueur humain
@@ -32,6 +32,13 @@ public class Human extends Player {
         return ihm.proposeCombinaison(tailleCombinaison);
     }
 
+    @Override
+    public String proposeUneCombinaison(int tailleCombinaison, List<String[]> historique) {
+        ihm.afficheHistoriqueTour(historique);
+        return genereUneCombinaison(tailleCombinaison);
+    }
+
+    @Override
     public String getName() {
         return name;
     }

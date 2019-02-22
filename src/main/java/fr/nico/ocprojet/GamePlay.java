@@ -35,7 +35,7 @@ public abstract class GamePlay {
         playersPropostions = new Hashtable<>();
         for (Player joueur: players) {
             if (joueur.isCodeur()) {
-                combinaisons.put(getAdversaire(joueur),demandeDeCombinaison(joueur));
+                combinaisons.put(getAdversaire(joueur),joueur.genereUneCombinaison(tailleCombinaison));
                 //todo sortir le display et voir le mode dev
                 System.out.println("(" + joueur.getName() + " a choisi la combinaison " + combinaisons.get(getAdversaire(joueur)) + ")");
             }
@@ -88,7 +88,7 @@ public abstract class GamePlay {
     private String demandeDeCombinaison(Player joueur) {
         String proposition;
         do{
-            proposition = joueur.genereUneCombinaison(tailleCombinaison);
+            proposition = joueur.proposeUneCombinaison(tailleCombinaison, playersPropostions.get(joueur));
             if (!combinaisonIsConforme(proposition)) {
                 //todo sortir le display
                 System.out.println("saisie non conforme");
@@ -131,7 +131,7 @@ public abstract class GamePlay {
         playersPropostions.put(joueur, propositions);
 
         for (String[] tr: playersPropostions.get(joueur)) {
-            System.out.println("proposition : " + tr[0] + "  -> resultat : " + tr[1]);
+            //System.out.println("proposition : " + tr[0] + "  -> resultat : " + tr[1]);
 
         }
         //System.out.println(playersPropostions.get(joueur));

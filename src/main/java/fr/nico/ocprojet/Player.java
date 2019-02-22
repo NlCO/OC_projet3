@@ -1,5 +1,7 @@
 package fr.nico.ocprojet;
 
+import java.util.List;
+
 /**
  * Player est une représentation abstraite d'un joueur soit humain @see Human soit machine @see Bot
  *
@@ -29,6 +31,8 @@ public abstract class Player {
     public abstract GameMode choixDuMode();
 
     public abstract String genereUneCombinaison(int tailleCombinaison);
+
+    public abstract String proposeUneCombinaison(int tailleCombinaison, List<String[]> historique);
 
     public boolean isDecodeur() {
         return decodeur;
