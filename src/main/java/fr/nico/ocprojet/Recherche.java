@@ -15,11 +15,7 @@ public class Recherche extends GamePlay {
         //jouerLaPartie();
     }
 
-    public void go() {
-        initialiserLaPartie();
-        jouerLaPartie();
 
-    }
 
     @Override
     public boolean combinaisonIsConforme(String combinaison) {

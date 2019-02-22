@@ -10,7 +10,7 @@ import java.util.*;
 public abstract class GamePlay {
     protected List<Player> players;
     protected Games game;
-    protected int tailleCombinaison = 5;
+    protected int tailleCombinaison = 4;
     protected int nombreEssai = 10;
     protected Map<Player, String> combinaisons;
     protected Map<Player, List<String[]>> playersPropostions;
@@ -21,9 +21,13 @@ public abstract class GamePlay {
      * Lancement
      *
      */
-    public abstract void go();
+    public void go() {
+        initialiserLaPartie();
+        jouerLaPartie();
+        BilanDeLaPartie();
+    }
 
-    /**
+     /**
      * Permet d'initiliaser la Partie
      */
     protected void initialiserLaPartie(){
@@ -32,7 +36,7 @@ public abstract class GamePlay {
         for (Player joueur: players) {
             if (joueur.isCodeur()) {
                 combinaisons.put(getAdversaire(joueur),demandeDeCombinaison(joueur));
-                //todo sortir le display
+                //todo sortir le display et voir le mode dev
                 System.out.println("(" + joueur.getName() + " a choisi la combinaison " + combinaisons.get(getAdversaire(joueur)) + ")");
             }
             if (joueur.isDecodeur()) {
@@ -58,6 +62,22 @@ public abstract class GamePlay {
         } while (!(players.get(0).isWinner() || players.get(1).isWinner()) && tour < nombreEssai);
     }
 
+    /**
+     * Resolution de la partie
+     */
+    protected void BilanDeLaPartie(){
+        if (players.get(0).isWinner() && players.get(1).isWinner()){
+            System.out.println("Match nul - vous avez trouvé tous les 2 en " + playersPropostions.get(players.get(0)).size() + "coups.");
+        } else {
+            for (Player joueur: players) {
+                if (joueur.isDecodeur() && joueur.isWinner()) {
+                    System.out.println("Bravo " + joueur.getName() + " :) !!!!  - vous avez décodé la combinaison en " + playersPropostions.get(joueur).size() + " coups.");
+                } else if (joueur.isDecodeur() && !joueur.isWinner()) {
+                    System.out.println("Perdu " + joueur.getName() + " :( !!!!  - vous n'êtes pas parvenu à décoder la combinaison " + combinaisons.get(joueur) + " en " + nombreEssai + " coups.");
+                }
+            }
+        }
+    }
 
 
     /**
