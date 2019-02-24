@@ -18,13 +18,18 @@ public class Human extends Player {
 
     @Override
     public Games choixDuJeu() {
-        Games choix;
+        Games choix = null;
         do {
             screen.demandeChoixJeu();
-            choix = Games.valueOf(saisieClavier().toUpperCase());
-            if (choix == null) {
+            try {
+                choix = Games.valueOf(saisieClavier().toUpperCase());
+            } catch (IllegalArgumentException e) {
                 screen.erreurSaisie();
             }
+
+            //if (choix == null) {
+            //    screen.erreurSaisie();
+            //}
         } while (choix == null);
         return choix;
     }
@@ -50,7 +55,9 @@ public class Human extends Player {
 
     @Override
     public String proposeUneCombinaison(int tailleCombinaison, List<String[]> historique) {
-        screen.displayHistoriqueTour(historique);
+        if (historique.size() > 0){
+            screen.displayHistoriqueTour(historique);
+        }
         return genereUneCombinaison(tailleCombinaison);
     }
 

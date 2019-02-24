@@ -12,6 +12,7 @@ public class Launcher {
     private List<Player> players = new ArrayList<>();
     private Games game;
     private GameMode mode;
+    private GamePlay partie;
 
 
     public Launcher() {
@@ -20,7 +21,6 @@ public class Launcher {
 
     /**
      * Crée la liste de joueurs un {@link Human humain} et {@link Bot un non-humain}
-     *
      */
     private void initPlayers() {
         Player joueur = new Human();
@@ -32,31 +32,43 @@ public class Launcher {
     /**
      * Methode pour lancer une partie
      */
-    public void lanceLeJeu(){
-        definirJeuALancer();
-        definirModeJeu();
-        attributionDesRoles(mode);
-        if (game == Games.R) {
-            GamePlay partie = new Recherche(players);
-            partie.go();
-        } else {
-            System.out.println("Mastermind en projet");
-            System.exit(0);
-        }
+    public void lanceLeJeu() {
+        do {
+            definirJeuALancer();
+            definirModeJeu();
+            creerPartie();
+            do {
+                partie.go();
+            } while (true);
+        } while (true);
     }
+
 
     /**
      * Methode pour selectionner le jeu à lancer parmi une liste de {@link Games jeux} disponible
      */
-    private void definirJeuALancer(){
+    private void definirJeuALancer() {
         this.setGames(players.get(0).choixDuJeu());
     }
 
     /**
-     * Methode pour selectionner le mode jeu à lancer parmi les 3 {@link GameMode modes}
+     * Methode pour selectionner le mode jeu à lancer parmi les 3 {@link GameMode modes} et attribuer au joeur les roles correspondants
      */
-    private void definirModeJeu(){
+    private void definirModeJeu() {
         this.setMode(players.get(0).choixDuMode());
+        attributionDesRoles(mode);
+    }
+
+    /**
+     * Methode pour creer une partie
+     */
+    private void creerPartie() {
+        if (game == Games.R) {
+            partie = new Recherche(players);
+        } else {
+            System.out.println("Mastermind en projet");
+            System.exit(0);
+        }
     }
 
     /**
@@ -68,6 +80,7 @@ public class Launcher {
         players.get(0).setRoles(mode);
         players.get(1).setRoles(mode.getRoleadversaire());
     }
+
     /**
      * Retourne la liste des jeux
      *

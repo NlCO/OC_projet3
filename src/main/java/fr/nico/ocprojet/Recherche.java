@@ -30,6 +30,7 @@ public class Recherche extends GamePlay {
                 resultat.append((Integer.parseInt(propositionArray[i]) > Integer.parseInt(combiATrouver[i])) ? "-" : "+");
             }
         }
+        System.out.println("Votre proposition : " + proposition + " -> Résultat : " + resultat);
         return resultat.toString();
     }
 

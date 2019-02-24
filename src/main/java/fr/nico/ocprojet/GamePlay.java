@@ -6,8 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * GamePlay est la classe contenant le gameplay commun au jeu
- * <p>
+ * La classe GamePlay est une représentation abstraite du concept des jeux.
+ * Elle porte les propriétés communes au jeux :
+ * <ul>
+ *     <li>players : liste de joueur </li>
+ *     <li>tailleCombinaison : la longeur de la combinaison</li>
+ *     <li>nombreEssaie : le nombre de tentatives</li>
+ *     <li>combinaisons : une Map ayant pour clé le joueur et pour valeur la combinaison qu'il doit trouver</li>
+ *     <li>playersPropositions : une Map ayant pour clé le joueur et pour valeur une liste des proposition et leur résultat sous forme d'un tableau</li>
+ * </ul>
  * Un jeu a besoin d'une liste de joueur ayant été paramétrée @see Launcher @see App
  */
 public abstract class GamePlay {
@@ -19,7 +26,7 @@ public abstract class GamePlay {
 
 
     /**
-     * Lancement
+     * Méthode de déroulement de jeu
      */
     public void go() {
         initialiserLaPartie();
@@ -28,7 +35,7 @@ public abstract class GamePlay {
     }
 
     /**
-     * Permet d'initiliaser la Partie
+     * Methode pour initialiser la Partie
      */
     public void initialiserLaPartie() {
         combinaisons = new Hashtable<>();
@@ -47,7 +54,7 @@ public abstract class GamePlay {
     }
 
     /**
-     * Contient le déroulement du jeu
+     * Methode pour gerer les tours d'une partie
      */
     protected void jouerLaPartie() {
         int tour = 0;
@@ -63,7 +70,7 @@ public abstract class GamePlay {
     }
 
     /**
-     * Resolution de la partie
+     * Methode de cloture de partie
      */
     protected void BilanDeLaPartie() {
         if (players.get(0).isWinner() && players.get(1).isWinner()) {
@@ -81,7 +88,7 @@ public abstract class GamePlay {
 
 
     /**
-     * Methode pour la demande de proposition de combinaison
+     * Methode pour la demande de proposition de combinaison lors d'un tour
      *
      * @param joueur joueur qui soumets la combinaison
      * @return la combinaison
@@ -118,7 +125,7 @@ public abstract class GamePlay {
     }
 
     /**
-     * Permet la demande d'une tentative de décodage et d'annalyser son resulats
+     * Methode gerant un tour de jeu
      *
      * @param joueur joueur dont c'est le tour de jeu
      */
@@ -131,12 +138,10 @@ public abstract class GamePlay {
         propositions.add(resultatTour);
         playersPropostions.put(joueur, propositions);
 
-        for (String[] tr : playersPropostions.get(joueur)) {
+        for (String[] tr: playersPropostions.get(joueur)) {
             //System.out.println("proposition : " + tr[0] + "  -> resultat : " + tr[1]);
-
         }
         //System.out.println(playersPropostions.get(joueur));
-
     }
 
     /**
