@@ -1,12 +1,10 @@
 package fr.nico.ocprojet;
 
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
-
 import java.util.List;
 import java.util.Random;
 
 /**
- * Bot étend la classe @see Player et représente un joueur non-humain
+ * La classe Bot décrit la classe {@link Player Player} pour un joueur non-humain et gére son "IA"
  */
 public class Bot extends Player {
     private String name;
@@ -29,7 +27,6 @@ public class Bot extends Player {
 
     @Override
     public String genereUneCombinaison(int tailleCombinaison) {
-        //Todo : à revoir le cast
         return String.format("%0" + tailleCombinaison + "d", random.nextInt((int)Math.pow(10,tailleCombinaison)));
     }
 
@@ -49,7 +46,7 @@ public class Bot extends Player {
             for (int i = 0; i < tailleCombinaison; i++) {
                 proposition.append(5);
             }
-            System.out.println("Bot - Recherche +/- - première proposition : " + proposition.toString());
+            //System.out.println("Bot - Recherche +/- - première proposition : " + proposition.toString());
         } else {
             for (String[] resultat: historique) {
                 int position = 0;
@@ -66,7 +63,7 @@ public class Bot extends Player {
                             borneMin.setCharAt(position, resultat[0].charAt(position));
                             break;
                     }
-                    System.out.println("Bot - Recherche +- - proposition " + resultat[0] + " ajustement des bornes Min/Max : " + borneMin.toString() + "/" + borneMax.toString());
+                    //System.out.println("Bot - Recherche +- - proposition " + resultat[0] + " ajustement des bornes Min/Max : " + borneMin.toString() + "/" + borneMax.toString());
                     if ((historique.indexOf(resultat) + 1)  == historique.size()) {
                         int biais = ((borneMax.toString().charAt(position) - '0') > 5)?1:0;
                         int alea = ((borneMax.toString().charAt(position) - '0') + (borneMin.toString().charAt(position) - '0') + biais)/2;
@@ -75,13 +72,14 @@ public class Bot extends Player {
                     position++;
 
                 }
-             System.out.println(proposition.toString());
+             //System.out.println(proposition.toString());
             }
 
         }
         return proposition.toString();
     }
 
+    @Override
     public String getName() {
         return name;
     }

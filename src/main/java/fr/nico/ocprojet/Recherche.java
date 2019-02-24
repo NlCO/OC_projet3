@@ -2,24 +2,19 @@ package fr.nico.ocprojet;
 
 import java.util.List;
 
-
 /**
  * Cette classe contient les paticularités du jeu Recherhce +/-
  */
 public class Recherche extends GamePlay {
 
-    public Recherche(List<Player> players, Games game) {
+    public Recherche(List<Player> players) {
         super.players = players;
-        super.game = game;
-        //initialiserLaPartie();
-        //jouerLaPartie();
+        //super.game = game;
     }
-
-
 
     @Override
     public boolean combinaisonIsConforme(String combinaison) {
-        String pattern = "\\d{"+ tailleCombinaison + "}";
+        String pattern = "\\d{" + tailleCombinaison + "}";
         return combinaison.matches(pattern);
     }
 
@@ -32,7 +27,7 @@ public class Recherche extends GamePlay {
             if (Integer.parseInt(propositionArray[i]) == Integer.parseInt(combiATrouver[i])) {
                 resultat.append("=");
             } else {
-                resultat.append((Integer.parseInt(propositionArray[i]) > Integer.parseInt(combiATrouver[i]))?"-":"+");
+                resultat.append((Integer.parseInt(propositionArray[i]) > Integer.parseInt(combiATrouver[i])) ? "-" : "+");
             }
         }
         return resultat.toString();
@@ -40,7 +35,7 @@ public class Recherche extends GamePlay {
 
     @Override
     protected void CombinaisonTrouvee(Player joueur) {
-        String dernierResultat = playersPropostions.get(joueur).get(playersPropostions.get(joueur).size()-1)[1];
+        String dernierResultat = playersPropostions.get(joueur).get(playersPropostions.get(joueur).size() - 1)[1];
         joueur.setWinner(dernierResultat.matches("=+"));
     }
 }

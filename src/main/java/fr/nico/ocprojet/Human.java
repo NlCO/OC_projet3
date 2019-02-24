@@ -2,45 +2,71 @@ package fr.nico.ocprojet;
 
 
 import java.util.List;
+import java.util.Scanner;
 
 /**
- * Human étend la classe @see Player et représente un joueur humain
+ * La classe Human décrit la classe {@link Player Player} pour un joueur humain et gére ses interaction avec la machine
  */
 public class Human extends Player {
     private String name;
-    private Interaction ihm;
     private Display screen;
 
     public Human() {
-        name = "Humain";
-        ihm = new Interaction();
+        name = "X l'humain";
         screen = new Display();
     }
 
     @Override
     public Games choixDuJeu() {
-        return ihm.selectionJeu();
+        Games choix;
+        do {
+            screen.demandeChoixJeu();
+            choix = Games.valueOf(saisieClavier().toUpperCase());
+            if (choix == null) {
+                screen.erreurSaisie();
+            }
+        } while (choix == null);
+        return choix;
     }
 
     @Override
     public GameMode choixDuMode() {
-        return ihm.selectionMode();
+        GameMode choix;
+        do {
+            screen.demandeChoixMode();
+            choix = GameMode.modeFromCode(saisieClavier().toUpperCase());
+            if (choix == null) {
+                screen.erreurSaisie();
+            }
+        } while (choix == null);
+        return choix;
     }
 
     @Override
     public String genereUneCombinaison(int tailleCombinaison) {
-        return ihm.proposeCombinaison(tailleCombinaison);
+        screen.invitePropositionCombinaison(tailleCombinaison);
+        return saisieClavier().toUpperCase();
     }
 
     @Override
     public String proposeUneCombinaison(int tailleCombinaison, List<String[]> historique) {
-        ihm.afficheHistoriqueTour(historique);
+        screen.displayHistoriqueTour(historique);
         return genereUneCombinaison(tailleCombinaison);
     }
 
     @Override
     public String getName() {
         return name;
+    }
+
+    /**
+     * Method pour récupérer les saisies clavier du joueur
+     *
+     * @return la saisie clavier sous forme texte
+     */
+    public String saisieClavier() {
+        Scanner sc = new Scanner(System.in);
+        return sc.nextLine();
     }
 
 }

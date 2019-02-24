@@ -4,10 +4,9 @@ package fr.nico.ocprojet;
 import java.util.List;
 
 /**
- * Display prend en charge l'affichage
+ * La classe Display contient les méthodes pour l'affichaga à l'écran
  */
 public class Display {
-
 
     public void afficheGameList() {
         for (Games games : Games.values()) {
@@ -15,7 +14,7 @@ public class Display {
         }
     }
 
-    public void demandeChoixJeu(){
+    public void demandeChoixJeu() {
         afficheGameList();
         System.out.println("Veuillez choisir un jeu (R ou M) : ");
     }
@@ -25,12 +24,12 @@ public class Display {
     }
 
     public void afficheModeList() {
-        for (GameMode mode: GameMode.values()) {
+        for (GameMode mode : GameMode.values()) {
             System.out.println(mode.getCode() + " -> " + mode.toString());
         }
     }
 
-    public void demandeChoixMode(){
+    public void demandeChoixMode() {
         afficheModeList();
         System.out.println("Veuillez choisir un mode (C, D ou VS) : ");
     }
@@ -42,7 +41,7 @@ public class Display {
     public void displayHistoriqueTour(List<String[]> historique) {
         System.out.println("Ci-dessous L'historique de vos propositions avec leur résultat : ");
         int essai = 0;
-        for (String[] resultat: historique) {
+        for (String[] resultat : historique) {
             System.out.println("proposition " + essai + " : " + resultat[0] + "  -> resultat : " + resultat[1]);
             essai++;
         }

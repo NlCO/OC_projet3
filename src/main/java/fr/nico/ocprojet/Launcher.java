@@ -6,13 +6,7 @@ import java.util.List;
 
 
 /**
- * Cette class a pour objectif de lancer un jeu avec les paramètres choisis ou configurés
- *
- * <ul>
- * <li>Elabore la liste de joueur (joueur et ordinateur)</li>
- * <li>choix du jeu : recherche +/- ou mastermind</li>
- * <li>choix du mode de jeu Challenger, Défenseur et Duel @see GameMode</li>
- * </ul>
+ * La class Launcher permet de configurer la partie et de la lancer
  */
 public class Launcher {
     private List<Player> players = new ArrayList<>();
@@ -25,7 +19,7 @@ public class Launcher {
     }
 
     /**
-     * Crée une liste de joueurs
+     * Crée la liste de joueurs un {@link Human humain} et {@link Bot un non-humain}
      *
      */
     private void initPlayers() {
@@ -36,33 +30,30 @@ public class Launcher {
     }
 
     /**
-     * Methode pour lancer un jeu
+     * Methode pour lancer une partie
      */
     public void lanceLeJeu(){
         definirJeuALancer();
-        if (game == Games.M) {
-            System.out.println("Mastermind en projet");
-            System.exit(0);
-        }
         definirModeJeu();
         attributionDesRoles(mode);
         if (game == Games.R) {
-            GamePlay partie = new Recherche(players, game);
+            GamePlay partie = new Recherche(players);
             partie.go();
         } else {
-            //new Mastermind(players, game);
+            System.out.println("Mastermind en projet");
+            System.exit(0);
         }
     }
 
     /**
-     * Configure le jeu à lancer
+     * Methode pour selectionner le jeu à lancer parmi une liste de {@link Games jeux} disponible
      */
     private void definirJeuALancer(){
         this.setGames(players.get(0).choixDuJeu());
     }
 
     /**
-     * Configure le mode jeu à lancer
+     * Methode pour selectionner le mode jeu à lancer parmi les 3 {@link GameMode modes}
      */
     private void definirModeJeu(){
         this.setMode(players.get(0).choixDuMode());
@@ -103,7 +94,7 @@ public class Launcher {
         return mode;
     }
 
-    private void setMode(GameMode mode) {
+    public void setMode(GameMode mode) {
         this.mode = mode;
     }
 
@@ -111,7 +102,7 @@ public class Launcher {
         return game;
     }
 
-    private void setGames(Games game) {
+    public void setGames(Games game) {
         this.game = game;
     }
 
