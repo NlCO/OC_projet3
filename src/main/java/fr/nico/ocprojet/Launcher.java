@@ -3,6 +3,7 @@ package fr.nico.ocprojet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 
 
 /**
@@ -16,6 +17,7 @@ public class Launcher {
 
 
     public Launcher() {
+        //logger.log(Level.TRACE, "trace1");
         this.initPlayers();
     }
 
