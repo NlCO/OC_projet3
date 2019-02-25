@@ -83,4 +83,10 @@ public class Bot extends Player {
     public String getName() {
         return name;
     }
+
+    @Override
+    public boolean demandeRejouerPartie() {
+        System.exit(0);
+        return false;
+    }
 }

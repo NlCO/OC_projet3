@@ -66,6 +66,23 @@ public class Human extends Player {
         return name;
     }
 
+    @Override
+    public boolean demandeRejouerPartie() {
+        String rejoue;
+        do {
+            screen.inviteRejouer();
+            rejoue = saisieClavier().toUpperCase();
+            if (!rejoue.matches("R|N|Q")){
+                System.out.println("Erreur de saisie : " + rejoue + " ne fait pas partie des choix possibles") ;
+            }
+        } while (!rejoue.matches("R|N|Q"));
+        if (rejoue.matches("Q")) {
+            System.out.println("Bye Bye !!!");
+            System.exit(0);
+        }
+        return rejoue.matches("R");
+    }
+
     /**
      * Method pour récupérer les saisies clavier du joueur
      *
@@ -75,5 +92,7 @@ public class Human extends Player {
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
+
+
 
 }

@@ -39,7 +39,7 @@ public class Launcher {
             creerPartie();
             do {
                 partie.go();
-            } while (true);
+            } while (rejouerPartie());
         } while (true);
     }
 
@@ -80,6 +80,16 @@ public class Launcher {
         players.get(0).setRoles(mode);
         players.get(1).setRoles(mode.getRoleadversaire());
     }
+
+    /**
+     * Methode pour demander si le joueur souhaite rejouer une partie avec les même parametres
+     * @return vrai ou faux
+     */
+    public boolean rejouerPartie(){
+        boolean rejoue = false;
+        return players.get(0).demandeRejouerPartie();
+    }
+
 
     /**
      * Retourne la liste des jeux
