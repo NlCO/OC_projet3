@@ -51,6 +51,6 @@ public class Display {
         System.out.println("Voulez vous :");
         System.out.println("R -> Rejouer la partie avec les mêmes paramètres");
         System.out.println("N -> Faire une nouvelle partie avec d'autres choix");
-        System.out.println("X -> Quitter le jeu");
+        System.out.println("Q -> Quitter le jeu");
     }
 }
