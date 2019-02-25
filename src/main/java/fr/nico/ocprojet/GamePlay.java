@@ -1,5 +1,7 @@
 package fr.nico.ocprojet;
 
+import org.apache.logging.log4j.Level;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -47,7 +49,8 @@ public abstract class GamePlay {
                 do {
                     combinaison = joueur.genereUneCombinaison(tailleCombinaison);
                     if (!combinaisonIsConforme(combinaison)) {
-                        System.out.println("combinaison non conforme");
+                        App.logger.log(Level.WARN, "Combinaison non conforme");
+                        System.out.println("combinaison saisie non conforme");
                     }
                 } while (!combinaisonIsConforme(combinaison));
                 combinaisons.put(getAdversaire(joueur), combinaison);
@@ -105,8 +108,8 @@ public abstract class GamePlay {
         do {
             proposition = joueur.proposeUneCombinaison(tailleCombinaison, playersPropostions.get(joueur));
             if (!combinaisonIsConforme(proposition)) {
-                //todo sortir le display
-                System.out.println("saisie non conforme");
+                App.logger.log(Level.WARN, "Combinaison non conforme");
+                System.out.println("combinaison saisie non conforme");
             }
         } while (!combinaisonIsConforme(proposition));
         return proposition;
@@ -140,7 +143,6 @@ public abstract class GamePlay {
         List<String[]> propositions = playersPropostions.get(joueur);
         String proposition = demandeDeCombinaison(joueur);
         String resultat = evaluerProposition(joueur, proposition);
-        //System.out.println(resultat);
         String[] resultatTour = {proposition, resultat};
         propositions.add(resultatTour);
         playersPropostions.put(joueur, propositions);
