@@ -1,5 +1,7 @@
 package fr.nico.ocprojet;
 
+import org.apache.logging.log4j.Level;
+
 import java.util.List;
 import java.util.Random;
 
@@ -11,6 +13,7 @@ public class Bot extends Player {
     private Random random;
 
     public Bot() {
+        App.logger.log(Level.TRACE, "Création joueur non-humain");
         name = "Bot le Bot";
         random = new Random();
     }
@@ -39,14 +42,14 @@ public class Bot extends Player {
             borneMin.append(0);
             borneMax.append(9);
         }
-        //System.out.println("Tentative : " + historique.size());
-        //System.out.println("Bot - Recherche +/- - Etat initiale des borne Min  : " + borneMin.toString() + " / Max : " + borneMax.toString() );
+        App.logger.log(Level.DEBUG, "Tentative : " + historique.size());
+        App.logger.log(Level.DEBUG,"Bot - Recherche +/- - Etat initiale des borne Min  : " + borneMin.toString() + " / Max : " + borneMax.toString() );
 
         if (historique.size() == 0) {
             for (int i = 0; i < tailleCombinaison; i++) {
                 proposition.append(5);
             }
-            //System.out.println("Bot - Recherche +/- - première proposition : " + proposition.toString());
+            App.logger.log(Level.DEBUG,"Bot - Recherche +/- - première proposition : " + proposition.toString());
         } else {
             for (String[] resultat : historique) {
                 int position = 0;
@@ -63,7 +66,7 @@ public class Bot extends Player {
                             borneMin.setCharAt(position, resultat[0].charAt(position));
                             break;
                     }
-                    //System.out.println("Bot - Recherche +- - proposition " + resultat[0] + " ajustement des bornes Min/Max : " + borneMin.toString() + "/" + borneMax.toString());
+                    App.logger.log(Level.DEBUG,"Bot - Recherche +- - proposition " + resultat[0] + " ajustement des bornes Min/Max : " + borneMin.toString() + "/" + borneMax.toString());
                     if ((historique.indexOf(resultat) + 1) == historique.size()) {
                         int biais = ((borneMax.toString().charAt(position) - '0') > 5) ? 1 : 0;
                         int alea = ((borneMax.toString().charAt(position) - '0') + (borneMin.toString().charAt(position) - '0') + biais) / 2;
@@ -72,7 +75,7 @@ public class Bot extends Player {
                     position++;
 
                 }
-                //System.out.println(proposition.toString());
+                App.logger.log(Level.DEBUG, "Bot - Recherche +- - proposition :" + proposition.toString());
             }
 
         }

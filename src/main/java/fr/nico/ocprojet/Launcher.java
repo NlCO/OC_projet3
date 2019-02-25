@@ -1,9 +1,11 @@
 package fr.nico.ocprojet;
 
+import org.apache.logging.log4j.Level;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
+
 
 
 /**
@@ -17,7 +19,7 @@ public class Launcher {
 
 
     public Launcher() {
-        //logger.log(Level.TRACE, "trace1");
+        App.logger.log(Level.TRACE, "Init launcher");
         this.initPlayers();
     }
 
@@ -89,7 +91,7 @@ public class Launcher {
      * @return vrai ou faux
      */
     public boolean rejouerPartie() {
-        boolean rejoue = false;
+        //boolean rejoue = false;
         return players.get(0).demandeRejouerPartie();
     }
 

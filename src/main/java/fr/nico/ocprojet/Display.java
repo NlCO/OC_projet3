@@ -1,12 +1,18 @@
 package fr.nico.ocprojet;
 
 
+import org.apache.logging.log4j.Level;
+
 import java.util.List;
 
 /**
  * La classe Display contient les méthodes pour l'affichaga à l'écran
  */
 public class Display {
+
+    public Display() {
+        App.logger.log(Level.TRACE, "Init Display");
+    }
 
     public void afficheGameList() {
         for (Games games : Games.values()) {
@@ -20,7 +26,7 @@ public class Display {
     }
 
     public void erreurSaisie() {
-        System.out.println("la valeur saisie ne correspond pas aux valeurs ou formats attendues");
+        System.out.println("la valeur saisie ne correspond pas aux valeurs ou formats attendus");
     }
 
     public void afficheModeList() {

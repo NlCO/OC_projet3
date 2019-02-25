@@ -1,22 +1,20 @@
 package fr.nico.ocprojet;
 
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * App est le point d'entrée du programme
  */
 public class App {
-    public static void main(String[] args) {
-        final Logger logger = Logger.getLogger("App");
-        logger.log(Level.WARNING, "youyou");
-        Launcher test = new Launcher();
-        test.lanceLeJeu();
+    static final Logger logger = LogManager.getLogger(App.class.getName());
 
+    public static void main(String[] args) {
+        logger.log(Level.TRACE, "Lancement du main");
+        Launcher start = new Launcher();
+        start.lanceLeJeu();
     }
-   // public static void logger(){
-   //     final Logger logger = Logger.getLogger("App");
-   // }
 
 }

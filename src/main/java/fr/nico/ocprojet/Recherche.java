@@ -1,5 +1,7 @@
 package fr.nico.ocprojet;
 
+import org.apache.logging.log4j.Level;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.Properties;
 public class Recherche extends GamePlay {
 
     public Recherche(List<Player> players) {
+        App.logger.log(Level.TRACE, "Lancement d'une partie Recherche +/-");
         super.players = players;
         //super.game = game;
     }

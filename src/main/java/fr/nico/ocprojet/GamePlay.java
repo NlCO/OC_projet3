@@ -87,7 +87,7 @@ public abstract class GamePlay {
                 if (joueur.isDecodeur() && joueur.isWinner()) {
                     System.out.println("Bravo " + joueur.getName() + " :) !!!!  - vous avez décodé la combinaison en " + playersPropostions.get(joueur).size() + " coups.");
                 } else if (joueur.isDecodeur() && !joueur.isWinner()) {
-                    System.out.println("Perdu " + joueur.getName() + " :( !!!!  - vous n'êtes pas parvenu à décoder la combinaison " + combinaisons.get(joueur) + " en " + nombreEssai + " coups.");
+                    System.out.println("Perdu " + joueur.getName() + " :( !!!!  - vous n'êtes pas parvenu à décoder la combinaison " + combinaisons.get(joueur) + " en moins de " + nombreEssai + " coups.");
                 }
             }
         }

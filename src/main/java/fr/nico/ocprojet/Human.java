@@ -1,6 +1,8 @@
 package fr.nico.ocprojet;
 
 
+import org.apache.logging.log4j.Level;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,6 +14,7 @@ public class Human extends Player {
     private Display screen;
 
     public Human() {
+        App.logger.log(Level.TRACE, "Création joueur humain");
         name = "X l'humain";
         screen = new Display();
     }
@@ -26,10 +29,6 @@ public class Human extends Player {
             } catch (IllegalArgumentException e) {
                 screen.erreurSaisie();
             }
-
-            //if (choix == null) {
-            //    screen.erreurSaisie();
-            //}
         } while (choix == null);
         return choix;
     }
@@ -73,10 +72,12 @@ public class Human extends Player {
             screen.inviteRejouer();
             rejoue = saisieClavier().toUpperCase();
             if (!rejoue.matches("R|N|Q")) {
+                App.logger.log(Level.WARN, "Erreur de saisie : " + rejoue + " ne fait pas partie des choix possibles");
                 System.out.println("Erreur de saisie : " + rejoue + " ne fait pas partie des choix possibles");
             }
         } while (!rejoue.matches("R|N|Q"));
         if (rejoue.matches("Q")) {
+            App.logger.log(Level.TRACE, "sortie de l'application");
             System.out.println("Bye Bye !!!");
             System.exit(0);
         }
