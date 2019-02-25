@@ -16,18 +16,18 @@ public class Bot extends Player {
     }
 
     @Override
-    public Games choixDuJeu(){
+    public Games choixDuJeu() {
         return null;
     }
 
     @Override
-    public GameMode choixDuMode(){
+    public GameMode choixDuMode() {
         return null;
     }
 
     @Override
     public String genereUneCombinaison(int tailleCombinaison) {
-        return String.format("%0" + tailleCombinaison + "d", random.nextInt((int)Math.pow(10,tailleCombinaison)));
+        return String.format("%0" + tailleCombinaison + "d", random.nextInt((int) Math.pow(10, tailleCombinaison)));
     }
 
     @Override
@@ -48,9 +48,9 @@ public class Bot extends Player {
             }
             //System.out.println("Bot - Recherche +/- - première proposition : " + proposition.toString());
         } else {
-            for (String[] resultat: historique) {
+            for (String[] resultat : historique) {
                 int position = 0;
-                for (String c: resultat[1].split("")) {
+                for (String c : resultat[1].split("")) {
                     switch (c) {
                         case "=":
                             borneMin.setCharAt(position, resultat[0].charAt(position));
@@ -64,15 +64,15 @@ public class Bot extends Player {
                             break;
                     }
                     //System.out.println("Bot - Recherche +- - proposition " + resultat[0] + " ajustement des bornes Min/Max : " + borneMin.toString() + "/" + borneMax.toString());
-                    if ((historique.indexOf(resultat) + 1)  == historique.size()) {
-                        int biais = ((borneMax.toString().charAt(position) - '0') > 5)?1:0;
-                        int alea = ((borneMax.toString().charAt(position) - '0') + (borneMin.toString().charAt(position) - '0') + biais)/2;
+                    if ((historique.indexOf(resultat) + 1) == historique.size()) {
+                        int biais = ((borneMax.toString().charAt(position) - '0') > 5) ? 1 : 0;
+                        int alea = ((borneMax.toString().charAt(position) - '0') + (borneMin.toString().charAt(position) - '0') + biais) / 2;
                         proposition.append(alea);
                     }
                     position++;
 
                 }
-             //System.out.println(proposition.toString());
+                //System.out.println(proposition.toString());
             }
 
         }

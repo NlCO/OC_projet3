@@ -67,6 +67,7 @@ public abstract class Player {
 
     /**
      * Methode qui permet de demander à un joueur s'il veut rejouer
+     *
      * @return vrai s'il veut rejouer
      */
     public abstract boolean demandeRejouerPartie();
@@ -86,7 +87,6 @@ public abstract class Player {
     public void setWinner(boolean winner) {
         this.winner = winner;
     }
-
 
 
 }

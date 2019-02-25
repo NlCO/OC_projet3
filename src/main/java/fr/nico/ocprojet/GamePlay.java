@@ -9,18 +9,18 @@ import java.util.Map;
  * La classe GamePlay est une représentation abstraite du concept des jeux.
  * Elle porte les propriétés communes au jeux :
  * <ul>
- *     <li>players : liste de joueur </li>
- *     <li>tailleCombinaison : la longeur de la combinaison</li>
- *     <li>nombreEssaie : le nombre de tentatives</li>
- *     <li>combinaisons : une Map ayant pour clé le joueur et pour valeur la combinaison qu'il doit trouver</li>
- *     <li>playersPropositions : une Map ayant pour clé le joueur et pour valeur une liste des proposition et leur résultat sous forme d'un tableau</li>
+ * <li>players : liste de joueur </li>
+ * <li>tailleCombinaison : la longeur de la combinaison</li>
+ * <li>nombreEssaie : le nombre de tentatives</li>
+ * <li>combinaisons : une Map ayant pour clé le joueur et pour valeur la combinaison qu'il doit trouver</li>
+ * <li>playersPropositions : une Map ayant pour clé le joueur et pour valeur une liste des proposition et leur résultat sous forme d'un tableau</li>
  * </ul>
  * Un jeu a besoin d'une liste de joueur ayant été paramétrée @see Launcher @see App
  */
 public abstract class GamePlay {
     protected List<Player> players;
-    protected int tailleCombinaison = 4;
-    protected int nombreEssai = 10;
+    protected Integer tailleCombinaison = 4;
+    protected Integer nombreEssai = 10;
     protected Map<Player, String> combinaisons;
     protected Map<Player, List<String[]>> playersPropostions;
 
@@ -40,10 +40,17 @@ public abstract class GamePlay {
     public void initialiserLaPartie() {
         combinaisons = new Hashtable<>();
         playersPropostions = new Hashtable<>();
+        chargementFichierConfig();
         for (Player joueur : players) {
             if (joueur.isCodeur()) {
-                combinaisons.put(getAdversaire(joueur), joueur.genereUneCombinaison(tailleCombinaison));
-                //todo sortir le display et voir le mode dev
+                String combinaison;
+                do {
+                    combinaison = joueur.genereUneCombinaison(tailleCombinaison);
+                    if (!combinaisonIsConforme(combinaison)) {
+                        System.out.println("combinaison non conforme");
+                    }
+                } while (!combinaisonIsConforme(combinaison));
+                combinaisons.put(getAdversaire(joueur), combinaison);
                 System.out.println("(" + joueur.getName() + " a choisi la combinaison " + combinaisons.get(getAdversaire(joueur)) + ")");
             }
             if (joueur.isDecodeur()) {
@@ -137,11 +144,6 @@ public abstract class GamePlay {
         String[] resultatTour = {proposition, resultat};
         propositions.add(resultatTour);
         playersPropostions.put(joueur, propositions);
-
-        for (String[] tr: playersPropostions.get(joueur)) {
-            //System.out.println("proposition : " + tr[0] + "  -> resultat : " + tr[1]);
-        }
-        //System.out.println(playersPropostions.get(joueur));
     }
 
     /**
@@ -160,10 +162,15 @@ public abstract class GamePlay {
      */
     protected abstract void CombinaisonTrouvee(Player joueur);
 
+    protected abstract void chargementFichierConfig();
+
     public Map<Player, String> getCombinaisons() {
         return combinaisons;
     }
+
     public int getTailleCombinaison() {
         return tailleCombinaison;
     }
+
+
 }

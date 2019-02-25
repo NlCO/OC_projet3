@@ -3,7 +3,6 @@ package fr.nico.ocprojet;
 
 /**
  * Liste des jeux disponibles : Recherche +/- et Mastermind
- *
  */
 public enum Games {
 

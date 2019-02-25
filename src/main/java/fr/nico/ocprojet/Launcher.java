@@ -83,9 +83,10 @@ public class Launcher {
 
     /**
      * Methode pour demander si le joueur souhaite rejouer une partie avec les même parametres
+     *
      * @return vrai ou faux
      */
-    public boolean rejouerPartie(){
+    public boolean rejouerPartie() {
         boolean rejoue = false;
         return players.get(0).demandeRejouerPartie();
     }

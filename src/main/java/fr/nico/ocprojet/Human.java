@@ -55,7 +55,7 @@ public class Human extends Player {
 
     @Override
     public String proposeUneCombinaison(int tailleCombinaison, List<String[]> historique) {
-        if (historique.size() > 0){
+        if (historique.size() > 0) {
             screen.displayHistoriqueTour(historique);
         }
         return genereUneCombinaison(tailleCombinaison);
@@ -72,8 +72,8 @@ public class Human extends Player {
         do {
             screen.inviteRejouer();
             rejoue = saisieClavier().toUpperCase();
-            if (!rejoue.matches("R|N|Q")){
-                System.out.println("Erreur de saisie : " + rejoue + " ne fait pas partie des choix possibles") ;
+            if (!rejoue.matches("R|N|Q")) {
+                System.out.println("Erreur de saisie : " + rejoue + " ne fait pas partie des choix possibles");
             }
         } while (!rejoue.matches("R|N|Q"));
         if (rejoue.matches("Q")) {
@@ -92,7 +92,6 @@ public class Human extends Player {
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
-
 
 
 }
