@@ -17,7 +17,7 @@ public class RechercheStepdefs {
     public void unJoueurAyantLeStatutCodeurEtLeParamètreTaille() {
         launcher = new Launcher();
         launcher.attributionDesRoles(GameMode.CHALLENGER);
-        partie = new Recherche(launcher.getPlayers());
+        partie = new Recherche(launcher.getPlayers(),4,10);
     }
 
     @When("il génère une combinaison")
@@ -40,7 +40,7 @@ public class RechercheStepdefs {
     public void unJoueurJoueurAyantGénéréUneCombinaison() {
         launcher = new Launcher();
         launcher.attributionDesRoles(GameMode.CHALLENGER);
-        partie = new Recherche(launcher.getPlayers());
+        partie = new Recherche(launcher.getPlayers(),4,10);
         partie.initialiserLaPartie();
     }
 

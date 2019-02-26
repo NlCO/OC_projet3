@@ -21,8 +21,8 @@ import java.util.Map;
  */
 public abstract class GamePlay {
     protected List<Player> players;
-    protected Integer tailleCombinaison = 4;
-    protected Integer nombreEssai = 10;
+    protected Integer tailleCombinaison;
+    protected Integer nombreEssai;
     protected Map<Player, String> combinaisons;
     protected Map<Player, List<String[]>> playersPropostions;
 
@@ -42,7 +42,6 @@ public abstract class GamePlay {
     public void initialiserLaPartie() {
         combinaisons = new Hashtable<>();
         playersPropostions = new Hashtable<>();
-        chargementFichierConfig();
         for (Player joueur : players) {
             if (joueur.isCodeur()) {
                 String combinaison;
@@ -163,8 +162,6 @@ public abstract class GamePlay {
      * @param joueur joueur qui vient de joueur
      */
     protected abstract void CombinaisonTrouvee(Player joueur);
-
-    protected abstract void chargementFichierConfig();
 
     public Map<Player, String> getCombinaisons() {
         return combinaisons;

@@ -2,10 +2,12 @@ package fr.nico.ocprojet;
 
 import org.apache.logging.log4j.Level;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.Properties;
 
 
 /**
@@ -16,11 +18,16 @@ public class Launcher {
     private Games game;
     private GameMode mode;
     private GamePlay partie;
+    private int tailleCombinaison;
+    private int nombreEssai;
+    private int panelCouleur;
 
 
     public Launcher() {
         App.logger.log(Level.TRACE, "Init launcher");
+        chargementFichierConfig();
         this.initPlayers();
+
     }
 
     /**
@@ -47,6 +54,28 @@ public class Launcher {
         } while (true);
     }
 
+    /**
+     * Methode pour réciu
+     */
+    protected void chargementFichierConfig() {
+        Properties properties = new Properties();
+        try {
+            properties.load(new FileInputStream("src/main/resources/config.properties"));
+            tailleCombinaison = Integer.parseInt(properties.getProperty("tailleCombinaison"));
+            nombreEssai = Integer.parseInt(properties.getProperty("nombreEssais"));
+            panelCouleur = Integer.parseInt(properties.getProperty("panelCouleur"));
+            if (panelCouleur < 4 || panelCouleur > 10) {
+                throw new java.lang.NumberFormatException("out of range");
+            }
+        } catch (IOException e) {
+            System.out.println("Veuillez vous assurez qu'un fichier config.properties soit présent ");
+            System.exit(2);
+        } catch (NumberFormatException e) {
+            App.logger.log(Level.FATAL, "Le fichier config.properties contient des valeurs corrompues");
+            System.out.println("Valeur dans le fichier de configuration incorrecte : merci de vérifier son contenu");
+            System.exit(1);
+        }
+    }
 
     /**
      * Methode pour selectionner le jeu à lancer parmi une liste de {@link Games jeux} disponible
@@ -68,7 +97,7 @@ public class Launcher {
      */
     private void creerPartie() {
         if (game == Games.R) {
-            partie = new Recherche(players);
+            partie = new Recherche(players, tailleCombinaison, nombreEssai);
         } else {
             System.out.println("Mastermind en projet");
             System.exit(0);

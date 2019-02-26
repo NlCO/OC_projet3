@@ -12,10 +12,11 @@ import java.util.Properties;
  */
 public class Recherche extends GamePlay {
 
-    public Recherche(List<Player> players) {
+    public Recherche(List<Player> players, int tailleCombinaison, int nombreEssai ) {
         App.logger.log(Level.TRACE, "Lancement d'une partie Recherche +/-");
         super.players = players;
-        //super.game = game;
+        super.tailleCombinaison = tailleCombinaison;
+        super.nombreEssai = nombreEssai;
     }
 
     @Override
@@ -46,25 +47,4 @@ public class Recherche extends GamePlay {
         joueur.setWinner(dernierResultat.matches("=+"));
     }
 
-    @Override
-    protected void chargementFichierConfig() {
-        Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream("src/main/resources/config.properties"));
-        } catch (IOException e) {
-            System.out.println("Veuillez vous assurez qu'un fichier config.properties soit présent ");
-        }
-        try {
-            tailleCombinaison = Integer.parseInt(properties.getProperty("tailleCombinaison"));
-        } catch (NumberFormatException e) {
-            System.out.println("Valeur dans le fichier de configuration incorrecte : " + properties.getProperty("tailleCombinaison"));
-            System.out.println("Valeur par défaut prise en compte : " + tailleCombinaison);
-        }
-        try {
-            nombreEssai = Integer.parseInt(properties.getProperty("nombreEssais"));
-        } catch (NumberFormatException e) {
-            System.out.println("Valeur dans le fichier de configuration incorrecte : " + properties.getProperty("nombreEssais"));
-            System.out.println("Valeur par défaut prise en compte : " + nombreEssai);
-        }
-    }
 }
