@@ -36,7 +36,7 @@ public class Recherche extends GamePlay {
                 resultat.append((Integer.parseInt(propositionArray[i]) > Integer.parseInt(combiATrouver[i])) ? "-" : "+");
             }
         }
-        System.out.println(joueur + " proposition : " + proposition + " -> Résultat : " + resultat);
+        System.out.println(joueur.getName() + " proposition : " + proposition + " -> Résultat : " + resultat);
         return resultat.toString();
     }
 
