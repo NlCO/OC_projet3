@@ -6,6 +6,9 @@ import cucumber.api.java.en.When;
 import fr.nico.ocprojet.*;
 import org.junit.Assert;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RechercheStepdefs {
     private Launcher launcher;
     private GamePlay partie;
@@ -32,5 +35,40 @@ public class RechercheStepdefs {
             }
         }
 
+    }
+    @Given("un joueur joueur ayant généré une combinaison")
+    public void unJoueurJoueurAyantGénéréUneCombinaison() {
+        launcher = new Launcher();
+        launcher.attributionDesRoles(GameMode.CHALLENGER);
+        partie = new Recherche(launcher.getPlayers());
+        partie.initialiserLaPartie();
+    }
+
+    @When("l'adversaire propose une combinaison")
+    public void ilProposeUneCombinaison() {
+        for (Player p: launcher.getPlayers()) {
+            if (p.isDecodeur()){
+                List<String[]> propositions = new ArrayList<>();
+                partie.getPlayersPropostions().put(partie.getAdversaire(p), propositions);
+                String proposition = partie.demandeDeCombinaison(partie.getAdversaire(p));
+                String resultat = partie.evaluerProposition(p,proposition);
+                String[] resultatTour = {proposition, resultat};
+                propositions = partie.getPlayersPropostions().get(p);
+                propositions.add(resultatTour);
+                partie.getPlayersPropostions().put(p, propositions);
+            }
+        }
+    }
+
+    @Then("Le resultat de l'evaluation est de la bonne longeur et contient seulement des symboles autorisés")
+    public void leResultatDeLEvaluationEstDeLaBonneLongeurEtContientSeulementDesSymboles() {
+        for (Player p: launcher.getPlayers()) {
+            if (p.isDecodeur()){
+                List<String[]> propositions = partie.getPlayersPropostions().get(p);
+                String lastResultat = propositions.get(propositions.size() - 1)[1];
+                Assert.assertEquals(partie.getTailleCombinaison(), lastResultat.length());
+                Assert.assertTrue(lastResultat.matches("(=|-|\\+){" + partie.getTailleCombinaison() + "}"));
+            }
+        }
     }
 }

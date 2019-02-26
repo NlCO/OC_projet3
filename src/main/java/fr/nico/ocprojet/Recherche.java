@@ -25,7 +25,7 @@ public class Recherche extends GamePlay {
     }
 
     @Override
-    protected String evaluerProposition(Player joueur, String proposition) {
+    public String evaluerProposition(Player joueur, String proposition) {
         StringBuilder resultat = new StringBuilder();
         String[] combiATrouver = combinaisons.get(joueur).split("");
         String[] propositionArray = proposition.split("");

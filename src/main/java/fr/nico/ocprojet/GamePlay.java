@@ -103,7 +103,7 @@ public abstract class GamePlay {
      * @param joueur joueur qui soumets la combinaison
      * @return la combinaison
      */
-    private String demandeDeCombinaison(Player joueur) {
+    public String demandeDeCombinaison(Player joueur) {
         String proposition;
         do {
             proposition = joueur.proposeUneCombinaison(tailleCombinaison, playersPropostions.get(joueur));
@@ -139,7 +139,7 @@ public abstract class GamePlay {
      *
      * @param joueur joueur dont c'est le tour de jeu
      */
-    private void faireUneTentative(Player joueur) {
+    protected void faireUneTentative(Player joueur) {
         List<String[]> propositions = playersPropostions.get(joueur);
         String proposition = demandeDeCombinaison(joueur);
         String resultat = evaluerProposition(joueur, proposition);
@@ -155,7 +155,7 @@ public abstract class GamePlay {
      * @param proposition proposition à évaluer
      * @return retourne son evaluation
      */
-    protected abstract String evaluerProposition(Player joueur, String proposition);
+    public abstract String evaluerProposition(Player joueur, String proposition);
 
     /**
      * Test si la dernière proposition du joueur est gagante pour mettre à jour le parametre winner de player
@@ -174,5 +174,7 @@ public abstract class GamePlay {
         return tailleCombinaison;
     }
 
-
+    public Map<Player, List<String[]>> getPlayersPropostions() {
+        return playersPropostions;
+    }
 }
