@@ -20,11 +20,13 @@ public class Bot extends Player {
 
     @Override
     public Games choixDuJeu() {
+        App.logger.log(Level.ERROR, "Methode non disponible pour un Bot");
         return null;
     }
 
     @Override
     public GameMode choixDuMode() {
+        App.logger.log(Level.ERROR, "Methode non disponible pour un Bot");
         return null;
     }
 
@@ -89,6 +91,7 @@ public class Bot extends Player {
 
     @Override
     public boolean demandeRejouerPartie() {
+        App.logger.log(Level.ERROR, "Methode non disponible pour un Bot");
         System.exit(0);
         return false;
     }
