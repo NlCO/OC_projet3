@@ -13,8 +13,8 @@ import java.util.List;
  * </ul>
  */
 public abstract class Player {
-    private boolean decodeur = false;
     private boolean codeur = false;
+    private boolean decodeur = false;
     private boolean winner = false;
 
     /**
