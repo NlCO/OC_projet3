@@ -47,17 +47,21 @@ public class Human extends Player {
     }
 
     @Override
-    public String genereUneCombinaison(int tailleCombinaison) {
-        screen.invitePropositionCombinaison(tailleCombinaison);
+    public String genereUneCombinaison(Games jeu, int tailleCombinaison, List colors) {
+        if (jeu == Games.R) {
+            screen.invitePropositionCombinaisonRecherche(tailleCombinaison);
+        } else {
+
+        }
         return saisieClavier().toUpperCase();
     }
 
     @Override
-    public String proposeUneCombinaison(int tailleCombinaison, List<String[]> historique) {
+    public String proposeUneCombinaison(Games jeu, int tailleCombinaison, List colors, List<String[]> historique) {
         if (historique.size() > 0) {
             screen.displayHistoriqueTour(historique);
         }
-        return genereUneCombinaison(tailleCombinaison);
+        return genereUneCombinaison(jeu, tailleCombinaison, colors);
     }
 
     @Override

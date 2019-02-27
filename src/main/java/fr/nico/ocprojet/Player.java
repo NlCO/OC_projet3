@@ -42,21 +42,25 @@ public abstract class Player {
     public abstract GameMode choixDuMode();
 
     /**
-     * Retourne une combinaison en fonction de taille attendue
+     * Retourne une combinaison en fonction du jeu et de la taille attendue
      *
+     * @param jeu jeu concerné
      * @param tailleCombinaison longueur de la combinaison sous forme d'un entier
+     * @param colors leste des valeurs possibles
      * @return la combinaison choisie
      */
-    public abstract String genereUneCombinaison(int tailleCombinaison);
+    public abstract String genereUneCombinaison(Games jeu, int tailleCombinaison, List colors);
 
     /**
-     * Retourne un combinaison en fonction de la taille attendue et des précédentes propositions
+     * Retourne un combinaison en fonction du jeu, de la taille attendue et des précédentes propositions
      *
+     * @param jeu jeu concerné
      * @param tailleCombinaison longueur de la combinaison sous forme d'un entier
-     * @param historique        Liste de l'ensemble des propositions et de leur resultats
+     * @param colors liste des chiffres/couleurs posssibles
+     * @param historique Liste de l'ensemble des propositions et de leur resultats
      * @return une combinaison
      */
-    public abstract String proposeUneCombinaison(int tailleCombinaison, List<String[]> historique);
+    public abstract String proposeUneCombinaison(Games jeu, int tailleCombinaison, List colors,  List<String[]> historique);
 
     /**
      * Retourne le nom du joueur

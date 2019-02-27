@@ -2,8 +2,7 @@ package fr.nico.ocprojet;
 
 import org.apache.logging.log4j.Level;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * La classe Bot décrit la classe {@link Player Player} pour un joueur non-humain et gére son "IA"
@@ -31,12 +30,25 @@ public class Bot extends Player {
     }
 
     @Override
-    public String genereUneCombinaison(int tailleCombinaison) {
-        return String.format("%0" + tailleCombinaison + "d", random.nextInt((int) Math.pow(10, tailleCombinaison)));
+    public String genereUneCombinaison(Games jeu, int tailleCombinaison, List colors) {
+        StringBuilder combinaison = new StringBuilder();
+        //Set<Integer> panelCouleur = new HashSet<>();
+        //for (int i = 0; i < 10; i++) {
+        // panelCouleur.add(i);
+        //}
+        //List<Integer> panel = new ArrayList<>();
+        //panel.addAll(panelCouleur);
+
+        for (int i = 0; i < tailleCombinaison; i++) {
+            //combinaison.append(panel.get(random.nextInt(panel.size())));
+            combinaison.append(colors.get(random.nextInt(colors.size())));
+        }
+        return combinaison.toString();
+        //return String.format("%0" + tailleCombinaison + "d", random.nextInt((int) Math.pow(10, tailleCombinaison)));
     }
 
     @Override
-    public String proposeUneCombinaison(int tailleCombinaison, List<String[]> historique) {
+    public String proposeUneCombinaison(Games jeu, int tailleCombinaison, List colors, List<String[]> historique) {
         StringBuilder proposition = new StringBuilder();
         StringBuilder borneMin = new StringBuilder();
         StringBuilder borneMax = new StringBuilder();

@@ -40,7 +40,11 @@ public class Display {
         System.out.println("Veuillez choisir un mode (C, D ou VS) : ");
     }
 
-    public void invitePropositionCombinaison(int tailleCominaison) {
+    public void invitePropositionCombinaisonRecherche(int tailleCominaison) {
+        System.out.println("Veuillez saisir un combinaison de " + tailleCominaison + " chiffres");
+    }
+
+    public void invitePropositionCombinaisonMastermind(int tailleCominaison, int panelCouleur) {
         System.out.println("Veuillez saisir un combinaison de " + tailleCominaison + " chiffres");
     }
 

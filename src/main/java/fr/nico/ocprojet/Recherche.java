@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Level;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -15,8 +16,13 @@ public class Recherche extends GamePlay {
     public Recherche(List<Player> players, int tailleCombinaison, int nombreEssai ) {
         App.logger.log(Level.TRACE, "Lancement d'une partie Recherche +/-");
         super.players = players;
+        super.jeu = Games.R;
         super.tailleCombinaison = tailleCombinaison;
         super.nombreEssai = nombreEssai;
+        super.colors = new ArrayList<Integer>();
+        for (int i = 0; i < 10; i++) {
+            colors.add(i);
+        }
     }
 
     @Override

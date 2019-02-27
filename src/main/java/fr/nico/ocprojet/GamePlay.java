@@ -12,19 +12,23 @@ import java.util.Map;
  * Elle porte les propriétés communes au jeux :
  * <ul>
  * <li>players : liste de joueur </li>
+ * <li>jeu : jeu instancié</li>
  * <li>tailleCombinaison : la longeur de la combinaison</li>
  * <li>nombreEssaie : le nombre de tentatives</li>
  * <li>combinaisons : une Map ayant pour clé le joueur et pour valeur la combinaison qu'il doit trouver</li>
  * <li>playersPropositions : une Map ayant pour clé le joueur et pour valeur une liste des proposition et leur résultat sous forme d'un tableau</li>
+ * <li>panelCouleur : nombre de chiffres/couleur disponibles pour une combinasion</li>
  * </ul>
- * Un jeu a besoin d'une liste de joueur ayant été paramétrée @see Launcher @see App
  */
 public abstract class GamePlay {
     protected List<Player> players;
+    protected Games jeu;
     protected Integer tailleCombinaison;
     protected Integer nombreEssai;
     protected Map<Player, String> combinaisons;
     protected Map<Player, List<String[]>> playersPropostions;
+    protected int panelCouleur;
+    protected List colors;
 
 
     /**
@@ -46,7 +50,7 @@ public abstract class GamePlay {
             if (joueur.isCodeur()) {
                 String combinaison;
                 do {
-                    combinaison = joueur.genereUneCombinaison(tailleCombinaison);
+                    combinaison = joueur.genereUneCombinaison(jeu, tailleCombinaison, colors);
                     if (!combinaisonIsConforme(combinaison)) {
                         App.logger.log(Level.WARN, "Combinaison non conforme");
                         System.out.println("combinaison saisie non conforme");
@@ -105,7 +109,7 @@ public abstract class GamePlay {
     public String demandeDeCombinaison(Player joueur) {
         String proposition;
         do {
-            proposition = joueur.proposeUneCombinaison(tailleCombinaison, playersPropostions.get(joueur));
+            proposition = joueur.proposeUneCombinaison(jeu, tailleCombinaison, colors , playersPropostions.get(joueur));
             if (!combinaisonIsConforme(proposition)) {
                 App.logger.log(Level.WARN, "Combinaison non conforme");
                 System.out.println("combinaison saisie non conforme");
