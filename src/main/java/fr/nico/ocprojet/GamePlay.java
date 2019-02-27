@@ -83,7 +83,7 @@ public abstract class GamePlay {
      */
     protected void BilanDeLaPartie() {
         if (players.get(0).isWinner() && players.get(1).isWinner()) {
-            System.out.println("Match nul - vous avez trouvé tous les 2 en " + playersPropostions.get(players.get(0)).size() + "coups.");
+            System.out.println("Match nul - vous avez trouvé tous les 2 en " + playersPropostions.get(players.get(0)).size() + " coups.");
         } else {
             for (Player joueur : players) {
                 if (joueur.isDecodeur() && joueur.isWinner()) {
