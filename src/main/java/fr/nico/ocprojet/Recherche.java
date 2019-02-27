@@ -19,9 +19,9 @@ public class Recherche extends GamePlay {
         super.jeu = Games.R;
         super.tailleCombinaison = tailleCombinaison;
         super.nombreEssai = nombreEssai;
-        super.colors = new ArrayList<Integer>();
+        super.setDeValeurs = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            colors.add(i);
+            setDeValeurs.add("" + i + "");
         }
     }
 

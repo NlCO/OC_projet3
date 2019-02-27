@@ -30,25 +30,16 @@ public class Bot extends Player {
     }
 
     @Override
-    public String genereUneCombinaison(Games jeu, int tailleCombinaison, List colors) {
+    public String genereUneCombinaison(Games jeu, int tailleCombinaison, List<String> setDeValeurs) {
         StringBuilder combinaison = new StringBuilder();
-        //Set<Integer> panelCouleur = new HashSet<>();
-        //for (int i = 0; i < 10; i++) {
-        // panelCouleur.add(i);
-        //}
-        //List<Integer> panel = new ArrayList<>();
-        //panel.addAll(panelCouleur);
-
         for (int i = 0; i < tailleCombinaison; i++) {
-            //combinaison.append(panel.get(random.nextInt(panel.size())));
-            combinaison.append(colors.get(random.nextInt(colors.size())));
+            combinaison.append(setDeValeurs.get(random.nextInt(setDeValeurs.size())));
         }
         return combinaison.toString();
-        //return String.format("%0" + tailleCombinaison + "d", random.nextInt((int) Math.pow(10, tailleCombinaison)));
     }
 
     @Override
-    public String proposeUneCombinaison(Games jeu, int tailleCombinaison, List colors, List<String[]> historique) {
+    public String proposeUneCombinaison(Games jeu, int tailleCombinaison, List<String> colors, List<String[]> historique) {
         StringBuilder proposition = new StringBuilder();
         StringBuilder borneMin = new StringBuilder();
         StringBuilder borneMax = new StringBuilder();

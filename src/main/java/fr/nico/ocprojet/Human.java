@@ -47,7 +47,7 @@ public class Human extends Player {
     }
 
     @Override
-    public String genereUneCombinaison(Games jeu, int tailleCombinaison, List colors) {
+    public String genereUneCombinaison(Games jeu, int tailleCombinaison, List<String> setDeValeurs) {
         if (jeu == Games.R) {
             screen.invitePropositionCombinaisonRecherche(tailleCombinaison);
         } else {
@@ -57,11 +57,11 @@ public class Human extends Player {
     }
 
     @Override
-    public String proposeUneCombinaison(Games jeu, int tailleCombinaison, List colors, List<String[]> historique) {
+    public String proposeUneCombinaison(Games jeu, int tailleCombinaison, List<String> setDeValeurs, List<String[]> historique) {
         if (historique.size() > 0) {
             screen.displayHistoriqueTour(historique);
         }
-        return genereUneCombinaison(jeu, tailleCombinaison, colors);
+        return genereUneCombinaison(jeu, tailleCombinaison, setDeValeurs);
     }
 
     @Override

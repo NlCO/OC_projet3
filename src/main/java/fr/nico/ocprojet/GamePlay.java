@@ -28,7 +28,7 @@ public abstract class GamePlay {
     protected Map<Player, String> combinaisons;
     protected Map<Player, List<String[]>> playersPropostions;
     protected int panelCouleur;
-    protected List colors;
+    protected List<String> setDeValeurs;
 
 
     /**
@@ -50,7 +50,7 @@ public abstract class GamePlay {
             if (joueur.isCodeur()) {
                 String combinaison;
                 do {
-                    combinaison = joueur.genereUneCombinaison(jeu, tailleCombinaison, colors);
+                    combinaison = joueur.genereUneCombinaison(jeu, tailleCombinaison, setDeValeurs);
                     if (!combinaisonIsConforme(combinaison)) {
                         App.logger.log(Level.WARN, "Combinaison non conforme");
                         System.out.println("combinaison saisie non conforme");
@@ -109,7 +109,7 @@ public abstract class GamePlay {
     public String demandeDeCombinaison(Player joueur) {
         String proposition;
         do {
-            proposition = joueur.proposeUneCombinaison(jeu, tailleCombinaison, colors , playersPropostions.get(joueur));
+            proposition = joueur.proposeUneCombinaison(jeu, tailleCombinaison, setDeValeurs , playersPropostions.get(joueur));
             if (!combinaisonIsConforme(proposition)) {
                 App.logger.log(Level.WARN, "Combinaison non conforme");
                 System.out.println("combinaison saisie non conforme");

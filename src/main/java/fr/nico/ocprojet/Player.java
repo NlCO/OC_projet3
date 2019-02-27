@@ -46,21 +46,21 @@ public abstract class Player {
      *
      * @param jeu jeu concerné
      * @param tailleCombinaison longueur de la combinaison sous forme d'un entier
-     * @param colors leste des valeurs possibles
+     * @param setDeValeurs leste des valeurs possibles
      * @return la combinaison choisie
      */
-    public abstract String genereUneCombinaison(Games jeu, int tailleCombinaison, List colors);
+    public abstract String genereUneCombinaison(Games jeu, int tailleCombinaison, List<String> setDeValeurs);
 
     /**
      * Retourne un combinaison en fonction du jeu, de la taille attendue et des précédentes propositions
      *
      * @param jeu jeu concerné
      * @param tailleCombinaison longueur de la combinaison sous forme d'un entier
-     * @param colors liste des chiffres/couleurs posssibles
+     * @param setDeValeurs liste des chiffres/couleurs posssibles
      * @param historique Liste de l'ensemble des propositions et de leur resultats
      * @return une combinaison
      */
-    public abstract String proposeUneCombinaison(Games jeu, int tailleCombinaison, List colors,  List<String[]> historique);
+    public abstract String proposeUneCombinaison(Games jeu, int tailleCombinaison, List<String> setDeValeurs,  List<String[]> historique);
 
     /**
      * Retourne le nom du joueur
