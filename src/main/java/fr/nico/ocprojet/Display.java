@@ -44,8 +44,8 @@ public class Display {
         System.out.println("Veuillez saisir un combinaison de " + tailleCominaison + " chiffres");
     }
 
-    public void invitePropositionCombinaisonMastermind(int tailleCominaison, int panelCouleur) {
-        System.out.println("Veuillez saisir un combinaison de " + tailleCominaison + " chiffres");
+    public void invitePropositionCombinaisonMastermind(int tailleCombinaison, List<String> panelCouleur) {
+        System.out.println("Veuillez saisir un combinaison de " + tailleCombinaison + " elements parmi " + panelCouleur + " :");
     }
 
     public void displayHistoriqueTour(List<String[]> historique) {

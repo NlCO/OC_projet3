@@ -51,7 +51,7 @@ public class Human extends Player {
         if (jeu == Games.R) {
             screen.invitePropositionCombinaisonRecherche(tailleCombinaison);
         } else {
-
+            screen.invitePropositionCombinaisonMastermind(tailleCombinaison, setDeValeurs);
         }
         return saisieClavier().toUpperCase();
     }
