@@ -99,8 +99,8 @@ public class Launcher {
         if (game == Games.R) {
             partie = new Recherche(players, tailleCombinaison, nombreEssai);
         } else {
-            System.out.println("Mastermind en projet");
-            System.exit(0);
+            partie = new Mastermind(players,tailleCombinaison,nombreEssai,panelCouleur);
+            //System.exit(0);
         }
     }
 

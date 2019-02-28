@@ -52,10 +52,11 @@ public abstract class GamePlay {
                 do {
                     combinaison = joueur.genereUneCombinaison(jeu, tailleCombinaison, setDeValeurs);
                     if (!combinaisonIsConforme(combinaison)) {
+                        combinaison = null;
                         App.logger.log(Level.WARN, "Combinaison non conforme");
                         System.out.println("combinaison saisie non conforme");
                     }
-                } while (!combinaisonIsConforme(combinaison));
+                } while (combinaison == null);
                 combinaisons.put(getAdversaire(joueur), combinaison);
                 System.out.println("(" + joueur.getName() + " a choisi la combinaison " + combinaisons.get(getAdversaire(joueur)) + ")");
             }

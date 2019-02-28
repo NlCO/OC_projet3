@@ -35,11 +35,34 @@ public class Bot extends Player {
         for (int i = 0; i < tailleCombinaison; i++) {
             combinaison.append(setDeValeurs.get(random.nextInt(setDeValeurs.size())));
         }
+        App.logger.log(Level.DEBUG, "Combinaison générée : " + combinaison.toString());
         return combinaison.toString();
     }
 
     @Override
     public String proposeUneCombinaison(Games jeu, int tailleCombinaison, List<String> colors, List<String[]> historique) {
+        String proposition;
+        if (jeu == Games.R) {
+            proposition = propositionRecherche(tailleCombinaison, historique);
+        } else {
+            proposition = genereUneCombinaison(jeu, tailleCombinaison, colors);
+        }
+        return proposition;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public boolean demandeRejouerPartie() {
+        App.logger.log(Level.ERROR, "Methode non disponible pour un Bot");
+        System.exit(0);
+        return false;
+    }
+
+    private String propositionRecherche(int tailleCombinaison, List<String[]> historique){
         StringBuilder proposition = new StringBuilder();
         StringBuilder borneMin = new StringBuilder();
         StringBuilder borneMax = new StringBuilder();
@@ -85,17 +108,6 @@ public class Bot extends Player {
 
         }
         return proposition.toString();
-    }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public boolean demandeRejouerPartie() {
-        App.logger.log(Level.ERROR, "Methode non disponible pour un Bot");
-        System.exit(0);
-        return false;
     }
 }
