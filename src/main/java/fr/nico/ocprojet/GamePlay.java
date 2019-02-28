@@ -36,6 +36,7 @@ public abstract class GamePlay {
      */
     public void go() {
         initialiserLaPartie();
+        System.out.println("Initialisation terminée");
         jouerLaPartie();
         BilanDeLaPartie();
     }
@@ -58,7 +59,9 @@ public abstract class GamePlay {
                     }
                 } while (combinaison == null);
                 combinaisons.put(getAdversaire(joueur), combinaison);
-                System.out.println("(" + joueur.getName() + " a choisi la combinaison " + combinaisons.get(getAdversaire(joueur)) + ")");
+                if (App.DEVMODE) {
+                    System.out.println("(" + joueur.getName() + " a choisi la combinaison " + combinaisons.get(getAdversaire(joueur)) + ")");
+                }
             }
             if (joueur.isDecodeur()) {
                 List<String[]> propositions = new ArrayList<>();

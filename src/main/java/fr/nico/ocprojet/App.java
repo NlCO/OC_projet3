@@ -14,7 +14,11 @@ public class App {
 
     public static void main(String[] args) {
         logger.log(Level.TRACE, "Lancement du main");
-
+        if (args.length > 0) {
+            if (args[0].equals("-DevMode")) {
+                DEVMODE = true;
+            }
+        }
 
         Launcher start = new Launcher();
         start.lanceLeJeu();

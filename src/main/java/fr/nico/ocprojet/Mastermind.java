@@ -4,7 +4,6 @@ import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -81,8 +80,7 @@ public class Mastermind extends GamePlay {
             }
 
         }
-        System.out.println(bilan);
-
+        System.out.println(joueur.getName() + " proposition : " + proposition + " -> Résultat : " + bilan);
         return String.format("%d,%d", bilanNb[0],bilanNb[1]);
     }
 
