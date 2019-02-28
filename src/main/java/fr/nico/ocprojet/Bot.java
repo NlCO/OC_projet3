@@ -2,7 +2,9 @@ package fr.nico.ocprojet;
 
 import org.apache.logging.log4j.Level;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * La classe Bot décrit la classe {@link Player Player} pour un joueur non-humain et gére son "IA"
@@ -10,6 +12,7 @@ import java.util.*;
 public class Bot extends Player {
     private String name;
     private Random random;
+    List<String> combinaisonsPossibles;
 
     public Bot() {
         App.logger.log(Level.TRACE, "Création joueur non-humain");
@@ -45,7 +48,10 @@ public class Bot extends Player {
         if (jeu == Games.R) {
             proposition = propositionRecherche(tailleCombinaison, historique);
         } else {
-            proposition = genereUneCombinaison(jeu, tailleCombinaison, colors);
+            //proposition = genereUneCombinaison(jeu, tailleCombinaison, colors);
+            propositionMastermind(tailleCombinaison,colors);
+            System.exit(0);
+            proposition = "";
         }
         return proposition;
     }
@@ -62,7 +68,7 @@ public class Bot extends Player {
         return false;
     }
 
-    private String propositionRecherche(int tailleCombinaison, List<String[]> historique){
+    private String propositionRecherche(int tailleCombinaison, List<String[]> historique) {
         StringBuilder proposition = new StringBuilder();
         StringBuilder borneMin = new StringBuilder();
         StringBuilder borneMax = new StringBuilder();
@@ -71,13 +77,13 @@ public class Bot extends Player {
             borneMax.append(9);
         }
         App.logger.log(Level.DEBUG, "Tentative : " + historique.size());
-        App.logger.log(Level.DEBUG,"Bot - Recherche +/- - Etat initiale des borne Min  : " + borneMin.toString() + " / Max : " + borneMax.toString() );
+        App.logger.log(Level.DEBUG, "Bot - Recherche +/- - Etat initiale des borne Min  : " + borneMin.toString() + " / Max : " + borneMax.toString());
 
         if (historique.size() == 0) {
             for (int i = 0; i < tailleCombinaison; i++) {
                 proposition.append(5);
             }
-            App.logger.log(Level.DEBUG,"Bot - Recherche +/- - première proposition : " + proposition.toString());
+            App.logger.log(Level.DEBUG, "Bot - Recherche +/- - première proposition : " + proposition.toString());
         } else {
             for (String[] resultat : historique) {
                 int position = 0;
@@ -94,20 +100,40 @@ public class Bot extends Player {
                             borneMin.setCharAt(position, resultat[0].charAt(position));
                             break;
                     }
-                    App.logger.log(Level.DEBUG,"Bot - Recherche +- - proposition " + resultat[0] + " ajustement des bornes Min/Max : " + borneMin.toString() + "/" + borneMax.toString());
+                    App.logger.log(Level.DEBUG, "Bot - Recherche +- - proposition " + resultat[0] + " ajustement des bornes Min/Max : " + borneMin.toString() + "/" + borneMax.toString());
                     if ((historique.indexOf(resultat) + 1) == historique.size()) {
                         int biais = ((borneMax.toString().charAt(position) - '0') > 5) ? 1 : 0;
                         int alea = ((borneMax.toString().charAt(position) - '0') + (borneMin.toString().charAt(position) - '0') + biais) / 2;
                         proposition.append(alea);
                     }
                     position++;
-
                 }
                 App.logger.log(Level.DEBUG, "Bot - Recherche +- - proposition :" + proposition.toString());
             }
-
         }
         return proposition.toString();
 
     }
+    private String propositionMastermind(int tailleCombinaison, List<String> colors){
+        combinaisonsPossibles = new ArrayList<>();
+        StringBuilder motif = new StringBuilder();
+        alimentationListeCombinaisons(motif, tailleCombinaison, colors);
+        System.out.println("taille list final : " + combinaisonsPossibles.size());
+        return null;
+    }
+
+    private void alimentationListeCombinaisons(StringBuilder motif, int tailleCombinaison, List<String> colors) {
+        if (motif.length() == tailleCombinaison) {
+            combinaisonsPossibles.add(motif.toString());
+            System.out.println("taille liste : " + combinaisonsPossibles.size());
+
+        } else {
+            for (String symbole: colors) {
+                motif.append(symbole);
+                alimentationListeCombinaisons(motif, tailleCombinaison, colors);
+            }
+        }
+    }
+
+
 }
