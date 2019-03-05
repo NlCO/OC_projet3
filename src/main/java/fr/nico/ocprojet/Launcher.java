@@ -21,18 +21,17 @@ import java.util.Properties;
  *
  */
 public class Launcher {
-    private Human lanceur;
     private GamePlay partie;
     private Games game;
     private GameMode mode;
     private int tailleCombinaison;
     private int nombreEssai;
     private int panelCouleur;
-    private List<Player> players = new ArrayList<>();
+    private List<Player> players;
+    private Human joueur;
 
     public Launcher() {
         App.logger.log(Level.TRACE, "Init launcher");
-        lanceur = new Human();
         chargementFichierConfig();
         this.initPlayers();
     }
@@ -41,9 +40,10 @@ public class Launcher {
      * Methode d'initialisation d'une liste de {@link Player joueurs} : un {@link Human humain} et un {@link Bot robot}
      */
     private void initPlayers() {
-        Player joueur = new Human();
+        players = new ArrayList<>();
+        joueur = new Human();
         players.add(joueur);
-        Player adversaire = new Bot();
+        Bot adversaire = new Bot();
         players.add(adversaire);
     }
 
@@ -88,14 +88,14 @@ public class Launcher {
      * Methode pour selectionner le jeu à lancer parmi une liste de {@link Games jeux} disponible
      */
     private void definirJeuALancer() {
-        this.setGames(lanceur.choixDuJeu());
+        this.setGames(joueur.choixDuJeu());
     }
 
     /**
      * Methode pour selectionner le mode jeu à lancer parmi les 3 {@link GameMode modes} et attribuer au joeur les roles correspondants
      */
     private void definirModeJeu() {
-        this.setMode(lanceur.choixDuMode());
+        this.setMode(joueur.choixDuMode());
         attributionDesRoles(mode);
     }
 
@@ -118,6 +118,7 @@ public class Launcher {
     public void attributionDesRoles(GameMode mode) {
         players.get(0).setRoles(mode);
         players.get(1).setRoles(mode.getRoleadversaire());
+
     }
 
     /**
@@ -127,7 +128,7 @@ public class Launcher {
      */
     public boolean rejouerPartie() {
         //boolean rejoue = false;
-        return lanceur.demandeRejouerPartie();
+        return joueur.demandeRejouerPartie();
     }
 
 
