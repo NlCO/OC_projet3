@@ -33,7 +33,7 @@ public class Launcher {
     public Launcher() {
         App.logger.log(Level.TRACE, "Init launcher");
         chargementFichierConfig();
-        this.initPlayers();
+
     }
 
     /**
@@ -51,6 +51,7 @@ public class Launcher {
      * Methode comprenant le déroulement du programme
      */
     public void lanceLeJeu() {
+        initPlayers();
         do {
             definirJeuALancer();
             definirModeJeu();
