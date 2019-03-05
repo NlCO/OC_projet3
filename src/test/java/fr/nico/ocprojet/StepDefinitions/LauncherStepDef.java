@@ -45,7 +45,6 @@ public class LauncherStepDef {
 
     @Then("les modes {word}, {word} et {word} doivent être proposés")
     public void lesModesEtDoiventÊtreProposés(String mode1, String mode2, String mode3) {
-        //TODO : prise en charge des enum dans cucumber
         Assert.assertTrue(modesGame.contains(GameMode.valueOf(mode1)));
         Assert.assertTrue(modesGame.contains(GameMode.valueOf(mode2)));
         Assert.assertTrue(modesGame.contains(GameMode.valueOf(mode3)));

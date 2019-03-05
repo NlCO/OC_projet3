@@ -11,28 +11,34 @@ import java.util.Properties;
 
 
 /**
- * La class Launcher permet de configurer la partie et de la lancer
+ * La class Launcher permet de configurer la partie afin de la lancer.
+ * A l'initiailisation, de la classe :
+ * <ul>
+ *     <li>un lanceur de type {@link Human humain} est crée pour configurer le {@link GameMode mode} de la {@link GamePlay partie} d'un {@link Games jeu} </li>
+ *     <li>les paramètres de jeu sont chargés à partir du fichier de config</li>
+ *     <li>une lists de 2 joueurs, composée d'un {@link Human humain} et d'un {@link Bot robot}, est créée</li>
+ * </ul>
+ *
  */
 public class Launcher {
     private Human lanceur;
-    private List<Player> players = new ArrayList<>();
+    private GamePlay partie;
     private Games game;
     private GameMode mode;
-    private GamePlay partie;
     private int tailleCombinaison;
     private int nombreEssai;
     private int panelCouleur;
-
+    private List<Player> players = new ArrayList<>();
 
     public Launcher() {
         App.logger.log(Level.TRACE, "Init launcher");
-        chargementFichierConfig();
         lanceur = new Human();
+        chargementFichierConfig();
         this.initPlayers();
     }
 
     /**
-     * Crée la liste de joueurs un {@link Human humain} et {@link Bot un non-humain}
+     * Methode d'initialisation d'une liste de {@link Player joueurs} : un {@link Human humain} et un {@link Bot robot}
      */
     private void initPlayers() {
         Player joueur = new Human();
@@ -42,7 +48,7 @@ public class Launcher {
     }
 
     /**
-     * Methode pour lancer une partie
+     * Methode comprenant le déroulement du programme
      */
     public void lanceLeJeu() {
         do {
@@ -56,7 +62,7 @@ public class Launcher {
     }
 
     /**
-     * Methode pour réciu
+     * Methode pour récupérer les paramètres du fichier de configuration.properties
      */
     protected void chargementFichierConfig() {
         Properties properties = new Properties();
