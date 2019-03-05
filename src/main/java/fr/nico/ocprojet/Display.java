@@ -14,6 +14,7 @@ public class Display {
         App.logger.log(Level.TRACE, "Init Display");
     }
 
+
     public void afficheGameList() {
         for (Games games : Games.values()) {
             System.out.println(games.getAbbreviation() + " -> " + games.toString());

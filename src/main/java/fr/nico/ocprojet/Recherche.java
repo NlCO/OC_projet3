@@ -32,9 +32,9 @@ public class Recherche extends GamePlay {
     }
 
     @Override
-    public String evaluerProposition(Player joueur, String proposition) {
+    public String evaluerProposition(String code, String proposition) {
         StringBuilder resultat = new StringBuilder();
-        String[] combiATrouver = combinaisons.get(joueur).split("");
+        String[] combiATrouver = code.split("");
         String[] propositionArray = proposition.split("");
         for (int i = 0; i < tailleCombinaison; i++) {
             if (Integer.parseInt(propositionArray[i]) == Integer.parseInt(combiATrouver[i])) {
@@ -43,7 +43,8 @@ public class Recherche extends GamePlay {
                 resultat.append((Integer.parseInt(propositionArray[i]) > Integer.parseInt(combiATrouver[i])) ? "-" : "+");
             }
         }
-        System.out.println(joueur.getName() + " proposition : " + proposition + " -> Résultat : " + resultat);
+        //System.out.println(joueur.getName() + " proposition : " + proposition + " -> Résultat : " + resultat);
+        System.out.println(" proposition : " + proposition + " -> Résultat : " + resultat);
         return resultat.toString();
     }
 

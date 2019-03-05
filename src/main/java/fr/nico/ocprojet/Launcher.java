@@ -14,6 +14,7 @@ import java.util.Properties;
  * La class Launcher permet de configurer la partie et de la lancer
  */
 public class Launcher {
+    private Human lanceur;
     private List<Player> players = new ArrayList<>();
     private Games game;
     private GameMode mode;
@@ -26,8 +27,8 @@ public class Launcher {
     public Launcher() {
         App.logger.log(Level.TRACE, "Init launcher");
         chargementFichierConfig();
+        lanceur = new Human();
         this.initPlayers();
-
     }
 
     /**
@@ -81,14 +82,14 @@ public class Launcher {
      * Methode pour selectionner le jeu à lancer parmi une liste de {@link Games jeux} disponible
      */
     private void definirJeuALancer() {
-        this.setGames(players.get(0).choixDuJeu());
+        this.setGames(lanceur.choixDuJeu());
     }
 
     /**
      * Methode pour selectionner le mode jeu à lancer parmi les 3 {@link GameMode modes} et attribuer au joeur les roles correspondants
      */
     private void definirModeJeu() {
-        this.setMode(players.get(0).choixDuMode());
+        this.setMode(lanceur.choixDuMode());
         attributionDesRoles(mode);
     }
 
@@ -99,8 +100,7 @@ public class Launcher {
         if (game == Games.R) {
             partie = new Recherche(players, tailleCombinaison, nombreEssai);
         } else {
-            partie = new Mastermind(players,tailleCombinaison,nombreEssai,panelCouleur);
-            //System.exit(0);
+            partie = new Mastermind(players, tailleCombinaison, nombreEssai, panelCouleur);
         }
     }
 
@@ -121,7 +121,7 @@ public class Launcher {
      */
     public boolean rejouerPartie() {
         //boolean rejoue = false;
-        return players.get(0).demandeRejouerPartie();
+        return lanceur.demandeRejouerPartie();
     }
 
 

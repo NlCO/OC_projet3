@@ -36,7 +36,6 @@ public abstract class GamePlay {
      */
     public void go() {
         initialiserLaPartie();
-        System.out.println("Initialisation terminée");
         jouerLaPartie();
         BilanDeLaPartie();
     }
@@ -48,6 +47,7 @@ public abstract class GamePlay {
         combinaisons = new Hashtable<>();
         playersPropostions = new Hashtable<>();
         for (Player joueur : players) {
+            joueur.setWinner(false);
             if (joueur.isCodeur()) {
                 String combinaison;
                 do {
@@ -113,7 +113,7 @@ public abstract class GamePlay {
     public String demandeDeCombinaison(Player joueur) {
         String proposition;
         do {
-            proposition = joueur.proposeUneCombinaison(jeu, tailleCombinaison, setDeValeurs , playersPropostions.get(joueur));
+            proposition = joueur.proposeUneCombinaison(jeu, tailleCombinaison, setDeValeurs, playersPropostions.get(joueur));
             if (!combinaisonIsConforme(proposition)) {
                 App.logger.log(Level.WARN, "Combinaison non conforme");
                 System.out.println("combinaison saisie non conforme");
@@ -149,7 +149,7 @@ public abstract class GamePlay {
     protected void faireUneTentative(Player joueur) {
         List<String[]> propositions = playersPropostions.get(joueur);
         String proposition = demandeDeCombinaison(joueur);
-        String resultat = evaluerProposition(joueur, proposition);
+        String resultat = evaluerProposition(combinaisons.get(joueur), proposition);
         String[] resultatTour = {proposition, resultat};
         propositions.add(resultatTour);
         playersPropostions.put(joueur, propositions);
@@ -158,11 +158,11 @@ public abstract class GamePlay {
     /**
      * Methode pour l'evaluation de la proposition
      *
-     * @param joueur      joueur qui soumets la proposition
+     * @param code        combinaison à trouver
      * @param proposition proposition à évaluer
      * @return retourne son evaluation
      */
-    public abstract String evaluerProposition(Player joueur, String proposition);
+    public abstract String evaluerProposition(String code, String proposition);
 
     /**
      * Test si la dernière proposition du joueur est gagante pour mettre à jour le parametre winner de player

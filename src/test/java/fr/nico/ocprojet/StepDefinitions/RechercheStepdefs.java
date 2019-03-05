@@ -51,7 +51,7 @@ public class RechercheStepdefs {
                 List<String[]> propositions = new ArrayList<>();
                 partie.getPlayersPropostions().put(partie.getAdversaire(p), propositions);
                 String proposition = partie.demandeDeCombinaison(partie.getAdversaire(p));
-                String resultat = partie.evaluerProposition(p,proposition);
+                String resultat = partie.evaluerProposition(partie.getCombinaisons().get(p),proposition);
                 String[] resultatTour = {proposition, resultat};
                 propositions = partie.getPlayersPropostions().get(p);
                 propositions.add(resultatTour);

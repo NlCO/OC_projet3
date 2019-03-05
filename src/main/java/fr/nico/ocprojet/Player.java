@@ -13,6 +13,7 @@ import java.util.List;
  * </ul>
  */
 public abstract class Player {
+    private String name;
     private boolean codeur = false;
     private boolean decodeur = false;
     private boolean winner = false;
@@ -28,25 +29,11 @@ public abstract class Player {
     }
 
     /**
-     * Retourne parmi une {@link Games liste de jeux} celui le choisi par le joueur
-     *
-     * @return jeu choisi
-     */
-    public abstract Games choixDuJeu();
-
-    /**
-     * Retourne parmi une {@link GameMode liste de mode de jeu} celui choisi par le joueur
-     *
-     * @return mode choisi
-     */
-    public abstract GameMode choixDuMode();
-
-    /**
      * Retourne une combinaison en fonction du jeu et de la taille attendue
      *
      * @param jeu jeu concerné
      * @param tailleCombinaison longueur de la combinaison sous forme d'un entier
-     * @param setDeValeurs leste des valeurs possibles
+     * @param setDeValeurs liste des valeurs possibles
      * @return la combinaison choisie
      */
     public abstract String genereUneCombinaison(Games jeu, int tailleCombinaison, List<String> setDeValeurs);
@@ -62,19 +49,14 @@ public abstract class Player {
      */
     public abstract String proposeUneCombinaison(Games jeu, int tailleCombinaison, List<String> setDeValeurs,  List<String[]> historique);
 
-    /**
-     * Retourne le nom du joueur
-     *
-     * @return nom
-     */
-    public abstract String getName();
 
-    /**
-     * Methode qui permet de demander à un joueur s'il veut rejouer
-     *
-     * @return vrai s'il veut rejouer
-     */
-    public abstract boolean demandeRejouerPartie();
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     public boolean isDecodeur() {
         return decodeur;

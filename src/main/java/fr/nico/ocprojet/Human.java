@@ -10,16 +10,19 @@ import java.util.Scanner;
  * La classe Human décrit la classe {@link Player Player} pour un joueur humain et gére ses interaction avec la machine
  */
 public class Human extends Player {
-    private String name;
     private Display screen;
 
     public Human() {
         App.logger.log(Level.TRACE, "Création joueur humain");
-        name = "X l'humain";
+        super.setName("X l'humain");
         screen = new Display();
     }
 
-    @Override
+    /**
+     * Retourne parmi une {@link Games liste de jeux} celui le choisi par le joueur
+     *
+     * @return jeu choisi
+     */
     public Games choixDuJeu() {
         Games choix = null;
         do {
@@ -33,7 +36,11 @@ public class Human extends Player {
         return choix;
     }
 
-    @Override
+    /**
+     * Retourne parmi une {@link GameMode liste de mode de jeu} celui choisi par le joueur
+     *
+     * @return mode choisi
+     */
     public GameMode choixDuMode() {
         GameMode choix;
         do {
@@ -64,12 +71,11 @@ public class Human extends Player {
         return genereUneCombinaison(jeu, tailleCombinaison, setDeValeurs);
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
+    /**
+     * Methode qui permet de demander à un joueur s'il veut rejouer
+     *
+     * @return vrai s'il veut rejouer
+     */
     public boolean demandeRejouerPartie() {
         String rejoue;
         do {
