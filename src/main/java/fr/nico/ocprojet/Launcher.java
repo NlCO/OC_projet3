@@ -12,13 +12,7 @@ import java.util.Properties;
 
 /**
  * La class Launcher permet de configurer la partie afin de la lancer.
- * A l'initiailisation, de la classe :
- * <ul>
- *     <li>un lanceur de type {@link Human humain} est crée pour configurer le {@link GameMode mode} de la {@link GamePlay partie} d'un {@link Games jeu} </li>
- *     <li>les paramètres de jeu sont chargés à partir du fichier de config</li>
- *     <li>une lists de 2 joueurs, composée d'un {@link Human humain} et d'un {@link Bot robot}, est créée</li>
- * </ul>
- *
+ * A l'initiailisation, de la classe : les paramètres de jeu sont chargés à partir du fichier de config
  */
 public class Launcher {
     private GamePlay partie;
@@ -33,11 +27,10 @@ public class Launcher {
     public Launcher() {
         App.logger.log(Level.TRACE, "Init launcher");
         chargementFichierConfig();
-
     }
 
     /**
-     * Methode d'initialisation d'une liste de {@link Player joueurs} : un {@link Human humain} et un {@link Bot robot}
+     * Methode d'initialisation d'une liste de {@link Player joueurs} : {@link Human l'utilisatur} et un adversaire {@link Bot machine}
      */
     private void initPlayers() {
         players = new ArrayList<>();
@@ -48,7 +41,7 @@ public class Launcher {
     }
 
     /**
-     * Methode comprenant le déroulement du programme
+     * Methode comprenant le déroulement du jeu
      */
     public void lanceLeJeu() {
         initPlayers();

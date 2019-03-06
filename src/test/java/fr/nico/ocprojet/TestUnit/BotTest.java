@@ -1,5 +1,6 @@
-package fr.nico.ocprojet;
+package fr.nico.ocprojet.TestUnit;
 
+import fr.nico.ocprojet.Bot;
 import org.junit.Test;
 
 import java.util.ArrayList;
