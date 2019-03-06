@@ -99,7 +99,7 @@ public abstract class GamePlay {
      *
      * @param joueur joueur dont c'est le tour de jeu
      */
-    protected void faireUneTentative(Player joueur) {
+    public void faireUneTentative(Player joueur) {
         String proposition = demandeDeCombinaison(joueur);
         String resultat = evaluerProposition(combinaisons.get(joueur), proposition);
         String[] resultatTour = {proposition, resultat};

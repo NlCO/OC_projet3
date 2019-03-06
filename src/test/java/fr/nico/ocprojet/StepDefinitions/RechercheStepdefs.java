@@ -14,73 +14,58 @@ import java.util.List;
 public class RechercheStepdefs {
     private Launcher launcher;
     private GamePlay partie;
-    private Player codeur;
+    private Player testeur;
 
-/*    @Before
+    @Before
     public void background(){
         launcher = new Launcher();
         launcher.initPlayers();
         launcher.setGames(Games.R);
         launcher.setMode(GameMode.CHALLENGER);
+        launcher.attributionDesRoles(GameMode.CHALLENGER);
         launcher.creerPartie();
         partie = launcher.getPartie();
     }
-*/
-    @Given("Un joueur ayant le statut codeur")
-    public void unJoueurAyantLeStatutCodeurEtLeParamètreTaille() {
-        launcher = new Launcher();
-        launcher.initPlayers();
-        launcher.attributionDesRoles(GameMode.CHALLENGER);
-        partie = new Recherche(launcher.getPlayers(),4,10);
-        codeur = launcher.getPlayers().get(1);
+
+    @Given("Un joueur de recherche ayant le statut codeur")
+    public void unJoueurDeRechercheAyantLeStatutCodeur() {
+        testeur = launcher.getPlayers().get(1);
     }
 
-    @When("il génère une combinaison")
-    public void ilGénèreUneCombinaison() {
+    @When("il génère une combinaison de chiffres")
+    public void ilGénèreUneCombinaisonDeChiffres() {
         partie.initialiserLaPartie();
     }
 
-    @Then("cette combinaison est associée à son adversaire")
-    public void cetteCombinaisonEstAssociéeÀSonAdversaire() {
+    @Then("cette combinaison chiffrée est associée à son adversaire")
+    public void cetteCombinaisonChiffréeEstAssociéeÀSonAdversaire() {
         Assert.assertEquals(1, partie.getCombinaisons().size());
-        Assert.assertEquals(partie.getTailleCombinaison() ,partie.getCombinaisons().get(partie.getAdversaire(codeur)).length());
+        Assert.assertEquals(partie.getTailleCombinaison() ,partie.getCombinaisons().get(partie.getAdversaire(testeur)).length());
     }
 
-
-    @Given("un joueur joueur ayant généré une combinaison")
-    public void unJoueurJoueurAyantGénéréUneCombinaison() {
-        launcher = new Launcher();
-        launcher.initPlayers();
-        launcher.attributionDesRoles(GameMode.CHALLENGER);
-        partie = new Recherche(launcher.getPlayers(),4,10);
+    @Given("un joueur ayant généré une combinaison de chiffres")
+    public void unJoueurAyantGénéréUneCombinaisonDeChiffres() {
+        testeur = launcher.getPlayers().get(1);
         partie.initialiserLaPartie();
     }
 
-    @When("l'adversaire propose une combinaison")
-    public void ilProposeUneCombinaison() {
-        for (Player p: launcher.getPlayers()) {
-            if (p.isDecodeur()){
-                List<String[]> propositions = new ArrayList<>();
-                partie.getPlayersPropostions().put(partie.getAdversaire(p), propositions);
-                String proposition = partie.demandeDeCombinaison(partie.getAdversaire(p));
-                String resultat = partie.evaluerProposition(partie.getCombinaisons().get(p),proposition);
-                String[] resultatTour = {proposition, resultat};
-                propositions = partie.getPlayersPropostions().get(p);
-                propositions.add(resultatTour);
-                partie.getPlayersPropostions().put(p, propositions);
-            }
-        }
+    @When("l'adversaire propose une combinaison de chiffres")
+    public void lAdversaireProposeUneCombinaisonDeChiffres() {
+        List<String[]> propositions = new ArrayList<>();
+        partie.getPlayersPropostions().put(testeur, propositions);
+        String proposition = partie.demandeDeCombinaison(testeur);
+        String resultat = partie.evaluerProposition(partie.getCombinaisons().get(partie.getAdversaire(testeur)),proposition);
+        String[] resultatTour = {proposition, resultat};
+        propositions = partie.getPlayersPropostions().get(testeur);
+        propositions.add(resultatTour);
+        partie.getPlayersPropostions().put(partie.getAdversaire(testeur), propositions);
     }
 
-    @Then("Le resultat de l'evaluation est de la bonne longeur et contient seulement des symboles autorisés")
-    public void leResultatDeLEvaluationEstDeLaBonneLongeurEtContientSeulementDesSymboles() {
-        for (Player p: launcher.getPlayers()) {
-            if (p.isDecodeur()){
-                List<String[]> propositions = partie.getPlayersPropostions().get(p);
-                String lastResultat = propositions.get(propositions.size() - 1)[1];
-                Assert.assertEquals(partie.getTailleCombinaison(), lastResultat.length());
-                Assert.assertTrue(lastResultat.matches("(=|-|\\+){" + partie.getTailleCombinaison() + "}"));
-            }
-        }
+    @Then("Le resultat de l'evaluation est de la bonne longeur et contient seulement les opérateurs autorisés")
+    public void leResultatDeLEvaluationEstDeLaBonneLongeurEtContientSeulementLesOpérateursAutorisés() {
+        List<String[]> propositions = partie.getPlayersPropostions().get(partie.getAdversaire(testeur));
+        String lastResultat = propositions.get(propositions.size() - 1)[1];
+        Assert.assertEquals(partie.getTailleCombinaison(), lastResultat.length());
+        Assert.assertTrue(lastResultat.matches("(=|-|\\+){" + partie.getTailleCombinaison() + "}"));
     }
 }
