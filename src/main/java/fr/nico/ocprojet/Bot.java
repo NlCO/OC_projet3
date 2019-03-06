@@ -12,17 +12,16 @@ import java.util.Random;
  */
 public class Bot extends Player {
     private Random random;
-    List<String> combinaisonsPossibles;
+    private List<String> combinaisonsPossibles;
 
     public Bot() {
         App.logger.log(Level.TRACE, "Création joueur non-humain");
         super.setName("Bot le bot");
         random = new Random();
-
     }
 
     @Override
-    public String genereUneCombinaison(Games jeu, int tailleCombinaison, List<String> setDeValeurs) {
+    public String genereUneCombinaison(int tailleCombinaison, List<String> setDeValeurs) {
         StringBuilder combinaison = new StringBuilder();
         for (int i = 0; i < tailleCombinaison; i++) {
             combinaison.append(setDeValeurs.get(random.nextInt(setDeValeurs.size())));
@@ -88,51 +87,49 @@ public class Bot extends Player {
         return proposition.toString();
 
     }
-    private String propositionMastermind(int tailleCombinaison, List<String> colors, List<String[]> historique){
+
+    private String propositionMastermind(int tailleCombinaison, List<String> colors, List<String[]> historique) {
         String proposition;
         if (historique.size() > 0) {
             constitutionListeCombinaisonPossible(tailleCombinaison, colors, historique);
-            System.out.println("Nombre de combinaaisons restantes MM : " + combinaisonsPossibles.size());
             proposition = combinaisonsPossibles.get(random.nextInt(combinaisonsPossibles.size()));
         } else {
-            proposition = genereUneCombinaison(Games.M, tailleCombinaison, colors);
+            proposition = genereUneCombinaison(tailleCombinaison, colors);
             App.logger.log(Level.DEBUG, "Bot - Mastermind - première proposition : " + proposition);
         }
         return proposition;
     }
 
-    public void constitutionListeCombinaisonPossible(int tailleCombinaison, List<String> colors, List<String[]> historique){
+    public void constitutionListeCombinaisonPossible(int tailleCombinaison, List<String> colors, List<String[]> historique) {
         if (historique.size() > 1) {
-            miseAJourCombinaisonsPossibles(historique.get(historique.size()-1),tailleCombinaison);
+            miseAJourCombinaisonsPossibles(historique.get(historique.size() - 1), tailleCombinaison);
         } else {
             combinaisonsPossibles = new ArrayList<>();
             StringBuilder motif = new StringBuilder();
             alimentationListeCombinaisons(motif, tailleCombinaison, colors, historique.get(0));
-            App.logger.log(Level.DEBUG,"Nombre de combinaisons possibles : " + combinaisonsPossibles.size());
         }
-        System.out.println(combinaisonsPossibles.size());
-        System.out.println(combinaisonsPossibles);
-        System.out.println(combinaisonsPossibles.contains("BAFE"));
+        App.logger.log(Level.DEBUG, "Nombre de combinaisons possibles : " + combinaisonsPossibles.size());
     }
 
     /**
      * Methode recursive permettant la constitution des combinaisons possibles à partir d'un motif
-     * @param motif bout de combinaison
+     *
+     * @param motif             bout de combinaison
      * @param tailleCombinaison nombre de caractères attendus dans la combinaisons conditionnant la sortie de la boucle
-     * @param colors elements pouvants être présents dans la combinaison
+     * @param colors            elements pouvants être présents dans la combinaison
      */
     public void alimentationListeCombinaisons(StringBuilder motif, int tailleCombinaison, List<String> colors, String[] dernierResultat) {
         if (motif.length() == tailleCombinaison) {
-            if (validationCombinaison(dernierResultat[0],motif.toString(),tailleCombinaison).equals(dernierResultat[1])) {
+            if (validationCombinaison(dernierResultat[0], motif.toString(), tailleCombinaison).equals(dernierResultat[1])) {
                 combinaisonsPossibles.add(motif.toString());
             }
-            App.logger.log(Level.DEBUG, "Nombre de combinaisons ajoutée à la liste : " + combinaisonsPossibles.size());
+            App.logger.log(Level.DEBUG, "Nombre de combinaisons présentes dans la liste : " + combinaisonsPossibles.size());
             return;
         } else {
-            for (String symbole: colors) {
+            for (String symbole : colors) {
                 motif.append(symbole);
                 alimentationListeCombinaisons(motif, tailleCombinaison, colors, dernierResultat);
-                motif.deleteCharAt(motif.length()-1);
+                motif.deleteCharAt(motif.length() - 1);
                 App.logger.log(Level.DEBUG, "Motif suite appel recursif : " + motif);
             }
         }
@@ -173,14 +170,14 @@ public class Bot extends Player {
         return present;
     }
 
-    private void miseAJourCombinaisonsPossibles(String[] dernierResultat, int tailleCombinaison){
+    private void miseAJourCombinaisonsPossibles(String[] dernierResultat, int tailleCombinaison) {
         List<String> combinaisonsARetirer = new ArrayList<>();
-        for (String combinaison: combinaisonsPossibles) {
-            if (!validationCombinaison(dernierResultat[0],combinaison,tailleCombinaison).equals(dernierResultat[1])){
+        for (String combinaison : combinaisonsPossibles) {
+            if (!validationCombinaison(dernierResultat[0], combinaison, tailleCombinaison).equals(dernierResultat[1])) {
                 combinaisonsARetirer.add(combinaison);
             }
         }
-        for (String invalide: combinaisonsARetirer) {
+        for (String invalide : combinaisonsARetirer) {
             combinaisonsPossibles.remove(invalide);
         }
     }

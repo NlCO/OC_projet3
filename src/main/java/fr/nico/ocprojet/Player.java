@@ -29,14 +29,13 @@ public abstract class Player {
     }
 
     /**
-     * Retourne une combinaison en fonction du jeu et de la taille attendue
+     * Retourne une combinaison en fonction du jeu et de la taille attendue et valeurs possibles
      *
-     * @param jeu jeu concerné
      * @param tailleCombinaison longueur de la combinaison sous forme d'un entier
      * @param setDeValeurs liste des valeurs possibles
      * @return la combinaison choisie
      */
-    public abstract String genereUneCombinaison(Games jeu, int tailleCombinaison, List<String> setDeValeurs);
+    public abstract String genereUneCombinaison(int tailleCombinaison, List<String> setDeValeurs);
 
     /**
      * Retourne un combinaison en fonction du jeu, de la taille attendue et des précédentes propositions

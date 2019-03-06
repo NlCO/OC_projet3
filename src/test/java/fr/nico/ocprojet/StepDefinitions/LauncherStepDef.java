@@ -53,6 +53,7 @@ public class LauncherStepDef {
     @Given("pour un joueur et son adaversaire")
     public void pourUnJoueurEtSonAdaversaire() {
         lanceur = new Launcher();
+        lanceur.initPlayers();
         player = lanceur.getPlayers().get(0);
         adversaire = lanceur.getPlayers().get(1);
     }

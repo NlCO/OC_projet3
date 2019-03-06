@@ -10,12 +10,10 @@ import java.util.Scanner;
  * La classe Human décrit la classe {@link Player Player} pour un joueur humain et gére ses interaction avec la machine
  */
 public class Human extends Player {
-    private Display screen;
 
     public Human() {
         App.logger.log(Level.TRACE, "Création joueur humain");
         super.setName("X l'humain");
-        screen = new Display();
     }
 
     /**
@@ -26,11 +24,11 @@ public class Human extends Player {
     public Games choixDuJeu() {
         Games choix = null;
         do {
-            screen.demandeChoixJeu();
+            System.out.println("Veuillez choisir un jeu (R ou M) : ");
             try {
                 choix = Games.valueOf(saisieClavier().toUpperCase());
             } catch (IllegalArgumentException e) {
-                screen.erreurSaisie();
+                System.out.println("la valeur saisie ne correspond pas aux valeurs ou formats attendus");
             }
         } while (choix == null);
         return choix;
@@ -44,54 +42,45 @@ public class Human extends Player {
     public GameMode choixDuMode() {
         GameMode choix;
         do {
-            screen.demandeChoixMode();
+            System.out.println("Veuillez choisir un mode (C, D ou VS) : ");
             choix = GameMode.modeFromCode(saisieClavier().toUpperCase());
             if (choix == null) {
-                screen.erreurSaisie();
+                System.out.println("la valeur saisie ne correspond pas aux valeurs ou formats attendus");
             }
         } while (choix == null);
         return choix;
     }
 
     @Override
-    public String genereUneCombinaison(Games jeu, int tailleCombinaison, List<String> setDeValeurs) {
-        if (jeu == Games.R) {
-            screen.invitePropositionCombinaisonRecherche(tailleCombinaison);
-        } else {
-            screen.invitePropositionCombinaisonMastermind(tailleCombinaison, setDeValeurs);
-        }
+    public String genereUneCombinaison(int tailleCombinaison, List<String> setDeValeurs) {
+        System.out.println("Veuillez créer une combinaison de " + tailleCombinaison + " elements parmi " + setDeValeurs + " :");
         return saisieClavier().toUpperCase();
     }
 
     @Override
     public String proposeUneCombinaison(Games jeu, int tailleCombinaison, List<String> setDeValeurs, List<String[]> historique) {
         if (historique.size() > 0) {
-            screen.displayHistoriqueTour(historique);
+            debugHistoriqueTour(historique);
         }
-        return genereUneCombinaison(jeu, tailleCombinaison, setDeValeurs);
+        System.out.println("Veuillez faire une proposition (" + tailleCombinaison + " elements parmi " + setDeValeurs + ") :");
+        return saisieClavier().toUpperCase();
     }
 
     /**
      * Methode qui permet de demander à un joueur s'il veut rejouer
      *
-     * @return vrai s'il veut rejouer
+     * @return R pour rejouer la parie, N pour définir une nouvelle partie ou Q pour quitter
      */
-    public boolean demandeRejouerPartie() {
+    public String demandeRejouerPartie() {
         String rejoue;
         do {
-            screen.inviteRejouer();
             rejoue = saisieClavier().toUpperCase();
             if (!rejoue.matches("R|N|Q")) {
                 App.logger.log(Level.WARN, "Erreur de saisie : " + rejoue + " ne fait pas partie des choix possibles");
                 System.out.println("Erreur de saisie : " + rejoue + " ne fait pas partie des choix possibles");
             }
         } while (!rejoue.matches("R|N|Q"));
-        if (rejoue.matches("Q")) {
-            App.logger.log(Level.TRACE, "sortie de l'application");
-            System.out.println("Bye Bye !!!");
-            System.exit(0);
-        }
-        return rejoue.matches("R");
+        return rejoue;
     }
 
     /**
@@ -104,5 +93,13 @@ public class Human extends Player {
         return sc.nextLine();
     }
 
+    private void debugHistoriqueTour(List<String[]> historique) {
+        App.logger.log(Level.DEBUG, "Ci-dessous L'historique de vos propositions avec leur résultat : ");
+        int essai = 0;
+        for (String[] resultat : historique) {
+            App.logger.log(Level.DEBUG, "proposition " + essai + " : " + resultat[0] + "  -> resultat : " + resultat[1]);
+            essai++;
+        }
+    }
 
 }

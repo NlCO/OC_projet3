@@ -32,7 +32,7 @@ public class Launcher {
     /**
      * Methode d'initialisation d'une liste de {@link Player joueurs} : {@link Human l'utilisatur} et un adversaire {@link Bot machine}
      */
-    private void initPlayers() {
+    public void initPlayers() {
         players = new ArrayList<>();
         joueur = new Human();
         players.add(joueur);
@@ -45,14 +45,16 @@ public class Launcher {
      */
     public void lanceLeJeu() {
         initPlayers();
+        String rejouer;
         do {
             definirJeuALancer();
             definirModeJeu();
             creerPartie();
             do {
                 partie.go();
-            } while (rejouerPartie());
-        } while (true);
+                rejouer = rejouerPartie();
+            } while (rejouer.equals("R"));
+        } while (rejouer.equals("N"));
     }
 
     /**
@@ -82,6 +84,9 @@ public class Launcher {
      * Methode pour selectionner le jeu à lancer parmi une liste de {@link Games jeux} disponible
      */
     private void definirJeuALancer() {
+        for (Games games : Games.values()) {
+            System.out.println(games.getAbbreviation() + " -> " + games.toString());
+        }
         this.setGames(joueur.choixDuJeu());
     }
 
@@ -89,6 +94,9 @@ public class Launcher {
      * Methode pour selectionner le mode jeu à lancer parmi les 3 {@link GameMode modes} et attribuer au joeur les roles correspondants
      */
     private void definirModeJeu() {
+        for (GameMode mode : GameMode.values()) {
+            System.out.println(mode.getCode() + " -> " + mode.toString());
+        }
         this.setMode(joueur.choixDuMode());
         attributionDesRoles(mode);
     }
@@ -111,7 +119,7 @@ public class Launcher {
      */
     public void attributionDesRoles(GameMode mode) {
         players.get(0).setRoles(mode);
-        players.get(1).setRoles(mode.getRoleadversaire());
+        players.get(1).setRoles(mode.getRoleAdversaire());
 
     }
 
@@ -120,8 +128,11 @@ public class Launcher {
      *
      * @return vrai ou faux
      */
-    public boolean rejouerPartie() {
-        //boolean rejoue = false;
+    public String rejouerPartie() {
+        System.out.println("Voulez vous :");
+        System.out.println("R -> Rejouer la partie avec les mêmes paramètres");
+        System.out.println("N -> Faire une nouvelle partie avec d'autres choix");
+        System.out.println("Q -> Quitter le jeu");
         return joueur.demandeRejouerPartie();
     }
 

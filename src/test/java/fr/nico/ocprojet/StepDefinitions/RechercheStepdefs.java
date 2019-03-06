@@ -16,7 +16,9 @@ public class RechercheStepdefs {
     @Given("Un joueur ayant le statut codeur")
     public void unJoueurAyantLeStatutCodeurEtLeParamètreTaille() {
         launcher = new Launcher();
+        launcher.initPlayers();
         launcher.attributionDesRoles(GameMode.CHALLENGER);
+
         partie = new Recherche(launcher.getPlayers(),4,10);
     }
 
@@ -39,6 +41,7 @@ public class RechercheStepdefs {
     @Given("un joueur joueur ayant généré une combinaison")
     public void unJoueurJoueurAyantGénéréUneCombinaison() {
         launcher = new Launcher();
+        launcher.initPlayers();
         launcher.attributionDesRoles(GameMode.CHALLENGER);
         partie = new Recherche(launcher.getPlayers(),4,10);
         partie.initialiserLaPartie();

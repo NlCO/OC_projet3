@@ -14,6 +14,7 @@ public class LauncherTest {
         //arrange
         Launcher lanceur = new Launcher();
         //act
+        lanceur.initPlayers();
         List<Player> players = lanceur.getPlayers();
         //assert
         Assert.assertEquals(2, players.size());

@@ -51,7 +51,7 @@ public abstract class GamePlay {
             if (joueur.isCodeur()) {
                 String combinaison;
                 do {
-                    combinaison = joueur.genereUneCombinaison(jeu, tailleCombinaison, setDeValeurs);
+                    combinaison = joueur.genereUneCombinaison(tailleCombinaison, setDeValeurs);
                     if (!combinaisonIsConforme(combinaison)) {
                         combinaison = null;
                         App.logger.log(Level.WARN, "Combinaison non conforme");
@@ -59,6 +59,7 @@ public abstract class GamePlay {
                     }
                 } while (combinaison == null);
                 combinaisons.put(getAdversaire(joueur), combinaison);
+                System.out.println(joueur.getName() + " a créé une combinaison secrète");
                 if (App.DEVMODE) {
                     System.out.println("(" + joueur.getName() + " a choisi la combinaison " + combinaisons.get(getAdversaire(joueur)) + ")");
                 }

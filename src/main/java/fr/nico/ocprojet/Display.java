@@ -49,15 +49,6 @@ public class Display {
         System.out.println("Veuillez saisir un combinaison de " + tailleCombinaison + " elements parmi " + panelCouleur + " :");
     }
 
-    public void displayHistoriqueTour(List<String[]> historique) {
-        App.logger.log(Level.DEBUG, "Ci-dessous L'historique de vos propositions avec leur résultat : ");
-        int essai = 0;
-        for (String[] resultat : historique) {
-            App.logger.log(Level.DEBUG, "proposition " + essai + " : " + resultat[0] + "  -> resultat : " + resultat[1]);
-            essai++;
-        }
-    }
-
     public void inviteRejouer() {
         System.out.println("Voulez vous :");
         System.out.println("R -> Rejouer la partie avec les mêmes paramètres");

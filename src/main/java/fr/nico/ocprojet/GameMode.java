@@ -15,14 +15,14 @@ public enum GameMode {
     protected final boolean codeur;
     private final String label;
     private final String code;
-    private final String roleadversaire;
+    private final String roleAdversaire;
 
     GameMode(String label, String code, boolean decodeur, boolean codeur, String roleadversaire) {
         this.label = label;
         this.code = code;
         this.decodeur = decodeur;
         this.codeur = codeur;
-        this.roleadversaire = roleadversaire;
+        this.roleAdversaire = roleadversaire;
     }
 
     /**
@@ -41,8 +41,8 @@ public enum GameMode {
         return map.get(code);
     }
 
-    public GameMode getRoleadversaire() {
-        return GameMode.valueOf(roleadversaire);
+    public GameMode getRoleAdversaire() {
+        return GameMode.valueOf(roleAdversaire);
     }
 
     public String getCode() {
