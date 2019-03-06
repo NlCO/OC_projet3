@@ -87,6 +87,12 @@ public class Mastermind extends GamePlay {
         System.out.println(" proposition de " + joueur.getName() + " : " + resultatTour[0] + " -> Résultat : " + bilanResultat);
     }
 
+    /**
+     * Methode permettant de retourner le resultat d'un proposition sous forme de texte
+     * @param symboleCorrect nombre de symboles biens placés
+     * @param symbolePresent nombre de symboles présents
+     * @return le resultat sous forme de texte
+     */
     private String bilanEvaluation(int symboleCorrect, int symbolePresent){
         String bilan = "";
         if (symboleCorrect == 0 && symbolePresent == 0) {

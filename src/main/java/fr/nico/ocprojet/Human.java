@@ -59,9 +59,6 @@ public class Human extends Player {
 
     @Override
     public String proposeUneCombinaison(Games jeu, int tailleCombinaison, List<String> setDeValeurs, List<String[]> historique) {
-        if (historique.size() > 0) {
-            debugHistoriqueTour(historique);
-        }
         System.out.println("Veuillez faire une proposition (" + tailleCombinaison + " elements parmi " + setDeValeurs + ") :");
         return saisieClavier().toUpperCase();
     }
@@ -88,19 +85,10 @@ public class Human extends Player {
      *
      * @return la saisie clavier sous forme texte
      */
-    public String saisieClavier() {
+    private String saisieClavier() {
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
 
-
-    private void debugHistoriqueTour(List<String[]> historique) {
-        App.logger.log(Level.DEBUG, "Ci-dessous L'historique de vos propositions avec leur résultat : ");
-        int essai = 0;
-        for (String[] resultat : historique) {
-            App.logger.log(Level.DEBUG, "proposition " + essai + " : " + resultat[0] + "  -> resultat : " + resultat[1]);
-            essai++;
-        }
-    }
 
 }
