@@ -1,8 +1,8 @@
 package fr.nico.ocprojet.TestUnit;
 
 import fr.nico.ocprojet.Bot;
-import fr.nico.ocprojet.GameMode;
-import fr.nico.ocprojet.Games;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -11,6 +11,7 @@ import java.util.List;
 
 
 public class BotTest {
+
 
     @Test
     public void listeCombinaisonsPossibles() {
@@ -24,16 +25,26 @@ public class BotTest {
         historique.add(dernierResultat);
         //act
         testeur.constitutionListeCombinaisonPossible(tailleCombinaison, colors, historique);
-        String[] dernierResultat2 = {"ABFA" , "1,2"};
-        historique.add(dernierResultat2);
+        //assert
+        Assert.assertEquals(1896,testeur.getCombinaisonsPossibles().size());
+    }
+
+    @Test
+    public void miseAListeCombinaison() {
+        //arrange
+        Bot testeur = new Bot();
+        StringBuilder motif = new StringBuilder();
+        int tailleCombinaison = 4;
+        List<String> colors = new ArrayList<>(Arrays.asList("A","B","C","D","E","F","G","H","I","J"));
+        List<String[]> historique = new ArrayList<>();
+        String[] premierResultat = {"ABCD" , "0,2"};
+        historique.add(premierResultat);
         testeur.constitutionListeCombinaisonPossible(tailleCombinaison, colors, historique);
-        String[] dernierResultat3 = {"BAFG" , "3,0"};
-        historique.add(dernierResultat3);
-        testeur.constitutionListeCombinaisonPossible(tailleCombinaison, colors, historique);
-        String[] dernierResultat4 = {"JHIG" , "0,0"};
-        historique.add(dernierResultat4);
+        String[] secondResultat = {"EFGH", "1,1"};
+        historique.add(secondResultat);
+        //act
         testeur.constitutionListeCombinaisonPossible(tailleCombinaison, colors, historique);
         //assert
-
+        Assert.assertEquals(168,testeur.getCombinaisonsPossibles().size());
     }
 }

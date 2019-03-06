@@ -195,4 +195,9 @@ public class Bot extends Player {
             combinaisonsPossibles.remove(invalide);
         }
     }
+
+    public List<String> getCombinaisonsPossibles() {
+        return combinaisonsPossibles;
+    }
+
 }
