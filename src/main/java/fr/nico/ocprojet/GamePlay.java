@@ -34,14 +34,14 @@ public abstract class GamePlay {
     /**
      * Méthode de déroulement de jeu
      */
-    public void go() {
+    public void deroulement() {
         initialiserLaPartie();
         jouerLaPartie();
-        BilanDeLaPartie();
+        bilanDeLaPartie();
     }
 
     /**
-     * Methode pour initialiser la Partie
+     * Methode pour initialiser la Partie en fonction des roles des joueurs
      */
     public void initialiserLaPartie() {
         combinaisons = new Hashtable<>();
@@ -49,17 +49,7 @@ public abstract class GamePlay {
         for (Player joueur : players) {
             joueur.setWinner(false);
             if (joueur.isCodeur()) {
-                String combinaison;
-                do {
-                    combinaison = joueur.genereUneCombinaison(tailleCombinaison, setDeValeurs);
-                    if (!combinaisonIsConforme(combinaison)) {
-                        combinaison = null;
-                        App.logger.log(Level.WARN, "Combinaison non conforme");
-                        System.out.println("combinaison saisie non conforme");
-                    }
-                } while (combinaison == null);
-                combinaisons.put(getAdversaire(joueur), combinaison);
-                System.out.println(joueur.getName() + " a créé une combinaison secrète");
+                creerCombiniaison(joueur);
                 if (App.DEVMODE) {
                     System.out.println("(" + joueur.getName() + " a choisi la combinaison " + combinaisons.get(getAdversaire(joueur)) + ")");
                 }
@@ -72,25 +62,84 @@ public abstract class GamePlay {
     }
 
     /**
+     * Methode visant à créer une combinaison à trouver pour son adversaire
+     * @param joueur Joueur qui crée la combinaison
+     */
+    public void creerCombiniaison(Player joueur) {
+        String combinaison;
+        do {
+            combinaison = joueur.genereUneCombinaison(tailleCombinaison, setDeValeurs);
+            if (!combinaisonEstConforme(combinaison)) {
+                combinaison = null;
+                App.logger.log(Level.WARN, "Combinaison non conforme");
+                System.out.println("combinaison saisie non conforme");
+            }
+        } while (combinaison == null);
+        combinaisons.put(getAdversaire(joueur), combinaison);
+        System.out.println(joueur.getName() + " a créé une combinaison secrète");
+    }
+
+    /**
      * Methode pour gerer les tours d'une partie
      */
-    protected void jouerLaPartie() {
+    private void jouerLaPartie() {
         int tour = 0;
         do {
             ++tour;
             for (Player joueur : players) {
                 if (joueur.isDecodeur()) {
                     faireUneTentative(joueur);
-                    CombinaisonTrouvee(joueur);
+                    combinaisonTrouvee(joueur);
                 }
             }
         } while (!(players.get(0).isWinner() || players.get(1).isWinner()) && tour < nombreEssai);
     }
 
     /**
+     * Methode gerant un tour de jeu
+     *
+     * @param joueur joueur dont c'est le tour de jeu
+     */
+    protected void faireUneTentative(Player joueur) {
+        String proposition = demandeDeCombinaison(joueur);
+        String resultat = evaluerProposition(combinaisons.get(joueur), proposition);
+        String[] resultatTour = {proposition, resultat};
+        List<String[]> propositions = playersPropostions.get(joueur);
+        propositions.add(resultatTour);
+        playersPropostions.put(joueur, propositions);
+    }
+
+    /**
+     * Methode pour la demande de proposition de combinaison lors d'un tour
+     *
+     * @param joueur joueur qui soumets la proposition
+     * @return la combinaison
+     */
+    public String demandeDeCombinaison(Player joueur) {
+        String proposition;
+        do {
+            proposition = joueur.proposeUneCombinaison(jeu, tailleCombinaison, setDeValeurs, playersPropostions.get(joueur));
+            if (!combinaisonEstConforme(proposition)) {
+                proposition = null;
+                App.logger.log(Level.WARN, "Combinaison non conforme");
+                System.out.println("combinaison saisie non conforme");
+            }
+        } while (proposition == null);
+        return proposition;
+    }
+
+    /**
+     * Methode pour checker la conformité de la saisie de la combinaison
+     *
+     * @param combinaison combinaison à tester
+     * @return vrai ou faux
+     */
+    public abstract boolean combinaisonEstConforme(String combinaison);
+
+    /**
      * Methode de cloture de partie
      */
-    protected void BilanDeLaPartie() {
+    protected void bilanDeLaPartie() {
         if (players.get(0).isWinner() && players.get(1).isWinner()) {
             System.out.println("Match nul - vous avez trouvé tous les 2 en " + playersPropostions.get(players.get(0)).size() + " coups.");
         } else {
@@ -104,33 +153,6 @@ public abstract class GamePlay {
         }
     }
 
-
-    /**
-     * Methode pour la demande de proposition de combinaison lors d'un tour
-     *
-     * @param joueur joueur qui soumets la combinaison
-     * @return la combinaison
-     */
-    public String demandeDeCombinaison(Player joueur) {
-        String proposition;
-        do {
-            proposition = joueur.proposeUneCombinaison(jeu, tailleCombinaison, setDeValeurs, playersPropostions.get(joueur));
-            if (!combinaisonIsConforme(proposition)) {
-                App.logger.log(Level.WARN, "Combinaison non conforme");
-                System.out.println("combinaison saisie non conforme");
-            }
-        } while (!combinaisonIsConforme(proposition));
-        return proposition;
-    }
-
-    /**
-     * Methode pour checker la conformité de la saisie de la combinaison
-     *
-     * @param combinaison combinaison à tester
-     * @return vrai ou faux
-     */
-    public abstract boolean combinaisonIsConforme(String combinaison);
-
     /**
      * Methode pour obtenir l'adversaire d'un joueur (fonctionne seulement pour un jeu 2 joueurs)
      * se base sur la liste de l'intance
@@ -142,19 +164,6 @@ public abstract class GamePlay {
         return players.get(Math.abs(players.indexOf(joueur) - 1));
     }
 
-    /**
-     * Methode gerant un tour de jeu
-     *
-     * @param joueur joueur dont c'est le tour de jeu
-     */
-    protected void faireUneTentative(Player joueur) {
-        List<String[]> propositions = playersPropostions.get(joueur);
-        String proposition = demandeDeCombinaison(joueur);
-        String resultat = evaluerProposition(combinaisons.get(joueur), proposition);
-        String[] resultatTour = {proposition, resultat};
-        propositions.add(resultatTour);
-        playersPropostions.put(joueur, propositions);
-    }
 
     /**
      * Methode pour l'evaluation de la proposition
@@ -170,7 +179,7 @@ public abstract class GamePlay {
      *
      * @param joueur joueur qui vient de joueur
      */
-    protected abstract void CombinaisonTrouvee(Player joueur);
+    protected abstract void combinaisonTrouvee(Player joueur);
 
     public Map<Player, String> getCombinaisons() {
         return combinaisons;

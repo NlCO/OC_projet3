@@ -96,7 +96,7 @@ public class Mastermind extends GamePlay {
     }
 
     @Override
-    protected void CombinaisonTrouvee(Player joueur) {
+    protected void combinaisonTrouvee(Player joueur) {
         String dernierResultat = playersPropostions.get(joueur).get(playersPropostions.get(joueur).size() - 1)[1];
         joueur.setWinner(dernierResultat.split(",")[0].equals(tailleCombinaison.toString()));
     }

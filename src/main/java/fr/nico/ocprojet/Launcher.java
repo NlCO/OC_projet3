@@ -51,7 +51,7 @@ public class Launcher {
             definirModeJeu();
             creerPartie();
             do {
-                partie.go();
+                partie.deroulement();
                 rejouer = rejouerPartie();
             } while (rejouer.equals("R"));
         } while (rejouer.equals("N"));
