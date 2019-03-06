@@ -21,9 +21,8 @@ public class App {
                 DEVMODE = true;
             }
         }
-
-        Launcher start = new Launcher();
-        start.lanceLeJeu();
+        Launcher lanceur = new Launcher();
+        lanceur.lanceLeJeu();
     }
 
 }

@@ -13,7 +13,7 @@ public class Human extends Player {
 
     public Human() {
         App.logger.log(Level.TRACE, "Création joueur humain");
-        super.setName("X l'humain");
+        super.setName("l'utilisateur");
     }
 
     /**
@@ -92,6 +92,7 @@ public class Human extends Player {
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
+
 
     private void debugHistoriqueTour(List<String[]> historique) {
         App.logger.log(Level.DEBUG, "Ci-dessous L'historique de vos propositions avec leur résultat : ");

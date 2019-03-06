@@ -27,7 +27,6 @@ public abstract class GamePlay {
     protected Integer nombreEssai;
     protected Map<Player, String> combinaisons;
     protected Map<Player, List<String[]>> playersPropostions;
-    protected int panelCouleur;
     protected List<String> setDeValeurs;
 
 
@@ -104,10 +103,12 @@ public abstract class GamePlay {
         String proposition = demandeDeCombinaison(joueur);
         String resultat = evaluerProposition(combinaisons.get(joueur), proposition);
         String[] resultatTour = {proposition, resultat};
+        afficheResultat(joueur, resultatTour);
         List<String[]> propositions = playersPropostions.get(joueur);
         propositions.add(resultatTour);
         playersPropostions.put(joueur, propositions);
     }
+
 
     /**
      * Methode pour la demande de proposition de combinaison lors d'un tour
@@ -137,9 +138,17 @@ public abstract class GamePlay {
     public abstract boolean combinaisonEstConforme(String combinaison);
 
     /**
+     * Retourne au joueur le resultat de sa proposition
+     * @param joueur joueur qui a proposé une combinaison
+     * @param resultatTour le resultat du tour sous forme d'un tableau avec la proposition et son evaluation
+     */
+    protected abstract void afficheResultat(Player joueur, String[] resultatTour);
+
+
+    /**
      * Methode de cloture de partie
      */
-    protected void bilanDeLaPartie() {
+    private void bilanDeLaPartie() {
         if (players.get(0).isWinner() && players.get(1).isWinner()) {
             System.out.println("Match nul - vous avez trouvé tous les 2 en " + playersPropostions.get(players.get(0)).size() + " coups.");
         } else {
@@ -163,7 +172,6 @@ public abstract class GamePlay {
     public Player getAdversaire(Player joueur) {
         return players.get(Math.abs(players.indexOf(joueur) - 1));
     }
-
 
     /**
      * Methode pour l'evaluation de la proposition

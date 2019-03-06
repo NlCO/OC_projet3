@@ -1,10 +1,12 @@
 package fr.nico.ocprojet.StepDefinitions;
 
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import fr.nico.ocprojet.*;
 import org.junit.Assert;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +14,25 @@ import java.util.List;
 public class RechercheStepdefs {
     private Launcher launcher;
     private GamePlay partie;
+    private Player codeur;
 
+/*    @Before
+    public void background(){
+        launcher = new Launcher();
+        launcher.initPlayers();
+        launcher.setGames(Games.R);
+        launcher.setMode(GameMode.CHALLENGER);
+        launcher.creerPartie();
+        partie = launcher.getPartie();
+    }
+*/
     @Given("Un joueur ayant le statut codeur")
     public void unJoueurAyantLeStatutCodeurEtLeParamètreTaille() {
         launcher = new Launcher();
         launcher.initPlayers();
         launcher.attributionDesRoles(GameMode.CHALLENGER);
-
         partie = new Recherche(launcher.getPlayers(),4,10);
+        codeur = launcher.getPlayers().get(1);
     }
 
     @When("il génère une combinaison")
@@ -29,15 +42,11 @@ public class RechercheStepdefs {
 
     @Then("cette combinaison est associée à son adversaire")
     public void cetteCombinaisonEstAssociéeÀSonAdversaire() {
-        for (Player p: launcher.getPlayers()) {
-            if (p.isCodeur()){
-                Assert.assertEquals(1, partie.getCombinaisons().size());
-                Assert.assertEquals(partie.getTailleCombinaison() ,partie.getCombinaisons().get(partie.getAdversaire(p)).length());
-
-            }
-        }
-
+        Assert.assertEquals(1, partie.getCombinaisons().size());
+        Assert.assertEquals(partie.getTailleCombinaison() ,partie.getCombinaisons().get(partie.getAdversaire(codeur)).length());
     }
+
+
     @Given("un joueur joueur ayant généré une combinaison")
     public void unJoueurJoueurAyantGénéréUneCombinaison() {
         launcher = new Launcher();

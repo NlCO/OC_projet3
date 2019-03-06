@@ -18,7 +18,6 @@ public class Mastermind extends GamePlay {
         super.jeu = Games.M;
         super.tailleCombinaison = tailleCombinaison;
         super.nombreEssai = nombreEssai;
-        super.panelCouleur = panelCouleur;
         super.setDeValeurs = creerListeValeurs(panelCouleur);
     }
 
@@ -38,7 +37,7 @@ public class Mastermind extends GamePlay {
     }
 
     @Override
-    public boolean combinaisonIsConforme(String combinaison) {
+    public boolean combinaisonEstConforme(String combinaison) {
         String pattern = "([" + setDeValeurs.get(0) + "-" + setDeValeurs.get(setDeValeurs.size() - 1) + "]){" + tailleCombinaison + "}";
         App.logger.log(Level.DEBUG, "pattern du regex : " + pattern + " généré à partir de la liste : " + setDeValeurs + " et de longueur " + tailleCombinaison);
         return combinaison.matches(pattern);
@@ -48,28 +47,14 @@ public class Mastermind extends GamePlay {
     public String evaluerProposition(String code, String proposition) {
         List<String> combinaisonProposee = new ArrayList<>(Arrays.asList(proposition.split("")));
         List<String> combinaisonATrouver = new ArrayList<>(Arrays.asList(code.split("")));
-        App.logger.log(Level.DEBUG, "Evaluations MM : proposée : " + combinaisonProposee + " - A trouver : " + combinaisonATrouver);
-        int correct = nombreBienPlace(combinaisonProposee, combinaisonATrouver, tailleCombinaison);
-        int present = nombrePresent(combinaisonProposee, combinaisonATrouver);
-        int[] bilanNb = {correct, present};
-        String bilan = "";
-        if (bilanNb[0] == 0 && bilanNb[1] == 0) {
-            bilan = "aucuns symboles présents";
-        } else {
-            if (bilanNb[1] > 0) {
-                bilan = String.format("%d présent%s", bilanNb[1], (bilanNb[1] > 1) ? "s" : "");
-            }
-            if (bilanNb[0] > 0) {
-                bilan += String.format("%s%d bien placé%s", (bilanNb[1] > 0) ? ", " : "", bilanNb[0], (bilanNb[0] > 1) ? "s" : "");
-            }
+        App.logger.log(Level.DEBUG, "Evaluation de combinaison MM : proposée : " + combinaisonProposee + " - A trouver : " + combinaisonATrouver);
+        int symboleCorrect = nombreBienPlace(combinaisonProposee, combinaisonATrouver, tailleCombinaison);
+        int symbolePresent = nombrePresent(combinaisonProposee, combinaisonATrouver);
+        return String.format("%d,%d", symboleCorrect, symbolePresent);
 
-        }
-        //System.out.println(joueur.getName() + " proposition : " + proposition + " -> Résultat : " + bilan);
-        System.out.println(" proposition : " + proposition + " -> Résultat : " + bilan);
-        return String.format("%d,%d", bilanNb[0], bilanNb[1]);
     }
 
-    public static int nombreBienPlace(List<String> combinaisonProposee, List<String> combinaisonATrouver, int tailleCombinaison) {
+    private int nombreBienPlace(List<String> combinaisonProposee, List<String> combinaisonATrouver, int tailleCombinaison) {
         int correct = 0;
         int rang = 0;
         for (int i = 0; i < tailleCombinaison; i++) {
@@ -84,7 +69,7 @@ public class Mastermind extends GamePlay {
         return correct;
     }
 
-    public static int nombrePresent(List<String> combinaisonProposee, List<String> combinaisonATrouver) {
+    private int nombrePresent(List<String> combinaisonProposee, List<String> combinaisonATrouver) {
         int present = 0;
         for (String s : combinaisonProposee) {
             if (combinaisonATrouver.contains(s)) {
@@ -94,6 +79,29 @@ public class Mastermind extends GamePlay {
         }
         return present;
     }
+
+    @Override
+    protected void afficheResultat(Player joueur, String[] resultatTour) {
+        String[] resultatSymbole = resultatTour[1].split(",");
+        String bilanResultat = bilanEvaluation(Integer.parseInt(resultatSymbole[0]),Integer.parseInt(resultatSymbole[1]));
+        System.out.println(" proposition de " + joueur.getName() + " : " + resultatTour[0] + " -> Résultat : " + bilanResultat);
+    }
+
+    private String bilanEvaluation(int symboleCorrect, int symbolePresent){
+        String bilan = "";
+        if (symboleCorrect == 0 && symbolePresent == 0) {
+            bilan = "aucuns symboles présents";
+        } else {
+            if (symbolePresent > 0) {
+                bilan = String.format("%d présent%s", symbolePresent, (symbolePresent > 1) ? "s" : "");
+            }
+            if (symboleCorrect > 0) {
+                bilan += String.format("%s%d bien placé%s", (symbolePresent > 0) ? ", " : "", symboleCorrect, (symboleCorrect > 1) ? "s" : "");
+            }
+        }
+        return bilan;
+    }
+
 
     @Override
     protected void combinaisonTrouvee(Player joueur) {

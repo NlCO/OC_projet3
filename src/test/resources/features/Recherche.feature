@@ -1,6 +1,6 @@
-Feature: Game Recherche +/-
+Feature: Recherche +/-
 
-  Background: le joueur a choisi le jeux du Recherche +/- et le mode Challengeur (les autres modes utilisent les même fonction mais attendent une saisie clavier)
+  Background: le joueur a choisi le jeux du Recherche +/- et le mode Challengeur
 
   Scenario: Définir une combinaison du jeu
     Given Un joueur ayant le statut codeur

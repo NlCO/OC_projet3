@@ -1,6 +1,8 @@
 package fr.nico.ocprojet.TestUnit;
 
 import fr.nico.ocprojet.Bot;
+import fr.nico.ocprojet.GameMode;
+import fr.nico.ocprojet.Games;
 import org.junit.Test;
 
 import java.util.ArrayList;

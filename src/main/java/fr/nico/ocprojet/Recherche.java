@@ -26,7 +26,7 @@ public class Recherche extends GamePlay {
     }
 
     @Override
-    public boolean combinaisonIsConforme(String combinaison) {
+    public boolean combinaisonEstConforme(String combinaison) {
         String pattern = "\\d{" + tailleCombinaison + "}";
         return combinaison.matches(pattern);
     }
@@ -43,9 +43,12 @@ public class Recherche extends GamePlay {
                 resultat.append((Integer.parseInt(propositionArray[i]) > Integer.parseInt(combiATrouver[i])) ? "-" : "+");
             }
         }
-        //System.out.println(joueur.getName() + " proposition : " + proposition + " -> Résultat : " + resultat);
-        System.out.println(" proposition : " + proposition + " -> Résultat : " + resultat);
         return resultat.toString();
+    }
+
+    @Override
+    protected void afficheResultat(Player joueur, String[] resultatTour) {
+        System.out.println(" proposition de " + joueur.getName() + " : " + resultatTour[0] + " -> Résultat : " + resultatTour[1]);
     }
 
     @Override

@@ -49,6 +49,7 @@ public class Launcher {
         do {
             definirJeuALancer();
             definirModeJeu();
+            attributionDesRoles(mode);
             creerPartie();
             do {
                 partie.deroulement();
@@ -98,13 +99,13 @@ public class Launcher {
             System.out.println(mode.getCode() + " -> " + mode.toString());
         }
         this.setMode(joueur.choixDuMode());
-        attributionDesRoles(mode);
+
     }
 
     /**
      * Methode pour creer une partie
      */
-    private void creerPartie() {
+    public void creerPartie() {
         if (game == Games.R) {
             partie = new Recherche(players, tailleCombinaison, nombreEssai);
         } else {
@@ -175,5 +176,8 @@ public class Launcher {
         this.game = game;
     }
 
+    public GamePlay getPartie() {
+        return partie;
+    }
 }
 

@@ -16,7 +16,7 @@ public class Bot extends Player {
 
     public Bot() {
         App.logger.log(Level.TRACE, "Création joueur non-humain");
-        super.setName("Bot le bot");
+        super.setName("l'ordinateur");
         random = new Random();
     }
 
