@@ -13,6 +13,8 @@ import java.util.Random;
 public class Bot extends Player {
     private Random random;
     private List<String> combinaisonsPossibles;
+    private StringBuilder borneMin;
+    private StringBuilder borneMax;
 
     public Bot() {
         App.logger.log(Level.TRACE, "Création joueur non-humain");
@@ -41,52 +43,65 @@ public class Bot extends Player {
         return proposition;
     }
 
+    /**
+     * Methode retournant un proposition en fonction de l'historique des proposition
+     * @param tailleCombinaison longueur de la combinaison attendue
+     * @param historique liste des précedentes proposition
+     * @return une combinaison
+     */
     private String propositionRecherche(int tailleCombinaison, List<String[]> historique) {
+        if (historique.size() > 0) {
+            miseAJourBorneRecherche(historique.get(historique.size()-1));
+        } else {
+            initialisationBorneRecherche(tailleCombinaison);
+        }
+        App.logger.log(Level.DEBUG, "Tentative : " + historique.size() + "- Etat des borne Min  : " + borneMin.toString() + " / Max : " + borneMax.toString());
         StringBuilder proposition = new StringBuilder();
-        StringBuilder borneMin = new StringBuilder();
-        StringBuilder borneMax = new StringBuilder();
+        for (int i = 0; i < tailleCombinaison; i++) {
+            int biais = ((borneMax.toString().charAt(i) - '0') > 5) ? 1 : 0;
+            int moyenne = ((borneMax.toString().charAt(i) - '0') + (borneMin.toString().charAt(i) - '0') + biais) / 2;
+            proposition.append(moyenne);
+        }
+        App.logger.log(Level.DEBUG, "proposition : " + proposition.toString());
+        return proposition.toString();
+    }
+
+    /**
+     * Methode permettant l'initialisation des bornes Min et Max pour le jeu Recherche +/-
+     * @param tailleCombinaison longueur de la combinaison atendue
+     */
+    private void initialisationBorneRecherche(int tailleCombinaison){
+        borneMin = new StringBuilder();
+         borneMax = new StringBuilder();
         for (int i = 0; i < tailleCombinaison; i++) {
             borneMin.append(0);
             borneMax.append(9);
         }
-        App.logger.log(Level.DEBUG, "Tentative : " + historique.size());
-        App.logger.log(Level.DEBUG, "Bot - Recherche +/- - Etat initiale des borne Min  : " + borneMin.toString() + " / Max : " + borneMax.toString());
-
-        if (historique.size() == 0) {
-            for (int i = 0; i < tailleCombinaison; i++) {
-                proposition.append(5);
-            }
-            App.logger.log(Level.DEBUG, "Bot - Recherche +/- - première proposition : " + proposition.toString());
-        } else {
-            for (String[] resultat : historique) {
-                int position = 0;
-                for (String c : resultat[1].split("")) {
-                    switch (c) {
-                        case "=":
-                            borneMin.setCharAt(position, resultat[0].charAt(position));
-                            borneMax.setCharAt(position, resultat[0].charAt(position));
-                            break;
-                        case "-":
-                            borneMax.setCharAt(position, resultat[0].charAt(position));
-                            break;
-                        case "+":
-                            borneMin.setCharAt(position, resultat[0].charAt(position));
-                            break;
-                    }
-                    App.logger.log(Level.DEBUG, "Bot - Recherche +- - proposition " + resultat[0] + " ajustement des bornes Min/Max : " + borneMin.toString() + "/" + borneMax.toString());
-                    if ((historique.indexOf(resultat) + 1) == historique.size()) {
-                        int biais = ((borneMax.toString().charAt(position) - '0') > 5) ? 1 : 0;
-                        int alea = ((borneMax.toString().charAt(position) - '0') + (borneMin.toString().charAt(position) - '0') + biais) / 2;
-                        proposition.append(alea);
-                    }
-                    position++;
-                }
-                App.logger.log(Level.DEBUG, "Bot - Recherche +- - proposition :" + proposition.toString());
-            }
-        }
-        return proposition.toString();
-
     }
+
+    /**
+     * Methode permettant la mise à jour des bornes Min et Max pou le jeu Recherche +/-
+     * @param dernierTentative tableau contenant la dernière proposition et son évaluation
+     */
+    private void miseAJourBorneRecherche(String[] dernierTentative){
+            int position = 0;
+            for (String c : dernierTentative[1].split("")) {
+                switch (c) {
+                    case "=":
+                        borneMin.setCharAt(position, dernierTentative[0].charAt(position));
+                        borneMax.setCharAt(position, dernierTentative[0].charAt(position));
+                        break;
+                    case "-":
+                        borneMax.setCharAt(position, dernierTentative[0].charAt(position));
+                        break;
+                    case "+":
+                        borneMin.setCharAt(position, dernierTentative[0].charAt(position));
+                        break;
+                }
+                App.logger.log(Level.DEBUG, "ajustement des bornes Min/Max : " + borneMin.toString() + "/" + borneMax.toString());
+                position++;
+            }
+   }
 
     private String propositionMastermind(int tailleCombinaison, List<String> colors, List<String[]> historique) {
         String proposition;
@@ -113,7 +128,6 @@ public class Bot extends Player {
 
     /**
      * Methode recursive permettant la constitution des combinaisons possibles à partir d'un motif
-     *
      * @param motif             bout de combinaison
      * @param tailleCombinaison nombre de caractères attendus dans la combinaisons conditionnant la sortie de la boucle
      * @param colors            elements pouvants être présents dans la combinaison
