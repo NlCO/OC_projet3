@@ -44,7 +44,7 @@ public class Bot extends Player {
     }
 
     /**
-     * Methode retournant un proposition en fonction de l'historique des proposition
+     * Methode retournant un proposition pour le jeu Recherche +/- en fonction de l'historique des proposition
      * @param tailleCombinaison longueur de la combinaison attendue
      * @param historique liste des précedentes proposition
      * @return une combinaison
@@ -103,46 +103,59 @@ public class Bot extends Player {
             }
    }
 
-    private String propositionMastermind(int tailleCombinaison, List<String> colors, List<String[]> historique) {
+    /**
+     * Methode retournant un proposition pour le jeu Mastermind en fonction de l'historique des proposition
+     * @param tailleCombinaison longueur de la combinaison attendue
+     * @param symboles liste des symboles permis
+     * @param historique liste des précedentes proposition
+     * @return une combinaison
+     */
+    private String propositionMastermind(int tailleCombinaison, List<String> symboles, List<String[]> historique) {
         String proposition;
         if (historique.size() > 0) {
-            constitutionListeCombinaisonPossible(tailleCombinaison, colors, historique);
+            constitutionListeCombinaisonPossible(tailleCombinaison, symboles, historique);
             proposition = combinaisonsPossibles.get(random.nextInt(combinaisonsPossibles.size()));
         } else {
-            proposition = genereUneCombinaison(tailleCombinaison, colors);
+            proposition = genereUneCombinaison(tailleCombinaison, symboles);
             App.logger.log(Level.DEBUG, "Bot - Mastermind - première proposition : " + proposition);
         }
         return proposition;
     }
 
-    public void constitutionListeCombinaisonPossible(int tailleCombinaison, List<String> colors, List<String[]> historique) {
+    /**
+     * Methode permettant la mise en place d'un liste de combinaison ppossibles à jour
+     * @param tailleCombinaison longueur de la combinaison attendue
+     * @param symboles liste des symboles permis
+     * @param historique listes des précédentes propositions
+     */
+    public void constitutionListeCombinaisonPossible(int tailleCombinaison, List<String> symboles, List<String[]> historique) {
         if (historique.size() > 1) {
             miseAJourCombinaisonsPossibles(historique.get(historique.size() - 1), tailleCombinaison);
         } else {
             combinaisonsPossibles = new ArrayList<>();
             StringBuilder motif = new StringBuilder();
-            alimentationListeCombinaisons(motif, tailleCombinaison, colors, historique.get(0));
+            alimentationListeCombinaisons(motif, tailleCombinaison, symboles, historique.get(0));
         }
         App.logger.log(Level.DEBUG, "Nombre de combinaisons possibles : " + combinaisonsPossibles.size());
     }
 
     /**
      * Methode recursive permettant la constitution des combinaisons possibles à partir d'un motif
-     * @param motif             bout de combinaison
+     * @param motif bout de combinaison
      * @param tailleCombinaison nombre de caractères attendus dans la combinaisons conditionnant la sortie de la boucle
-     * @param colors            elements pouvants être présents dans la combinaison
+     * @param symboles elements pouvants être présents dans la combinaison
      */
-    public void alimentationListeCombinaisons(StringBuilder motif, int tailleCombinaison, List<String> colors, String[] dernierResultat) {
+    public void alimentationListeCombinaisons(StringBuilder motif, int tailleCombinaison, List<String> symboles, String[] dernierResultat) {
         if (motif.length() == tailleCombinaison) {
-            if (validationCombinaison(dernierResultat[0], motif.toString(), tailleCombinaison).equals(dernierResultat[1])) {
+            if (combinaisonEstPossible(dernierResultat, motif.toString())) {
                 combinaisonsPossibles.add(motif.toString());
             }
             App.logger.log(Level.DEBUG, "Nombre de combinaisons présentes dans la liste : " + combinaisonsPossibles.size());
-            return;
+            //return;
         } else {
-            for (String symbole : colors) {
+            for (String symbole : symboles) {
                 motif.append(symbole);
-                alimentationListeCombinaisons(motif, tailleCombinaison, colors, dernierResultat);
+                alimentationListeCombinaisons(motif, tailleCombinaison, symboles, dernierResultat);
                 motif.deleteCharAt(motif.length() - 1);
                 App.logger.log(Level.DEBUG, "Motif suite appel recursif : " + motif);
             }
@@ -150,21 +163,34 @@ public class Bot extends Player {
 
     }
 
-    public String validationCombinaison(String derniereCombinaison, String motifCalcule, int tailleCombinaison) {
+    /**
+     * Methode permettant de valider que le motif calculé retourne le même resultat d'evaluation que le resultat d'evaluation pour la dernière proposition
+     * @param derniereResultat tableau contenant la dernière proposition et son résultat
+     * @param motifCalcule motif issu de la boucle recurssive de liste de l'ensemble des combinaisons
+     * @return vrai si le resultat de l'evaluation de combinaison calculée vis à vis de la dernière proposition est egal au resultat de celle-ci avec la combinaison à trouve
+     */
+    public boolean combinaisonEstPossible(String[] derniereResultat, String motifCalcule) {
         List<String> combinaisonAEstimee = new ArrayList<>(Arrays.asList(motifCalcule.split("")));
-        List<String> combinaisonReference = new ArrayList<>(Arrays.asList(derniereCombinaison.split("")));
-        int correct = nombreBienPlace(combinaisonAEstimee, combinaisonReference, tailleCombinaison);
-        int present = nombrePresent(combinaisonAEstimee, combinaisonReference);
-        return String.format("%d,%d", correct, present);
+        List<String> combinaisonReference = new ArrayList<>(Arrays.asList(derniereResultat[0].split("")));
+        int correct = nombreSymboleCorrect(combinaisonAEstimee, combinaisonReference);
+        int present = nombreSymbolePresent(combinaisonAEstimee, combinaisonReference);
+        return derniereResultat[1].equals(String.format("%d,%d", correct, present));
     }
 
-    public int nombreBienPlace(List<String> combinaisonProposee, List<String> combinaisonATrouver, int tailleCombinaison) {
+    /**
+     * Methode pour evaluer le nombre de symbole à la bonne place
+     * @param combinaisonAEstimee combinaison à estimer
+     * @param combinaisonReference combinaison de référence
+     * @return le nombre de symbole à la bonne place
+     */
+    public int nombreSymboleCorrect(List<String> combinaisonAEstimee, List<String> combinaisonReference) {
         int correct = 0;
         int rang = 0;
+        int tailleCombinaison = combinaisonAEstimee.size();
         for (int i = 0; i < tailleCombinaison; i++) {
-            if (combinaisonATrouver.get(rang).equals(combinaisonProposee.get(rang))) {
-                combinaisonATrouver.remove(rang);
-                combinaisonProposee.remove(rang);
+            if (combinaisonReference.get(rang).equals(combinaisonAEstimee.get(rang))) {
+                combinaisonReference.remove(rang);
+                combinaisonAEstimee.remove(rang);
                 correct++;
             } else {
                 rang++;
@@ -173,21 +199,32 @@ public class Bot extends Player {
         return correct;
     }
 
-    public int nombrePresent(List<String> combinaisonProposee, List<String> combinaisonATrouver) {
+    /**
+     * Methode pour evaluer le nombre de symbole présent mais mal placé
+     * @param combinaisonAEstimee combinaison à évaluer
+     * @param combinaisonReference combinaison de référence
+     * @return nombre de symbole présent mal placé
+     */
+    public int nombreSymbolePresent(List<String> combinaisonAEstimee, List<String> combinaisonReference) {
         int present = 0;
-        for (String s : combinaisonProposee) {
-            if (combinaisonATrouver.contains(s)) {
-                combinaisonATrouver.remove(s);
+        for (String s : combinaisonAEstimee) {
+            if (combinaisonReference.contains(s)) {
+                combinaisonReference.remove(s);
                 present++;
             }
         }
         return present;
     }
 
+    /**
+     * Methode permettant de retirer les combinaisons invalides de la liste des combinaisons restantes à partir du dernier résultat
+     * @param dernierResultat dernier resultat obtenu
+     * @param tailleCombinaison longueur de la combinaison
+     */
     private void miseAJourCombinaisonsPossibles(String[] dernierResultat, int tailleCombinaison) {
         List<String> combinaisonsARetirer = new ArrayList<>();
         for (String combinaison : combinaisonsPossibles) {
-            if (!validationCombinaison(dernierResultat[0], combinaison, tailleCombinaison).equals(dernierResultat[1])) {
+            if (!combinaisonEstPossible(dernierResultat, combinaison)) {
                 combinaisonsARetirer.add(combinaison);
             }
         }

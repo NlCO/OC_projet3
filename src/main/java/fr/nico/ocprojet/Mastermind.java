@@ -54,6 +54,14 @@ public class Mastermind extends GamePlay {
 
     }
 
+
+    /**
+     * Methode pour evaluer le nombre de symbole à la bonne place
+     * @param combinaisonProposee combinaison à estimer
+     * @param combinaisonATrouver combinaison à trouver
+     * @param tailleCombinaison longueur de la combinaison
+     * @return le nombre de symbole à la bonne place
+     */
     private int nombreBienPlace(List<String> combinaisonProposee, List<String> combinaisonATrouver, int tailleCombinaison) {
         int correct = 0;
         int rang = 0;
@@ -69,6 +77,12 @@ public class Mastermind extends GamePlay {
         return correct;
     }
 
+    /**
+     * Methode pour evaluer le nombre de symbole présent mais mal placé
+     * @param combinaisonProposee combinaison à évaluer
+     * @param combinaisonATrouver combinaison à trouver
+     * @return nombre de symbole présent mal placé
+     */
     private int nombrePresent(List<String> combinaisonProposee, List<String> combinaisonATrouver) {
         int present = 0;
         for (String s : combinaisonProposee) {
@@ -96,13 +110,13 @@ public class Mastermind extends GamePlay {
     private String bilanEvaluation(int symboleCorrect, int symbolePresent){
         String bilan = "";
         if (symboleCorrect == 0 && symbolePresent == 0) {
-            bilan = "aucuns symboles présents";
+            bilan = "aucun symbole présent";
         } else {
             if (symbolePresent > 0) {
                 bilan = String.format("%d présent%s", symbolePresent, (symbolePresent > 1) ? "s" : "");
             }
             if (symboleCorrect > 0) {
-                bilan += String.format("%s%d bien placé%s", (symbolePresent > 0) ? ", " : "", symboleCorrect, (symboleCorrect > 1) ? "s" : "");
+                bilan += String.format("%s%d bien%s placé%s", (symbolePresent > 0) ? ", " : "", symboleCorrect, (symboleCorrect > 1) ? "s" : "",(symboleCorrect > 1) ? "s" : "");
             }
         }
         return bilan;
