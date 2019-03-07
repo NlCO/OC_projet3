@@ -1,10 +1,10 @@
 package fr.nico.ocprojet;
 
-import org.apache.logging.log4j.Level;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static fr.nico.ocprojet.App.logger;
 
 /**
  * Cette classe contient les paticularités du jeu Mastermind
@@ -13,7 +13,7 @@ public class Mastermind extends GamePlay {
 
 
     public Mastermind(List<Player> players, int tailleCombinaison, int nombreEssai, int panelCouleur) {
-        App.logger.log(Level.TRACE, "Lancement d'une partie Mastermind");
+        logger.trace("Lancement d'une partie Mastermind");
         super.players = players;
         super.jeu = Games.M;
         super.tailleCombinaison = tailleCombinaison;
@@ -39,7 +39,7 @@ public class Mastermind extends GamePlay {
     @Override
     public boolean combinaisonEstConforme(String combinaison) {
         String pattern = "([" + setDeValeurs.get(0) + "-" + setDeValeurs.get(setDeValeurs.size() - 1) + "]){" + tailleCombinaison + "}";
-        App.logger.log(Level.DEBUG, "pattern du regex : " + pattern + " généré à partir de la liste : " + setDeValeurs + " et de longueur " + tailleCombinaison);
+        logger.debug("pattern du regex : " + pattern + " généré à partir de la liste : " + setDeValeurs + " et de longueur " + tailleCombinaison);
         return combinaison.matches(pattern);
     }
 
@@ -47,7 +47,7 @@ public class Mastermind extends GamePlay {
     public String evaluerProposition(String code, String proposition) {
         List<String> combinaisonProposee = new ArrayList<>(Arrays.asList(proposition.split("")));
         List<String> combinaisonATrouver = new ArrayList<>(Arrays.asList(code.split("")));
-        App.logger.log(Level.DEBUG, "Evaluation de combinaison MM : proposée : " + combinaisonProposee + " - A trouver : " + combinaisonATrouver);
+        logger.debug("Evaluation de combinaison MM : proposée : " + combinaisonProposee + " - A trouver : " + combinaisonATrouver);
         int symboleCorrect = nombreBienPlace(combinaisonProposee, combinaisonATrouver, tailleCombinaison);
         int symbolePresent = nombrePresent(combinaisonProposee, combinaisonATrouver);
         return String.format("%d,%d", symboleCorrect, symbolePresent);
@@ -57,9 +57,10 @@ public class Mastermind extends GamePlay {
 
     /**
      * Methode pour evaluer le nombre de symbole à la bonne place
+     *
      * @param combinaisonProposee combinaison à estimer
      * @param combinaisonATrouver combinaison à trouver
-     * @param tailleCombinaison longueur de la combinaison
+     * @param tailleCombinaison   longueur de la combinaison
      * @return le nombre de symbole à la bonne place
      */
     private int nombreBienPlace(List<String> combinaisonProposee, List<String> combinaisonATrouver, int tailleCombinaison) {
@@ -79,6 +80,7 @@ public class Mastermind extends GamePlay {
 
     /**
      * Methode pour evaluer le nombre de symbole présent mais mal placé
+     *
      * @param combinaisonProposee combinaison à évaluer
      * @param combinaisonATrouver combinaison à trouver
      * @return nombre de symbole présent mal placé
@@ -97,17 +99,18 @@ public class Mastermind extends GamePlay {
     @Override
     protected void afficheResultat(Player joueur, String[] resultatTour) {
         String[] resultatSymbole = resultatTour[1].split(",");
-        String bilanResultat = bilanEvaluation(Integer.parseInt(resultatSymbole[0]),Integer.parseInt(resultatSymbole[1]));
+        String bilanResultat = bilanEvaluation(Integer.parseInt(resultatSymbole[0]), Integer.parseInt(resultatSymbole[1]));
         System.out.println(" proposition de " + joueur.getName() + " : " + resultatTour[0] + " -> Résultat : " + bilanResultat);
     }
 
     /**
      * Methode permettant de retourner le resultat d'un proposition sous forme de texte
+     *
      * @param symboleCorrect nombre de symboles biens placés
      * @param symbolePresent nombre de symboles présents
      * @return le resultat sous forme de texte
      */
-    private String bilanEvaluation(int symboleCorrect, int symbolePresent){
+    private String bilanEvaluation(int symboleCorrect, int symbolePresent) {
         String bilan = "";
         if (symboleCorrect == 0 && symbolePresent == 0) {
             bilan = "aucun symbole présent";
@@ -116,7 +119,7 @@ public class Mastermind extends GamePlay {
                 bilan = String.format("%d présent%s", symbolePresent, (symbolePresent > 1) ? "s" : "");
             }
             if (symboleCorrect > 0) {
-                bilan += String.format("%s%d bien%s placé%s", (symbolePresent > 0) ? ", " : "", symboleCorrect, (symboleCorrect > 1) ? "s" : "",(symboleCorrect > 1) ? "s" : "");
+                bilan += String.format("%s%d bien%s placé%s", (symbolePresent > 0) ? ", " : "", symboleCorrect, (symboleCorrect > 1) ? "s" : "", (symboleCorrect > 1) ? "s" : "");
             }
         }
         return bilan;

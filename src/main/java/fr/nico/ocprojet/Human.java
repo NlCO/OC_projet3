@@ -1,10 +1,10 @@
 package fr.nico.ocprojet;
 
 
-import org.apache.logging.log4j.Level;
-
 import java.util.List;
 import java.util.Scanner;
+
+import static fr.nico.ocprojet.App.logger;
 
 /**
  * La classe Human décrit la classe {@link Player Player} pour un joueur humain et gére ses interaction avec la machine
@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Human extends Player {
 
     public Human() {
-        App.logger.log(Level.TRACE, "Création joueur humain");
+        logger.trace("Création joueur humain");
         super.setName("l'utilisateur");
     }
 
@@ -73,7 +73,7 @@ public class Human extends Player {
         do {
             rejoue = saisieClavier().toUpperCase();
             if (!rejoue.matches("R|N|Q")) {
-                App.logger.log(Level.WARN, "Erreur de saisie : " + rejoue + " ne fait pas partie des choix possibles");
+                logger.warn("Erreur de saisie : " + rejoue + " ne fait pas partie des choix possibles");
                 System.out.println("Erreur de saisie : " + rejoue + " ne fait pas partie des choix possibles");
             }
         } while (!rejoue.matches("R|N|Q"));

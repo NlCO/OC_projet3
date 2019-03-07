@@ -1,11 +1,11 @@
 package fr.nico.ocprojet;
 
-import org.apache.logging.log4j.Level;
-
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+
+import static fr.nico.ocprojet.App.logger;
 
 /**
  * La classe GamePlay est une représentation abstraite du concept des jeux.
@@ -62,6 +62,7 @@ public abstract class GamePlay {
 
     /**
      * Methode visant à créer une combinaison à trouver pour son adversaire
+     *
      * @param joueur Joueur qui crée la combinaison
      */
     public void creerCombiniaison(Player joueur) {
@@ -70,7 +71,7 @@ public abstract class GamePlay {
             combinaison = joueur.genereUneCombinaison(tailleCombinaison, setDeValeurs);
             if (!combinaisonEstConforme(combinaison)) {
                 combinaison = null;
-                App.logger.log(Level.WARN, "Combinaison non conforme");
+                logger.warn("Combinaison non conforme");
                 System.out.println("combinaison saisie non conforme");
             }
         } while (combinaison == null);
@@ -122,7 +123,7 @@ public abstract class GamePlay {
             proposition = joueur.proposeUneCombinaison(jeu, tailleCombinaison, setDeValeurs, playersPropostions.get(joueur));
             if (!combinaisonEstConforme(proposition)) {
                 proposition = null;
-                App.logger.log(Level.WARN, "Combinaison non conforme");
+                logger.warn("Combinaison non conforme");
                 System.out.println("combinaison saisie non conforme");
             }
         } while (proposition == null);
@@ -139,7 +140,8 @@ public abstract class GamePlay {
 
     /**
      * Retourne au joueur le resultat de sa proposition
-     * @param joueur joueur qui a proposé une combinaison
+     *
+     * @param joueur       joueur qui a proposé une combinaison
      * @param resultatTour le resultat du tour sous forme d'un tableau avec la proposition et son evaluation
      */
     protected abstract void afficheResultat(Player joueur, String[] resultatTour);

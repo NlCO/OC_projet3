@@ -1,13 +1,13 @@
 package fr.nico.ocprojet;
 
-import org.apache.logging.log4j.Level;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+
+import static fr.nico.ocprojet.App.logger;
 
 
 /**
@@ -25,7 +25,7 @@ public class Launcher {
     private Human joueur;
 
     public Launcher() {
-        App.logger.log(Level.TRACE, "Init launcher");
+        logger.trace("Init launcher");
         chargementFichierConfig();
     }
 
@@ -75,7 +75,7 @@ public class Launcher {
             System.out.println("Veuillez vous assurez qu'un fichier config.properties soit présent ");
             System.exit(2);
         } catch (NumberFormatException e) {
-            App.logger.log(Level.FATAL, "Le fichier config.properties contient des valeurs corrompues");
+            logger.fatal("Le fichier config.properties contient des valeurs corrompues");
             System.out.println("Valeur dans le fichier de configuration incorrecte : merci de vérifier son contenu");
             System.exit(1);
         }

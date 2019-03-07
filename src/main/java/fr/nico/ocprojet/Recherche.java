@@ -1,9 +1,9 @@
 package fr.nico.ocprojet;
 
-import org.apache.logging.log4j.Level;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import static fr.nico.ocprojet.App.logger;
 
 /**
  * Cette classe contient les paticularités du jeu Recherhce +/-
@@ -11,7 +11,7 @@ import java.util.List;
 public class Recherche extends GamePlay {
 
     public Recherche(List<Player> players, int tailleCombinaison, int nombreEssai) {
-        App.logger.log(Level.TRACE, "Lancement d'une partie Recherche +/-");
+        logger.trace("Lancement d'une partie Recherche +/-");
         super.players = players;
         super.jeu = Games.R;
         super.tailleCombinaison = tailleCombinaison;
