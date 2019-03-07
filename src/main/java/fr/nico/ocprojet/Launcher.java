@@ -1,7 +1,7 @@
 package fr.nico.ocprojet;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -63,8 +63,11 @@ public class Launcher {
      */
     protected void chargementFichierConfig() {
         Properties properties = new Properties();
+        InputStream configProperties = null;
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
         try {
-            properties.load(new FileInputStream("src/main/resources/config.properties"));
+            configProperties = loader.getResourceAsStream("config.properties");
+            properties.load(configProperties);
             tailleCombinaison = Integer.parseInt(properties.getProperty("tailleCombinaison"));
             nombreEssai = Integer.parseInt(properties.getProperty("nombreEssais"));
             panelCouleur = Integer.parseInt(properties.getProperty("panelCouleur"));
@@ -78,6 +81,13 @@ public class Launcher {
             logger.fatal("Le fichier config.properties contient des valeurs corrompues");
             System.out.println("Valeur dans le fichier de configuration incorrecte : merci de vérifier son contenu");
             System.exit(1);
+        } finally {
+            try {
+                configProperties.close();
+            } catch (IOException e) {
+                logger.fatal("La fermeture du fichier en echec");
+            }
+
         }
     }
 
