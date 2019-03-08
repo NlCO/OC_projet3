@@ -1,5 +1,7 @@
 package fr.nico.ocprojet;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -64,30 +66,30 @@ public class Launcher {
     protected void chargementFichierConfig() {
         Properties properties = new Properties();
         InputStream configProperties = null;
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
         try {
-            configProperties = loader.getResourceAsStream("config.properties");
-            properties.load(configProperties);
-            tailleCombinaison = Integer.parseInt(properties.getProperty("tailleCombinaison"));
-            nombreEssai = Integer.parseInt(properties.getProperty("nombreEssais"));
-            panelCouleur = Integer.parseInt(properties.getProperty("panelCouleur"));
-            if (panelCouleur < 4 || panelCouleur > 10) {
-                throw new java.lang.NumberFormatException("out of range");
-            }
-        } catch (IOException e) {
-            System.out.println("Veuillez vous assurez qu'un fichier config.properties soit présent ");
-            System.exit(2);
-        } catch (NumberFormatException e) {
-            logger.fatal("Le fichier config.properties contient des valeurs corrompues");
-            System.out.println("Valeur dans le fichier de configuration incorrecte : merci de vérifier son contenu");
-            System.exit(1);
+            configProperties = new FileInputStream("./conf/config.properties");
+        } catch (FileNotFoundException e) {
+            logger.warn("Pas de fichier test.properties dans ./conf -> chargement de celui inclus dans le package");
+            configProperties = getClass().getClassLoader().getResourceAsStream("config.properties");
         } finally {
             try {
+                properties.load(configProperties);
+                tailleCombinaison = Integer.parseInt(properties.getProperty("tailleCombinaison"));
+                nombreEssai = Integer.parseInt(properties.getProperty("nombreEssais"));
+                panelCouleur = Integer.parseInt(properties.getProperty("panelCouleur"));
+                if (panelCouleur < 4 || panelCouleur > 10) {
+                    throw new java.lang.NumberFormatException("out of range");
+                }
                 configProperties.close();
-            } catch (IOException e) {
-                logger.fatal("La fermeture du fichier en echec");
+            } catch (IOException | NullPointerException e) {
+                System.out.println("Veuillez vous assurez qu'un fichier config.properties soit bien présent ");
+                logger.fatal("Le fichier config.propoerties est absent");
+                System.exit(8);
+            } catch (NumberFormatException e) {
+                logger.fatal("Le fichier config.properties contient des valeurs corrompues");
+                System.out.println("Valeurs saisies dans le fichier de configuration incorrectes : merci de vérifier son contenu");
+                System.exit(2);
             }
-
         }
     }
 
