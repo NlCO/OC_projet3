@@ -69,7 +69,7 @@ public class Launcher {
         try {
             configProperties = new FileInputStream("./conf/config.properties");
         } catch (FileNotFoundException e) {
-            logger.warn("Pas de fichier test.properties dans ./conf -> chargement de celui inclus dans le package");
+            logger.info("Pas de fichier config.properties dans ./conf -> chargement de celui inclus dans le package");
             configProperties = getClass().getClassLoader().getResourceAsStream("config.properties");
         } finally {
             try {
