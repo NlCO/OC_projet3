@@ -90,12 +90,12 @@ L'application prend par defaut le fichier config.properties dans le jar sauf si 
 
 Examples :
 
-En se placant dans le répertoire (target suite au packaging)
+En se placant dans le répertoire target (suite à la création du package)
 ```cmd
 java -jar projet3-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
 En restant à la racine du REPO et activant le mode "dev"
 ```cmd
-java -jar projet3-1.0-SNAPSHOT-jar-with-dependencies.jar -DevMode
+java -jar .\target\projet3-1.0-SNAPSHOT-jar-with-dependencies.jar -DevMode
 ```
