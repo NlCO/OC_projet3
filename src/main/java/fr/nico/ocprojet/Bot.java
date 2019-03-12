@@ -117,7 +117,10 @@ public class Bot extends Player {
     private String propositionMastermind(int tailleCombinaison, List<String> symboles, List<String[]> historique) {
         String proposition;
         if (historique.size() > 0) {
+            long startTime = System.currentTimeMillis();
             constitutionListeCombinaisonPossible(tailleCombinaison, symboles, historique);
+            long endTime = System.currentTimeMillis();
+            System.out.println("Temps de calcul en ms : " + (endTime - startTime));
             proposition = combinaisonsPossibles.get(random.nextInt(combinaisonsPossibles.size()));
         } else {
             proposition = genereUneCombinaison(tailleCombinaison, symboles);
@@ -135,7 +138,7 @@ public class Bot extends Player {
      */
     public void constitutionListeCombinaisonPossible(int tailleCombinaison, List<String> symboles, List<String[]> historique) {
         if (historique.size() > 1) {
-            miseAJourCombinaisonsPossibles(historique.get(historique.size() - 1), tailleCombinaison);
+            miseAJourCombinaisonsPossibles(historique.get(historique.size() - 1));
         } else {
             combinaisonsPossibles = new ArrayList<>();
             StringBuilder motif = new StringBuilder();
@@ -227,19 +230,17 @@ public class Bot extends Player {
     /**
      * Methode permettant de retirer les combinaisons invalides de la liste des combinaisons restantes à partir du dernier résultat
      *
-     * @param dernierResultat   dernier resultat obtenu
-     * @param tailleCombinaison longueur de la combinaison
+     * @param dernierResultat dernier resultat obtenu
      */
-    private void miseAJourCombinaisonsPossibles(String[] dernierResultat, int tailleCombinaison) {
-        List<String> combinaisonsARetirer = new ArrayList<>();
+    private void miseAJourCombinaisonsPossibles(String[] dernierResultat) {
+        List<String> combinaisonsRestante = new ArrayList<>();
+        System.out.println("nombre de combinaison à analyser " + combinaisonsPossibles.size());
         for (String combinaison : combinaisonsPossibles) {
-            if (!combinaisonEstPossible(dernierResultat, combinaison)) {
-                combinaisonsARetirer.add(combinaison);
+            if (combinaisonEstPossible(dernierResultat, combinaison)) {
+                combinaisonsRestante.add(combinaison);
             }
         }
-        for (String invalide : combinaisonsARetirer) {
-            combinaisonsPossibles.remove(invalide);
-        }
+        combinaisonsPossibles = combinaisonsRestante;
     }
 
     public List<String> getCombinaisonsPossibles() {
