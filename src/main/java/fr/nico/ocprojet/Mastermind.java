@@ -119,7 +119,7 @@ public class Mastermind extends GamePlay {
                 bilan = String.format("%d présent%s", symbolePresent, (symbolePresent > 1) ? "s" : "");
             }
             if (symboleCorrect > 0) {
-                bilan += String.format("%s%d bien%s placé%s", (symbolePresent > 0) ? ", " : "", symboleCorrect, (symboleCorrect > 1) ? "s" : "", (symboleCorrect > 1) ? "s" : "");
+                bilan += String.format("%s%d bien placé%s", (symbolePresent > 0) ? ", " : "", symboleCorrect, (symboleCorrect > 1) ? "s" : "");
             }
         }
         return bilan;
