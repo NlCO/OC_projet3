@@ -234,7 +234,7 @@ public class Bot extends Player {
      */
     private void miseAJourCombinaisonsPossibles(String[] dernierResultat) {
         List<String> combinaisonsRestante = new ArrayList<>();
-        System.out.println("nombre de combinaison à analyser " + combinaisonsPossibles.size());
+        logger.info("nombre de combinaison à analyser " + combinaisonsPossibles.size());
         for (String combinaison : combinaisonsPossibles) {
             if (combinaisonEstPossible(dernierResultat, combinaison)) {
                 combinaisonsRestante.add(combinaison);
