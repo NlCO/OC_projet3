@@ -34,14 +34,14 @@ L'utilisateur doit trouver la combinaison secrète de l'ordinateur
 
 - **Mode défenseur**
 
-L'ordinateur de trouver la combinaison secrète de l'utilisateur
+L'ordinateur doit trouver la combinaison secrète de l'utilisateur
 
 - **Mode duel**
 
 L'ordinateur et l'utilisateur jouent tour à tour, le premier à trouver la combinaison secrète de l'autre a gagné.
 
 
-L'application doit de plus pendre en charge :
+L'application doit de plus prendre en charge :
 - au lancement de l'application un mode "développeur" via un paramètre. Ce mode permet d'afficher la combinaison secrète au début de la partie afin de tester le bon comportement des jeux.
 - un fichier de configuration des paramètres de jeu :
     * pour chaque jeu :
@@ -49,7 +49,7 @@ L'application doit de plus pendre en charge :
         * le nombre d'essais possibles
     * pour le Mastermind :
         * le nombre de symboles utilisables (de 4 à 10)
-- un fichier de configuration des logs de l'application gérées avec _Apache Log4J_
+- un fichier de configuration des logs de l'application gérés avec _Apache Log4J_
 
 Prérequis
 ---
@@ -65,7 +65,7 @@ A la racine du REPO (cloné), tapez la commande suivante :
 mvn clean package
 ```
 
-Un répertoire **_target_** doit être créer et contenir au moins :
+Un répertoire **_target_** doit être créé et contenir au moins :
 
 - un fichier **_projet3-1.0-SNAPSHOT-jar-with-dependencies.jar_**
 - un sous-répertoire **_conf_** contenant un fichier **_config.properties_** et un fichier **_log4j2.xml_**
@@ -82,11 +82,11 @@ java [-Dlog4j.configurationFile={chemin du xml}log4j.xml] -jar [chemin du jar]pr
 > * **-Dlog4j.configurationFile** permet de prendre en compte un fichier externe de configuration pour log4j de type XML en spécifiant son chemin
 > * **-DevMode** permet d'activer le mode "développeur"
 
-L'application prend par défaut  le fichier config.properties dans le jar sauf si un fichier .\conf\config.properties est présent dans le chemin où la commande java est lancée (voir fichiers "conf" dans target généré au moment du "packaging").  
+L'application prend par défaut  le fichier config.properties dans le jar sauf si un fichier .\conf\config.properties est présent dans le chemin où la commande java est lancée (voir dossier "conf" dans target généré au moment du "packaging").  
 > paramètres par défaut :
 > * longueur combinaison : 4
-> * nombre d'essai : 10
-> * nombre de symbole : 10
+> * nombre d'essais : 10
+> * nombre de symboles : 10
 
 Exemples :
 
