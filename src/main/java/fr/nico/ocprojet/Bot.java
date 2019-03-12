@@ -120,7 +120,7 @@ public class Bot extends Player {
             long startTime = System.currentTimeMillis();
             constitutionListeCombinaisonPossible(tailleCombinaison, symboles, historique);
             long endTime = System.currentTimeMillis();
-            System.out.println("Temps de calcul en ms : " + (endTime - startTime));
+            logger.info("Temps de calcul en ms : " + (endTime - startTime));
             proposition = combinaisonsPossibles.get(random.nextInt(combinaisonsPossibles.size()));
         } else {
             proposition = genereUneCombinaison(tailleCombinaison, symboles);
